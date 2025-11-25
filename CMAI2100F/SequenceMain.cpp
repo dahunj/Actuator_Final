@@ -1759,19 +1759,26 @@ BOOL CSequenceMain::Run_Elevator1()
 	if (gData.nElevatorOpen[1] > 0) return TRUE;
 	if (m_nElevator1Case < 50 && !m_pDX00->iElevator1SlideClose) return TRUE;
 
-	switch (m_nElevator1Case) {
+	switch (m_nElevator1Case) 
+	{
 	case 0:	// Wait
 		m_tElevator1Loop.Set_LoopTime(5000);
 		return TRUE;
 
 	case 1:
-		if (!m_pDX00->iElevator1TrayExist) {
+		if (!m_pDX00->iElevator1TrayExist)
+		{
 			m_nElevator1Case = 30; m_tElevator1Loop.Set_LoopTime(5000);
-		} else {
+		} 
+		else
+		{
 			m_tElevator1Loop.Takt_Start(1, 1, TRUE);
-			if (m_pEquipData->bElevatorAlign) {
+			if (m_pEquipData->bElevatorAlign)
+			{
 				m_nElevator1Case = 8; m_tElevator1Loop.Set_LoopTime(5000);
-			} else {
+			} 
+			else 
+			{
 				m_nElevator1Case = 10; m_tElevator1Loop.Set_LoopTime(5000);
 			}
 		}
@@ -2976,20 +2983,27 @@ BOOL CSequenceMain::Run_Transfer1()
 {
 //	gData.nTransferX1Pos;	//1(LS1),2(LS2),3(L1),4(L2),5(EN),6(EG),7(NB),8(U1),9(U2),10(NG1),11(NG2),12(Good1),13(Good2)
 //	gData.nElevatorOpen[10];//0:Stop,1:Open,2:Opened //1(L1),2(L2),3(EN),4(EG),5(NB),6(U1),7(U2)
-	static int nFmTran1Pos = 0;
+	static int nFromTran1Pos = 0;
 	static int nToTran1Pos = 0;
 	static int nPort1No = 0;
 
 	switch (m_nTransfer1Case) {
 	case 0:	//작업판단
-		if (Check_Transfer1(nFmTran1Pos, nToTran1Pos, nPort1No)) {
+		if (Check_Transfer1(nFromTran1Pos, nToTran1Pos, nPort1No))
+		{
+			m_sLog.Format("Seq,8,Transfer1,%d,nFromTran1Pos:%d nToTran1Pos:%d nPort1No:%d",m_nTransfer1Case,nFromTran1Pos, nToTran1Pos, nPort1No); g_objLogFile.Save_SeqLog(m_sLog);
 			m_nTransfer1Case++; m_tTransfer1Loop.Set_LoopTime(60000);
-		} else {
-			if (Check_Load12Empy()) {
-				if (m_nLoadStage1Case == 0 && m_nLoadStage2Case == 50 && m_pDX04->iLoadStage2TrayExist) {
+		}
+		else
+		{
+			if (Check_Load12Empy())
+			{
+				if (m_nLoadStage1Case == 0 && m_nLoadStage2Case == 50 && m_pDX04->iLoadStage2TrayExist) 
+				{
 					m_nLoadStage1Case = 10; gNG->nTrayOX[0][0] = 0;
 				}
-				if (m_nLoadStage2Case == 0 && m_nLoadStage1Case == 50 && m_pDX04->iLoadStage1TrayExist) {
+				if (m_nLoadStage2Case == 0 && m_nLoadStage1Case == 50 && m_pDX04->iLoadStage1TrayExist) 
+				{
 					m_nLoadStage2Case = 10; gNG->nTrayOX[0][1] = 0;
 				}
 			}
@@ -2997,25 +3011,32 @@ BOOL CSequenceMain::Run_Transfer1()
 		return TRUE;
 
 	case 1:
-		if ((nFmTran1Pos == 1) ||	//LS1
-			(nFmTran1Pos == 2) ||	//LS2
-			(nFmTran1Pos == 3) ||	//L1
-			(nFmTran1Pos == 4) ) {	//L2
+		if ((nFromTran1Pos == 1) ||	//Load Stage 1
+			(nFromTran1Pos == 2) ||	//Load Stage 2
+			(nFromTran1Pos == 3) ||	//Load elevator 1
+			(nFromTran1Pos == 4) ) //Load Elevator 2
+		{	
 			m_tTransfer1Loop.Takt_Start(8, 1, TRUE);
 			g_objCommon.Move_Position(AX_TRANSFER_Z1, 0);
+			m_sLog.Format("Seq,8,Transfer1,%d,nFromTran1Pos:%d",m_nTransfer1Case,nFromTran1Pos); g_objLogFile.Save_SeqLog(m_sLog);
 			m_nTransfer1Case++; m_tTransfer1Loop.Set_LoopTime(10000);
 		}
 		break;
 	case 2:
-		if (g_objCommon.Check_Position(AX_TRANSFER_Z1, 0)) {
-			gData.nTransferX1Pos = nFmTran1Pos;
+		if (g_objCommon.Check_Position(AX_TRANSFER_Z1, 0)) 
+		{
+			gData.nTransferX1Pos = nFromTran1Pos;
 			g_objCommon.Move_Position(AX_TRANSFER_X1, gData.nTransferX1Pos);
+
+			m_sLog.Format("Seq,8,Transfer1,%d,explanation",m_nTransfer1Case); g_objLogFile.Save_SeqLog(m_sLog);
 			m_nTransfer1Case++; m_tTransfer1Loop.Set_LoopTime(30000);
 		}
 		break;
 	case 3:
 		if (g_objCommon.Check_Position(AX_TRANSFER_X1, gData.nTransferX1Pos)) {
 			g_objCommon.Save_Motion(AX_TRANSFER_X1, gData.nTransferX1Pos);
+
+			m_sLog.Format("Seq,8,Transfer1,%d,explanation",m_nTransfer1Case); g_objLogFile.Save_SeqLog(m_sLog);
 			m_nTransfer1Case++; m_tTransfer1Loop.Set_LoopTime(5000);
 		}
 		break;
@@ -3023,12 +3044,18 @@ BOOL CSequenceMain::Run_Transfer1()
 		if (!m_pDX03->iTransferLTrayExist) {
 			m_pDY03->oTransferLGrabOpen = TRUE; m_pDY03->oTransferLGrabClose = FALSE;
 			g_objAJinAXL.Write_Output(3);
+
+			m_sLog.Format("Seq,8,Transfer1,%d,explanation",m_nTransfer1Case); g_objLogFile.Save_SeqLog(m_sLog);
 			m_nTransfer1Case++; m_tTransfer1Loop.Set_LoopTime(5000);
 		}
 		break;
 	case 5:
-		if (m_pDX03->iTransferLGrab1Open && !m_pDX03->iTransferLGrab1Close) {
-			if (m_pDX03->iTransferLGrab2Open && !m_pDX03->iTransferLGrab2Close) {
+		if (m_pDX03->iTransferLGrab1Open && !m_pDX03->iTransferLGrab1Close) 
+		{
+			if (m_pDX03->iTransferLGrab2Open && !m_pDX03->iTransferLGrab2Close) 
+			{
+
+				m_sLog.Format("Seq,8,Transfer1,%d,explanation",m_nTransfer1Case); g_objLogFile.Save_SeqLog(m_sLog);
 				m_nTransfer1Case++; m_tTransfer1Loop.Set_LoopTime(5000);
 				m_tTransfer1Loop.Takt_Save(8, 1); m_tTransfer1Loop.Takt_Start(8, 2);
 			}
@@ -3036,133 +3063,178 @@ BOOL CSequenceMain::Run_Transfer1()
 		break;
 
 	case 6:	//MES Start
-		if (m_pEquipData->bUseMES && (nFmTran1Pos == 3 || nFmTran1Pos == 4) && nToTran1Pos == 5) {
+		if (m_pEquipData->bUseMES && (nFromTran1Pos == 3 || nFromTran1Pos == 4) && nToTran1Pos == 5) {
 			gAlm.sAlmLotID[1].Format("%d", nPort1No);
 //			gMes.nLotPortNo = nPort1No;
 //			g_objMesAgent.Set_LotStart(0, nPort1No-1, gLot.sLotID[nPort1No-1], gData.sRecipeName, gLot.nCmCount[nPort1No-1]);
+
+			m_sLog.Format("Seq,8,Transfer1,%d,explanation",m_nTransfer1Case); g_objLogFile.Save_SeqLog(m_sLog);
 			m_nTransfer1Case++; m_tTransfer1Loop.Set_LoopTime(30000);
-		} else {
+		} 
+		else
+		{
 			if (!m_pEquipData->bUseMES && nPort1No > 0) gLot.sRecipeName[nPort1No-1] = gData.sRecipeName;
+
+			m_sLog.Format("Seq,8,Transfer1,%d,explanation",m_nTransfer1Case); g_objLogFile.Save_SeqLog(m_sLog);
 			m_nTransfer1Case = 8; m_tTransfer1Loop.Set_LoopTime(5000);
 		}
 		break;
 	case 7:
-		if (!m_pEquipData->bUseMES || gMes.nLotStatus[nPort1No-1] >= 3) {
+		if (!m_pEquipData->bUseMES || gMes.nLotStatus[nPort1No-1] >= 3) 
+		{
 			if (!m_pEquipData->bUseMES) gLot.sRecipeName[nPort1No-1] = gData.sRecipeName;
 			else						gLot.sRecipeName[nPort1No-1] = gMes.sHostRecipe[nPort1No-1];
+
+			m_sLog.Format("Seq,8,Transfer1,%d,explanation",m_nTransfer1Case); g_objLogFile.Save_SeqLog(m_sLog);
 			m_nTransfer1Case++; m_tTransfer1Loop.Set_LoopTime(5000);
 		}
 		break;
 
 	case 8:	//Tray Up
-		if (nFmTran1Pos == 1 || nFmTran1Pos == 2) m_nTransfer1Case = 10;	//Up Stage 12(1,2)
-		if (nFmTran1Pos == 3)					  m_nTransfer1Case = 20;	//Up Lot1   (3)
-		if (nFmTran1Pos == 4)					  m_nTransfer1Case = 30;	//Up Lot2   (4)
+		if (nFromTran1Pos == 1 || nFromTran1Pos == 2) m_nTransfer1Case = 10;	//Up Stage 12(1,2)
+		if (nFromTran1Pos == 3)					  m_nTransfer1Case = 20;	//Up Lot1   (3)
+		if (nFromTran1Pos == 4)					  m_nTransfer1Case = 30;	//Up Lot2   (4)
+
+		m_sLog.Format("Seq,8,Transfer1,%d,explanation",m_nTransfer1Case); g_objLogFile.Save_SeqLog(m_sLog);
 		m_tTransfer1Loop.Set_LoopTime(60000);
 		break;
 
 	case 10:	//Up Stage 12(1,2)
-		if ((nFmTran1Pos == 1 && m_nLoadStage1Case == 60) ||
-			(nFmTran1Pos == 2 && m_nLoadStage2Case == 60) ) {
+		if ((nFromTran1Pos == 1 && m_nLoadStage1Case == 60) ||
+			(nFromTran1Pos == 2 && m_nLoadStage2Case == 60) ) 
+		{
 			m_tTransfer1Loop.Takt_Save(8, 2); m_tTransfer1Loop.Takt_Start(8, 3);
-			if (nFmTran1Pos == 1) g_objCommon.Move_Position(AX_TRANSFER_Z1, 9);
-			if (nFmTran1Pos == 2) g_objCommon.Move_Position(AX_TRANSFER_Z1, 10);
+			if (nFromTran1Pos == 1) g_objCommon.Move_Position(AX_TRANSFER_Z1, 9);
+			if (nFromTran1Pos == 2) g_objCommon.Move_Position(AX_TRANSFER_Z1, 10);
+
+			m_sLog.Format("Seq,8,Transfer1,%d,explanation",m_nTransfer1Case); g_objLogFile.Save_SeqLog(m_sLog);
 			m_nTransfer1Case++;	m_tTransfer1Loop.Set_LoopTime(30000);
 		}
 		return TRUE;
 	case 11:
-		if ((nFmTran1Pos == 1 && g_objCommon.Check_Position(AX_TRANSFER_Z1, 9)) ||
-			(nFmTran1Pos == 2 && g_objCommon.Check_Position(AX_TRANSFER_Z1, 10)) ) {
-			if (nFmTran1Pos == 1) g_objCommon.Save_Motion(AX_TRANSFER_Z1, 9);
-			if (nFmTran1Pos == 2) g_objCommon.Save_Motion(AX_TRANSFER_Z1, 10);
+		if ((nFromTran1Pos == 1 && g_objCommon.Check_Position(AX_TRANSFER_Z1, 9)) ||
+			(nFromTran1Pos == 2 && g_objCommon.Check_Position(AX_TRANSFER_Z1, 10)) ) 
+		{
+			if (nFromTran1Pos == 1) g_objCommon.Save_Motion(AX_TRANSFER_Z1, 9);
+			if (nFromTran1Pos == 2) g_objCommon.Save_Motion(AX_TRANSFER_Z1, 10);
 			m_tTransfer1Loop.Takt_Save(8, 3); m_tTransfer1Loop.Takt_Start(8, 4);
 			m_pDY03->oTransferLGrabOpen = FALSE; m_pDY03->oTransferLGrabClose = TRUE;
 			g_objAJinAXL.Write_Output(3);
+
+			m_sLog.Format("Seq,8,Transfer1,%d,explanation",m_nTransfer1Case); g_objLogFile.Save_SeqLog(m_sLog);
 			m_nTransfer1Case++; m_tTransfer1Loop.Set_LoopTime(5000);
 		}
 		break;
 	case 12:
-		if (!m_pDX03->iTransferLGrab1Open && m_pDX03->iTransferLGrab1Close) {
-			if (!m_pDX03->iTransferLGrab2Open && m_pDX03->iTransferLGrab2Close) {
+		if (!m_pDX03->iTransferLGrab1Open && m_pDX03->iTransferLGrab1Close) 
+		{
+			if (!m_pDX03->iTransferLGrab2Open && m_pDX03->iTransferLGrab2Close) 
+			{
 				if (!m_tTransfer1Loop.Waiting_Time(300)) break;
 				m_tTransfer1Loop.Takt_Save(8, 4); m_tTransfer1Loop.Takt_Start(8, 5);
 				g_objCommon.Move_Position(AX_TRANSFER_Z1, 0);
+
+				m_sLog.Format("Seq,8,Transfer1,%d,explanation",m_nTransfer1Case); g_objLogFile.Save_SeqLog(m_sLog);
 				m_nTransfer1Case++;	m_tTransfer1Loop.Set_LoopTime(30000);
 			}
 		}
 		break;
 	case 13:
-		if (g_objCommon.Check_Position(AX_TRANSFER_Z1, 0)) {
+		if (g_objCommon.Check_Position(AX_TRANSFER_Z1, 0)) 
+		{
 			g_objCommon.Save_Motion(AX_TRANSFER_Z1, 0);
+
+			m_sLog.Format("Seq,8,Transfer1,%d,explanation",m_nTransfer1Case); g_objLogFile.Save_SeqLog(m_sLog);
 			m_nTransfer1Case++; m_tTransfer1Loop.Set_LoopTime(5000);
 		}
 		break;
 	case 14:
-		if (m_pDX03->iTransferLTrayExist) {
-			gData.sLotID_Tansfer[0]  = gData.sLotID_LoadStage[nFmTran1Pos-1]; 
-			gData.nTrayNo_Tansfer[0] = gData.nTrayNo_LoadStage[nFmTran1Pos-1];
-			gData.nPortNo_Tansfer[0] = gData.nPortNo_LoadStage[nFmTran1Pos-1];
+		if (m_pDX03->iTransferLTrayExist) 
+		{
+			gData.sLotID_Tansfer[0]  = gData.sLotID_LoadStage[nFromTran1Pos-1]; 
+			gData.nTrayNo_Tansfer[0] = gData.nTrayNo_LoadStage[nFromTran1Pos-1];
+			gData.nPortNo_Tansfer[0] = gData.nPortNo_LoadStage[nFromTran1Pos-1];
 			gData.sLotID_Tansfer[2]  = gData.sLotID_Tansfer[0];
 
-			gData.sLotID_LoadStage[nFmTran1Pos-1]  = "";
-			gData.nTrayNo_LoadStage[nFmTran1Pos-1] = gData.nPortNo_LoadStage[nFmTran1Pos-1] = 0;
+			gData.sLotID_LoadStage[nFromTran1Pos-1]  = "";
+			gData.nTrayNo_LoadStage[nFromTran1Pos-1] = gData.nPortNo_LoadStage[nFromTran1Pos-1] = 0;
 
+			m_sLog.Format("Seq,8,Transfer1,%d,explanation",m_nTransfer1Case); g_objLogFile.Save_SeqLog(m_sLog);
 			m_nTransfer1Case++; m_tTransfer1Loop.Set_LoopTime(5000);
 
-			m_sLog.Format("[Transfer1: Up Load-Stage%d] Lot(%s) TNo(%d) PNo(%d)", (nFmTran1Pos), gData.sLotID_Tansfer[0], gData.nTrayNo_Tansfer[0], gData.nPortNo_Tansfer[0]);
+			m_sLog.Format("[Transfer1: Up Load-Stage%d] Lot(%s) TNo(%d) PNo(%d)", (nFromTran1Pos), gData.sLotID_Tansfer[0], gData.nTrayNo_Tansfer[0], gData.nPortNo_Tansfer[0]);
 			g_objLogFile.Save_HandlerLog(m_sLog);
 		}
 		break;
 	case 15:
-		if (m_pDX03->iTransferLTrayExist) {
+		if (m_pDX03->iTransferLTrayExist) 
+		{
 			m_tTransfer1Loop.Takt_Save(8, 5); m_tTransfer1Loop.Takt_Start(8, 6);
-			if (nFmTran1Pos == 1 && m_nLoadStage1Case == 60) m_nLoadStage1Case = 61;
-			if (nFmTran1Pos == 2 && m_nLoadStage2Case == 60) m_nLoadStage2Case = 61;
+			if (nFromTran1Pos == 1 && m_nLoadStage1Case == 60) m_nLoadStage1Case = 61;
+			if (nFromTran1Pos == 2 && m_nLoadStage2Case == 60) m_nLoadStage2Case = 61;
 
+			m_sLog.Format("Seq,8,Transfer1,%d,explanation",m_nTransfer1Case); g_objLogFile.Save_SeqLog(m_sLog);
 			m_nTransfer1Case = 40; m_tTransfer1Loop.Set_LoopTime(5000);
 		}
 		break;
 
 	case 20:	//Up Lot1   (3)
-		if (m_pDX03->iTransferLGrab1Open && !m_pDX03->iTransferLGrab1Close) {
-			if (m_pDX03->iTransferLGrab2Open && !m_pDX03->iTransferLGrab2Close) {
+		if (m_pDX03->iTransferLGrab1Open && !m_pDX03->iTransferLGrab1Close)
+		{
+			if (m_pDX03->iTransferLGrab2Open && !m_pDX03->iTransferLGrab2Close)
+			{
 				m_tTransfer1Loop.Takt_Save(8, 6); m_tTransfer1Loop.Takt_Start(8, 7);
 				m_pDY00->oElevator1Clamp1On = FALSE; m_pDY00->oElevator1Clamp1Off = TRUE;
 				m_pDY00->oElevator1Clamp2On = FALSE; m_pDY00->oElevator1Clamp2Off = TRUE;
 				g_objAJinAXL.Write_Output(0);
+
+				m_sLog.Format("Seq,8,Transfer1,%d,explanation",m_nTransfer1Case); g_objLogFile.Save_SeqLog(m_sLog);
 				m_nTransfer1Case++; m_tTransfer1Loop.Set_LoopTime(5000);
 			}
 		}
 		break;
 	case 21:
-		if (!m_pDX00->iElevator1Clamp1On && m_pDX00->iElevator1Clamp1Off && !m_pDX00->iElevator1Clamp2On && m_pDX00->iElevator1Clamp2Off) {
+		if (!m_pDX00->iElevator1Clamp1On && m_pDX00->iElevator1Clamp1Off && !m_pDX00->iElevator1Clamp2On && m_pDX00->iElevator1Clamp2Off)
+		{
 			m_tTransfer1Loop.Takt_Save(8, 7); m_tTransfer1Loop.Takt_Start(8, 8);
+
+			m_sLog.Format("Seq,8,Transfer1,%d,explanation",m_nTransfer1Case); g_objLogFile.Save_SeqLog(m_sLog);
 			m_nTransfer1Case++; m_tTransfer1Loop.Set_LoopTime(60000);
 		}
 		break;
 	case 22:
-		if (m_nElevator1Case == 20 && gData.nElevatorOpen[1] == 0) {
+		if (m_nElevator1Case == 20 && gData.nElevatorOpen[1] == 0) 
+		{
 			m_tTransfer1Loop.Takt_Save(8, 8); m_tTransfer1Loop.Takt_Start(8, 9);
 			g_objCommon.Move_Position(AX_TRANSFER_Z1, 3);
+
+			m_sLog.Format("Seq,8,Transfer1,%d,explanation",m_nTransfer1Case); g_objLogFile.Save_SeqLog(m_sLog);
 			m_nTransfer1Case++; m_tTransfer1Loop.Set_LoopTime(60000);
 		}
 		return TRUE;
 	case 23:
-		if (g_objCommon.Check_Position(AX_TRANSFER_Z1, 3)) {
+		if (g_objCommon.Check_Position(AX_TRANSFER_Z1, 3)) 
+		{
 			g_objCommon.Save_Motion(AX_TRANSFER_Z1, 3);
 			m_tTransfer1Loop.Takt_Save(8, 9); m_tTransfer1Loop.Takt_Start(8, 10);
 			m_pDY03->oTransferLGrabOpen = FALSE; m_pDY03->oTransferLGrabClose = TRUE;
 			g_objAJinAXL.Write_Output(3);
+
+			m_sLog.Format("Seq,8,Transfer1,%d,explanation",m_nTransfer1Case); g_objLogFile.Save_SeqLog(m_sLog);
 			m_nTransfer1Case++; m_tTransfer1Loop.Set_LoopTime(5000);
 		}
 		break;
 	case 24:
-		if (!m_pDX03->iTransferLGrab1Open && m_pDX03->iTransferLGrab1Close) {
-			if (!m_pDX03->iTransferLGrab2Open && m_pDX03->iTransferLGrab2Close) {
+		if (!m_pDX03->iTransferLGrab1Open && m_pDX03->iTransferLGrab1Close) 
+		{
+			if (!m_pDX03->iTransferLGrab2Open && m_pDX03->iTransferLGrab2Close) 
+			{
 //				m_pDY00->oElevator1Clamp1On = TRUE; m_pDY00->oElevator1Clamp1Off = FALSE;
 //				m_pDY00->oElevator1Clamp2On = TRUE; m_pDY00->oElevator1Clamp2Off = FALSE;
 //				g_objAJinAXL.Write_Output(0);
 				m_tTransfer1Loop.Takt_Save(8, 10); m_tTransfer1Loop.Takt_Start(8, 11);
+
+				m_sLog.Format("Seq,8,Transfer1,%d,explanation",m_nTransfer1Case); g_objLogFile.Save_SeqLog(m_sLog);
 				m_nTransfer1Case++; m_tTransfer1Loop.Set_LoopTime(5000);
 			}
 		}
@@ -3170,16 +3242,20 @@ BOOL CSequenceMain::Run_Transfer1()
 	case 25:
 //		if (m_pDX00->iElevator1Clamp1On && !m_pDX00->iElevator1Clamp1Off && m_pDX00->iElevator1Clamp2On && !m_pDX00->iElevator1Clamp2Off) {
 			g_objCommon.Move_Position(AX_TRANSFER_Z1, 0);
+			m_sLog.Format("Seq,8,Transfer1,%d,explanation",m_nTransfer1Case); g_objLogFile.Save_SeqLog(m_sLog);
 			m_nTransfer1Case++; m_tTransfer1Loop.Set_LoopTime(5000);
 //		}
 		break;
 	case 26:
-		if (g_objCommon.Check_Position(AX_TRANSFER_Z1, 0)) {
+		if (g_objCommon.Check_Position(AX_TRANSFER_Z1, 0)) 
+		{
 			if (m_pDX03->iTransferLTrayExist) {
 				g_objCommon.Save_Motion(AX_TRANSFER_Z1, 0);
 				m_pDY00->oElevator1Clamp1On = FALSE; m_pDY00->oElevator1Clamp1Off = TRUE;
 				m_pDY00->oElevator1Clamp2On = FALSE; m_pDY00->oElevator1Clamp2Off = TRUE;
 				g_objAJinAXL.Write_Output(0);
+
+				m_sLog.Format("Seq,8,Transfer1,%d,explanation",m_nTransfer1Case); g_objLogFile.Save_SeqLog(m_sLog);
 				m_nTransfer1Case++; m_tTransfer1Loop.Set_LoopTime(5000);
 			}
 		}
@@ -3199,6 +3275,8 @@ BOOL CSequenceMain::Run_Transfer1()
 			gData.sLotID_Tansfer[2]  = gData.sLotID_Tansfer[0];
 
 			if (m_nElevator1Case == 20) m_nElevator1Case = 21;
+
+			m_sLog.Format("Seq,8,Transfer1,%d,explanation",m_nTransfer1Case); g_objLogFile.Save_SeqLog(m_sLog);
 			m_nTransfer1Case = 40; m_tTransfer1Loop.Set_LoopTime(5000);
 			m_tTransfer1Loop.Takt_Save(8, 11); m_tTransfer1Loop.Takt_Start(8, 12);
 
@@ -3208,45 +3286,62 @@ BOOL CSequenceMain::Run_Transfer1()
 		break;
 
 	case 30:	//Up Lot2   (4)
-		if (m_pDX03->iTransferLGrab1Open && !m_pDX03->iTransferLGrab1Close) {
-			if (m_pDX03->iTransferLGrab2Open && !m_pDX03->iTransferLGrab2Close) {
+		if (m_pDX03->iTransferLGrab1Open && !m_pDX03->iTransferLGrab1Close)
+		{
+			if (m_pDX03->iTransferLGrab2Open && !m_pDX03->iTransferLGrab2Close)
+			{
 				m_tTransfer1Loop.Takt_Save(8, 12); m_tTransfer1Loop.Takt_Start(8, 13);
 				m_pDY00->oElevator2Clamp1On = FALSE; m_pDY00->oElevator2Clamp1Off = TRUE;
 				m_pDY00->oElevator2Clamp2On = FALSE; m_pDY00->oElevator2Clamp2Off = TRUE;
 				g_objAJinAXL.Write_Output(0);
+
+				m_sLog.Format("Seq,8,Transfer1,%d,explanation",m_nTransfer1Case); g_objLogFile.Save_SeqLog(m_sLog);
 				m_nTransfer1Case++; m_tTransfer1Loop.Set_LoopTime(5000);
 			}
 		}
 		break;
 	case 31:
-		if (!m_pDX00->iElevator2Clamp1On && m_pDX00->iElevator2Clamp1Off && !m_pDX00->iElevator2Clamp2On && m_pDX00->iElevator2Clamp2Off) {
+		if (!m_pDX00->iElevator2Clamp1On && m_pDX00->iElevator2Clamp1Off && !m_pDX00->iElevator2Clamp2On && m_pDX00->iElevator2Clamp2Off)
+		{
 			m_tTransfer1Loop.Takt_Save(8, 13); m_tTransfer1Loop.Takt_Start(8, 14);
+
+			m_sLog.Format("Seq,8,Transfer1,%d,explanation",m_nTransfer1Case); g_objLogFile.Save_SeqLog(m_sLog);
 			m_nTransfer1Case++; m_tTransfer1Loop.Set_LoopTime(60000);
 		}
 		break;
 	case 32:
-		if (m_nElevator2Case == 20 && gData.nElevatorOpen[2] == 0) {
+		if (m_nElevator2Case == 20 && gData.nElevatorOpen[2] == 0) 
+		{
 			m_tTransfer1Loop.Takt_Save(8, 14); m_tTransfer1Loop.Takt_Start(8, 15);
 			g_objCommon.Move_Position(AX_TRANSFER_Z1, 4);
+
+			m_sLog.Format("Seq,8,Transfer1,%d,explanation",m_nTransfer1Case); g_objLogFile.Save_SeqLog(m_sLog);
 			m_nTransfer1Case++; m_tTransfer1Loop.Set_LoopTime(60000);
 		}
 		return TRUE;
 	case 33:
-		if (g_objCommon.Check_Position(AX_TRANSFER_Z1, 4)) {
+		if (g_objCommon.Check_Position(AX_TRANSFER_Z1, 4)) 
+		{
 			g_objCommon.Save_Motion(AX_TRANSFER_Z1, 4);
 			m_tTransfer1Loop.Takt_Save(8, 15); m_tTransfer1Loop.Takt_Start(8, 16);
 			m_pDY03->oTransferLGrabOpen = FALSE; m_pDY03->oTransferLGrabClose = TRUE;
 			g_objAJinAXL.Write_Output(3);
+
+			m_sLog.Format("Seq,8,Transfer1,%d,explanation",m_nTransfer1Case); g_objLogFile.Save_SeqLog(m_sLog);
 			m_nTransfer1Case++; m_tTransfer1Loop.Set_LoopTime(5000);
 		}
 		break;
 	case 34:
-		if (!m_pDX03->iTransferLGrab1Open && m_pDX03->iTransferLGrab1Close) {
-			if (!m_pDX03->iTransferLGrab2Open && m_pDX03->iTransferLGrab2Close) {
+		if (!m_pDX03->iTransferLGrab1Open && m_pDX03->iTransferLGrab1Close) 
+		{
+			if (!m_pDX03->iTransferLGrab2Open && m_pDX03->iTransferLGrab2Close) 
+			{
 //				m_pDY00->oElevator2Clamp1On = TRUE; m_pDY00->oElevator2Clamp1Off = FALSE;
 //				m_pDY00->oElevator2Clamp2On = TRUE; m_pDY00->oElevator2Clamp2Off = FALSE;
 //				g_objAJinAXL.Write_Output(0);
 				m_tTransfer1Loop.Takt_Save(8, 16); m_tTransfer1Loop.Takt_Start(8, 17);
+
+				m_sLog.Format("Seq,8,Transfer1,%d,explanation",m_nTransfer1Case); g_objLogFile.Save_SeqLog(m_sLog);
 				m_nTransfer1Case++; m_tTransfer1Loop.Set_LoopTime(5000);
 			}
 		}
@@ -3254,26 +3349,34 @@ BOOL CSequenceMain::Run_Transfer1()
 	case 35:
 //		if (m_pDX00->iElevator2Clamp1On && !m_pDX00->iElevator2Clamp1Off && m_pDX00->iElevator2Clamp2On && !m_pDX00->iElevator2Clamp2Off) {
 			g_objCommon.Move_Position(AX_TRANSFER_Z1, 0);
+			m_sLog.Format("Seq,8,Transfer1,%d,explanation",m_nTransfer1Case); g_objLogFile.Save_SeqLog(m_sLog);
 			m_nTransfer1Case++; m_tTransfer1Loop.Set_LoopTime(5000);
 //		}
 		break;
 	case 36:
-		if (g_objCommon.Check_Position(AX_TRANSFER_Z1, 0)) {
-			if (m_pDX03->iTransferLTrayExist) {
+		if (g_objCommon.Check_Position(AX_TRANSFER_Z1, 0)) 
+		{
+			if (m_pDX03->iTransferLTrayExist) 
+			{
 				g_objCommon.Save_Motion(AX_TRANSFER_Z1, 0);
 				m_pDY00->oElevator2Clamp1On = FALSE; m_pDY00->oElevator2Clamp1Off = TRUE;
 				m_pDY00->oElevator2Clamp2On = FALSE; m_pDY00->oElevator2Clamp2Off = TRUE;
 				g_objAJinAXL.Write_Output(0);
+
+				m_sLog.Format("Seq,8,Transfer1,%d,explanation",m_nTransfer1Case); g_objLogFile.Save_SeqLog(m_sLog);
 				m_nTransfer1Case++; m_tTransfer1Loop.Set_LoopTime(5000);
 			}
 		}
 		break;
 	case 37:
-		if (!m_pDX00->iElevator2Clamp1On && m_pDX00->iElevator2Clamp1Off && !m_pDX00->iElevator2Clamp2On && m_pDX00->iElevator2Clamp2Off) {
+		if (!m_pDX00->iElevator2Clamp1On && m_pDX00->iElevator2Clamp1Off && !m_pDX00->iElevator2Clamp2On && m_pDX00->iElevator2Clamp2Off) 
+		{
 			if (nToTran1Pos == 5) {
 				if (!Set_LotStart(gLot.sLotID[nPort1No-1], nPort1No)) return FALSE;
 				gLot.bEmptyTray[nPort1No-1] = TRUE;
-			} else {
+			} 
+			else
+			{
 				gLot.nTrayOutCnt[nPort1No-1]++;
 			}
 
@@ -3283,6 +3386,8 @@ BOOL CSequenceMain::Run_Transfer1()
 			gData.sLotID_Tansfer[2]  = gData.sLotID_Tansfer[0];
 
 			if (m_nElevator2Case == 20) m_nElevator2Case = 21;
+
+			m_sLog.Format("Seq,8,Transfer1,%d,explanation",m_nTransfer1Case); g_objLogFile.Save_SeqLog(m_sLog);
 			m_nTransfer1Case = 40; m_tTransfer1Loop.Set_LoopTime(5000);
 			m_tTransfer1Loop.Takt_Save(8, 17); m_tTransfer1Loop.Takt_Start(8, 18);
 
@@ -3293,9 +3398,11 @@ BOOL CSequenceMain::Run_Transfer1()
 
 //	gData.nTransferX1Pos;	//1(LS1),2(LS2),3(L1),4(L2),5(EN),6(EG),7(NB),8(U1),9(U2),10(NG1),11(NG2),12(Good1),13(Good2)
 	case 40:	//Tray Down
+		m_sLog.Format("Seq,8,Transfer1,%d,explanation",m_nTransfer1Case); g_objLogFile.Save_SeqLog(m_sLog);
 		if (nToTran1Pos == 1 || nToTran1Pos == 2) m_nTransfer1Case = 41;	//Down Stage 12 (1,2)
 		if (nToTran1Pos == 5)					  m_nTransfer1Case = 51;	//Down Empty-NG (5)
 		if (nToTran1Pos == 6)					  m_nTransfer1Case = 61;	//Down Empty-Good (6)
+				
 		m_tTransfer1Loop.Set_LoopTime(5000);
 		break;
 
@@ -3303,51 +3410,68 @@ BOOL CSequenceMain::Run_Transfer1()
 		nToTran1Pos = 0;
 		if (m_nLoadStage1Case == 0) nToTran1Pos = 1;
 		if (m_nLoadStage2Case == 0) nToTran1Pos = 2;
-		if (nToTran1Pos > 0) {
+		if (nToTran1Pos > 0) 
+		{
+			m_sLog.Format("Seq,8,Transfer1,%d,explanation",m_nTransfer1Case); g_objLogFile.Save_SeqLog(m_sLog);
 			m_nTransfer1Case++;	m_tTransfer1Loop.Set_LoopTime(30000);
 		}
 		return TRUE;
 	case 42:	
-		if (g_objCommon.Check_Position(AX_TRANSFER_Z1, 0)) {
+		if (g_objCommon.Check_Position(AX_TRANSFER_Z1, 0)) 
+		{
 			m_tTransfer1Loop.Takt_Save(8, 18); m_tTransfer1Loop.Takt_Start(8, 19);
 			gData.nTransferX1Pos = nToTran1Pos;
 //			g_objCommon.Move_Position(AX_TRANSFER_X1, nToTran1Pos, 0.7);
 			g_objCommon.Move_Position(AX_TRANSFER_X1, nToTran1Pos);
+
+			m_sLog.Format("Seq,8,Transfer1,%d,explanation",m_nTransfer1Case); g_objLogFile.Save_SeqLog(m_sLog);
 			m_nTransfer1Case++; m_tTransfer1Loop.Set_LoopTime(10000);
 		}
 		break;
 	case 43:
-		if (g_objCommon.Check_Position(AX_TRANSFER_X1, nToTran1Pos)) {
+		if (g_objCommon.Check_Position(AX_TRANSFER_X1, nToTran1Pos)) 
+		{
 			if ((nToTran1Pos == 1 && !m_pDX04->iLoadStage1TrayExist) ||
-				(nToTran1Pos == 2 && !m_pDX04->iLoadStage2TrayExist)) {
+				(nToTran1Pos == 2 && !m_pDX04->iLoadStage2TrayExist)) 
+			{
 				g_objCommon.Save_Motion(AX_TRANSFER_X1, nToTran1Pos);
 				m_tTransfer1Loop.Takt_Save(8, 19); m_tTransfer1Loop.Takt_Start(8, 20);
 				g_objCommon.Move_Position(AX_TRANSFER_Z1, nToTran1Pos);
+
+				m_sLog.Format("Seq,8,Transfer1,%d,explanation",m_nTransfer1Case); g_objLogFile.Save_SeqLog(m_sLog);
 				m_nTransfer1Case++; m_tTransfer1Loop.Set_LoopTime(30000);
 			}
 		}
 		break;
 	case 44:
-		if (g_objCommon.Check_Position(AX_TRANSFER_Z1, nToTran1Pos)) {
+		if (g_objCommon.Check_Position(AX_TRANSFER_Z1, nToTran1Pos)) 
+		{
 			g_objCommon.Save_Motion(AX_TRANSFER_Z1, nToTran1Pos);
 			m_tTransfer1Loop.Takt_Save(8, 20); m_tTransfer1Loop.Takt_Start(8, 21);
 			m_pDY03->oTransferLGrabOpen = TRUE; m_pDY03->oTransferLGrabClose = FALSE;
 			g_objAJinAXL.Write_Output(3);
+
+			m_sLog.Format("Seq,8,Transfer1,%d,explanation",m_nTransfer1Case); g_objLogFile.Save_SeqLog(m_sLog);
 			m_nTransfer1Case++; m_tTransfer1Loop.Set_LoopTime(5000);
 		}
 		break;
 	case 45:
-		if (m_pDX03->iTransferLGrab1Open && !m_pDX03->iTransferLGrab1Close) {
-			if (m_pDX03->iTransferLGrab2Open && !m_pDX03->iTransferLGrab2Close) {
+		if (m_pDX03->iTransferLGrab1Open && !m_pDX03->iTransferLGrab1Close) 
+		{
+			if (m_pDX03->iTransferLGrab2Open && !m_pDX03->iTransferLGrab2Close) 
+			{
 				if (!m_tTransfer1Loop.Waiting_Time(300)) break;
 				m_tTransfer1Loop.Takt_Save(8, 21); m_tTransfer1Loop.Takt_Start(8, 22);
 				g_objCommon.Move_Position(AX_TRANSFER_Z1, 0);
+
+				m_sLog.Format("Seq,8,Transfer1,%d,explanation",m_nTransfer1Case); g_objLogFile.Save_SeqLog(m_sLog);
 				m_nTransfer1Case++; m_tTransfer1Loop.Set_LoopTime(5000);
 			}
 		}
 		break;
 	case 46:
-		if (g_objCommon.Check_Position(AX_TRANSFER_Z1, 0)) {
+		if (g_objCommon.Check_Position(AX_TRANSFER_Z1, 0)) 
+		{
 			g_objCommon.Save_Motion(AX_TRANSFER_Z1, 0);
 			m_sLog.Format("[Transfer1: Down Load-Stage%d] Lot(%s) TNo(%d) PNo(%d)", nToTran1Pos, gData.sLotID_Tansfer[0], gData.nTrayNo_Tansfer[0], gData.nPortNo_Tansfer[0]);
 			g_objLogFile.Save_HandlerLog(m_sLog);
@@ -3361,13 +3485,17 @@ BOOL CSequenceMain::Run_Transfer1()
 			gData.nTrayNo_Tansfer[0] = gData.nPortNo_Tansfer[0] = 0;
 			m_tTransfer1Loop.Takt_Save(8, 22); m_tTransfer1Loop.Takt_Start(8, 23);
 
+			m_sLog.Format("Seq,8,Transfer1,%d,explanation",m_nTransfer1Case); g_objLogFile.Save_SeqLog(m_sLog);
 			m_nTransfer1Case++; m_tTransfer1Loop.Set_LoopTime(5000);
 		}
 		break;
 	case 47:
-		if (!m_pDX03->iTransferLTrayExist) {
+		if (!m_pDX03->iTransferLTrayExist) 
+		{
 			if ((nToTran1Pos == 1 && m_pDX04->iLoadStage1TrayExist) ||
-				(nToTran1Pos == 2 && m_pDX04->iLoadStage2TrayExist) ) {
+				(nToTran1Pos == 2 && m_pDX04->iLoadStage2TrayExist) ) 
+			{
+				m_sLog.Format("Seq,8,Transfer1,%d,explanation",m_nTransfer1Case); g_objLogFile.Save_SeqLog(m_sLog);
 				m_nTransfer1Case++; m_tTransfer1Loop.Set_LoopTime(5000);
 			}
 		}
@@ -3375,68 +3503,95 @@ BOOL CSequenceMain::Run_Transfer1()
 	case 48:
 			if (m_nLoadStage1Case == 0) m_nLoadStage1Case = 1;
 			if (m_nLoadStage2Case == 0) m_nLoadStage2Case = 1;
+
+			m_sLog.Format("Seq,8,Transfer1,%d,explanation",m_nTransfer1Case); g_objLogFile.Save_SeqLog(m_sLog);
 			m_nTransfer1Case = 70; m_tTransfer1Loop.Set_LoopTime(5000);
 		break;
 
 	case 51:	//Down Empty-NG (5)
-		if (gData.nTransferX2Pos > 5) {
+		if (gData.nTransferX2Pos > 5)
+		{
 			m_tTransfer1Loop.Takt_Save(8, 23); m_tTransfer1Loop.Takt_Start(8, 24);
 			gData.nTransferX1Pos = nToTran1Pos;
 			g_objCommon.Move_Position(AX_TRANSFER_X1, gData.nTransferX1Pos);
+
+			m_sLog.Format("Seq,8,Transfer1,%d,explanation",m_nTransfer1Case); g_objLogFile.Save_SeqLog(m_sLog);
 			m_nTransfer1Case = 53; m_tTransfer1Loop.Set_LoopTime(30000);
-		} else {
+		} 
+		else
+		{
 			m_tTransfer1Loop.Takt_Save(8, 24); m_tTransfer1Loop.Takt_Start(8, 25);
 			gData.nTransferX1Pos = 4;	//L2
 			g_objCommon.Move_Position(AX_TRANSFER_X1, 4);
+
+			m_sLog.Format("Seq,8,Transfer1,%d,explanation",m_nTransfer1Case); g_objLogFile.Save_SeqLog(m_sLog);
 			m_nTransfer1Case++; m_tTransfer1Loop.Set_LoopTime(30000);
 		}
 		break;
 	case 52:
-		if (g_objCommon.Check_Position(AX_TRANSFER_X1, 4)) {
-			if (gData.nTransferX2Pos > 5) {
+		if (g_objCommon.Check_Position(AX_TRANSFER_X1, 4))
+		{
+			if (gData.nTransferX2Pos > 5) 
+			{
 				g_objCommon.Save_Motion(AX_TRANSFER_X1, 4);
 				m_tTransfer1Loop.Takt_Save(8, 25); m_tTransfer1Loop.Takt_Start(8, 26);
 				gData.nTransferX1Pos = nToTran1Pos;
 				g_objCommon.Move_Position(AX_TRANSFER_X1, gData.nTransferX1Pos);
+
+				m_sLog.Format("Seq,8,Transfer1,%d,explanation",m_nTransfer1Case); g_objLogFile.Save_SeqLog(m_sLog);
 				m_nTransfer1Case++; m_tTransfer1Loop.Set_LoopTime(30000);
 			}
 		}
 		return TRUE;
 	case 53:
-		if (g_objCommon.Check_Position(AX_TRANSFER_X1, gData.nTransferX1Pos)) {
+		if (g_objCommon.Check_Position(AX_TRANSFER_X1, gData.nTransferX1Pos)) 
+		{
 			g_objCommon.Save_Motion(AX_TRANSFER_X1, gData.nTransferX1Pos);
 			m_tTransfer1Loop.Takt_Save(8, 26); m_tTransfer1Loop.Takt_Start(8, 27);
+
+			m_sLog.Format("Seq,8,Transfer1,%d,explanation",m_nTransfer1Case); g_objLogFile.Save_SeqLog(m_sLog);
 			m_nTransfer1Case++; m_tTransfer1Loop.Set_LoopTime(30000);
 		}
 		break;
 	case 54:
-		if (m_nElevator3Case == 20 && gData.nElevatorOpen[3] == 0) {
+		if (m_nElevator3Case == 20 && gData.nElevatorOpen[3] == 0) 
+		{
 			m_tTransfer1Loop.Takt_Save(8, 27); m_tTransfer1Loop.Takt_Start(8, 28);
 			g_objCommon.Move_Position(AX_TRANSFER_Z1, nToTran1Pos);
+
+			m_sLog.Format("Seq,8,Transfer1,%d,explanation",m_nTransfer1Case); g_objLogFile.Save_SeqLog(m_sLog);
 			m_nTransfer1Case++;	m_tTransfer1Loop.Set_LoopTime(30000);
 		}
 		return TRUE;
 	case 55:
-		if (g_objCommon.Check_Position(AX_TRANSFER_Z1, nToTran1Pos)) {
+		if (g_objCommon.Check_Position(AX_TRANSFER_Z1, nToTran1Pos)) 
+		{
 			g_objCommon.Save_Motion(AX_TRANSFER_Z1, nToTran1Pos);
 			m_tTransfer1Loop.Takt_Save(8, 28); m_tTransfer1Loop.Takt_Start(8, 29);
 			m_pDY03->oTransferLGrabOpen = TRUE; m_pDY03->oTransferLGrabClose = FALSE;
 			g_objAJinAXL.Write_Output(3);
+
+			m_sLog.Format("Seq,8,Transfer1,%d,explanation",m_nTransfer1Case); g_objLogFile.Save_SeqLog(m_sLog);
 			m_nTransfer1Case++; m_tTransfer1Loop.Set_LoopTime(5000);
 		}
 		break;
 	case 56:
-		if (m_pDX03->iTransferLGrab1Open && !m_pDX03->iTransferLGrab1Close) {
-			if (m_pDX03->iTransferLGrab2Open && !m_pDX03->iTransferLGrab2Close) {
+		if (m_pDX03->iTransferLGrab1Open && !m_pDX03->iTransferLGrab1Close) 
+		{
+			if (m_pDX03->iTransferLGrab2Open && !m_pDX03->iTransferLGrab2Close)
+			{
 				if (!m_tTransfer1Loop.Waiting_Time(300)) break;
 				m_tTransfer1Loop.Takt_Save(8, 29); m_tTransfer1Loop.Takt_Start(8, 30);
 				g_objCommon.Move_Position(AX_TRANSFER_Z1, 0);
+
+				m_sLog.Format("Seq,8,Transfer1,%d,explanation",m_nTransfer1Case); g_objLogFile.Save_SeqLog(m_sLog);
 				m_nTransfer1Case++; m_tTransfer1Loop.Set_LoopTime(5000);
 			}
 		}
 		break;
 	case 57:
-		if (g_objCommon.Check_Position(AX_TRANSFER_Z1, 0)) {
+		if (g_objCommon.Check_Position(AX_TRANSFER_Z1, 0)) 
+		{
 			g_objCommon.Save_Motion(AX_TRANSFER_Z1, 0);
 			m_sLog.Format("[Transfer1: Down Empty-NG] Lot(%s) TNo(%d) PNo(%d)", gData.sLotID_Tansfer[0], gData.nTrayNo_Tansfer[0], gData.nPortNo_Tansfer[0]);
 			g_objLogFile.Save_HandlerLog(m_sLog);
@@ -3445,75 +3600,105 @@ BOOL CSequenceMain::Run_Transfer1()
 			gData.nTrayNo_Tansfer[0] = gData.nPortNo_Tansfer[0] = 0;
 
 			m_tTransfer1Loop.Takt_Save(8, 30); m_tTransfer1Loop.Takt_Start(8, 31);
+
+			m_sLog.Format("Seq,8,Transfer1,%d,explanation",m_nTransfer1Case); g_objLogFile.Save_SeqLog(m_sLog);
 			m_nTransfer1Case++; m_tTransfer1Loop.Set_LoopTime(5000);
 		}
 		break;
 	case 58:
-		if (!m_pDX03->iTransferLTrayExist) {
+		if (!m_pDX03->iTransferLTrayExist) 
+		{
 			if (m_nElevator3Case == 20) m_nElevator3Case = 21;
+
+			m_sLog.Format("Seq,8,Transfer1,%d,explanation",m_nTransfer1Case); g_objLogFile.Save_SeqLog(m_sLog);
 			m_nTransfer1Case = 70; m_tTransfer1Loop.Set_LoopTime(5000);
 		}
 		break;
 
 	case 61:	//Down Empty-Good (6)
-		if (gData.nTransferX2Pos > 6) {
+		if (gData.nTransferX2Pos > 6) 
+		{
 			m_tTransfer1Loop.Takt_Save(8, 31); m_tTransfer1Loop.Takt_Start(8, 32);
 			gData.nTransferX1Pos = nToTran1Pos;
 			g_objCommon.Move_Position(AX_TRANSFER_X1, gData.nTransferX1Pos);
+
+			m_sLog.Format("Seq,8,Transfer1,%d,explanation",m_nTransfer1Case); g_objLogFile.Save_SeqLog(m_sLog);
 			m_nTransfer1Case = 63; m_tTransfer1Loop.Set_LoopTime(30000);
-		} else {
+		} 
+		else 
+		{
 			m_tTransfer1Loop.Takt_Save(8, 32); m_tTransfer1Loop.Takt_Start(8, 33);
 			g_objCommon.Move_Position(AX_TRANSFER_X1, 4);
+
+			m_sLog.Format("Seq,8,Transfer1,%d,explanation",m_nTransfer1Case); g_objLogFile.Save_SeqLog(m_sLog);
 			m_nTransfer1Case++; m_tTransfer1Loop.Set_LoopTime(30000);
 		}
 		break;
 	case 62:
-		if (g_objCommon.Check_Position(AX_TRANSFER_X1, 4)) {
+		if (g_objCommon.Check_Position(AX_TRANSFER_X1, 4)) 
+		{
 			double dT2Pos = g_objAJinAXL.Get_Position(AX_TRANSFER_X2);
-			if (gData.nTransferX2Pos > 6 && dT2Pos < (m_pMoveData->dTransferX2[2]-10)) {
+			if (gData.nTransferX2Pos > 6 && dT2Pos < (m_pMoveData->dTransferX2[2]-10)) 
+			{
 				g_objCommon.Save_Motion(AX_TRANSFER_X1, 4);
 				m_tTransfer1Loop.Takt_Save(8, 33); m_tTransfer1Loop.Takt_Start(8, 34);
 				gData.nTransferX1Pos = nToTran1Pos;
 				g_objCommon.Move_Position(AX_TRANSFER_X1, gData.nTransferX1Pos);
+
+				m_sLog.Format("Seq,8,Transfer1,%d,explanation",m_nTransfer1Case); g_objLogFile.Save_SeqLog(m_sLog);
 				m_nTransfer1Case++; m_tTransfer1Loop.Set_LoopTime(30000);
 			}
 		}
 		return TRUE;
 	case 63:
-		if (g_objCommon.Check_Position(AX_TRANSFER_X1, gData.nTransferX1Pos)) {
+		if (g_objCommon.Check_Position(AX_TRANSFER_X1, gData.nTransferX1Pos)) 
+		{
 			g_objCommon.Save_Motion(AX_TRANSFER_X1, gData.nTransferX1Pos);
 			m_tTransfer1Loop.Takt_Save(8, 34); m_tTransfer1Loop.Takt_Start(8, 35);
+
+			m_sLog.Format("Seq,8,Transfer1,%d,explanation",m_nTransfer1Case); g_objLogFile.Save_SeqLog(m_sLog);
 			m_nTransfer1Case++; m_tTransfer1Loop.Set_LoopTime(30000);
 		}
 		break;
 	case 64:
-		if (m_nElevator4Case == 20 && gData.nElevatorOpen[4] == 0) {
+		if (m_nElevator4Case == 20 && gData.nElevatorOpen[4] == 0) 
+		{
 			m_tTransfer1Loop.Takt_Save(8, 35); m_tTransfer1Loop.Takt_Start(8, 36);
 			g_objCommon.Move_Position(AX_TRANSFER_Z1, nToTran1Pos);
+
+			m_sLog.Format("Seq,8,Transfer1,%d,explanation",m_nTransfer1Case); g_objLogFile.Save_SeqLog(m_sLog);
 			m_nTransfer1Case++;	m_tTransfer1Loop.Set_LoopTime(30000);
 		}
 		return TRUE;
 	case 65:
-		if (g_objCommon.Check_Position(AX_TRANSFER_Z1, nToTran1Pos)) {
+		if (g_objCommon.Check_Position(AX_TRANSFER_Z1, nToTran1Pos)) 
+		{
 			g_objCommon.Save_Motion(AX_TRANSFER_Z1, nToTran1Pos);
 			m_tTransfer1Loop.Takt_Save(8, 36); m_tTransfer1Loop.Takt_Start(8, 37);
 			m_pDY03->oTransferLGrabOpen = TRUE; m_pDY03->oTransferLGrabClose = FALSE;
 			g_objAJinAXL.Write_Output(3);
+
+			m_sLog.Format("Seq,8,Transfer1,%d,explanation",m_nTransfer1Case); g_objLogFile.Save_SeqLog(m_sLog);
 			m_nTransfer1Case++; m_tTransfer1Loop.Set_LoopTime(5000);
 		}
 		break;
 	case 66:
-		if (m_pDX03->iTransferLGrab1Open && !m_pDX03->iTransferLGrab1Close) {
-			if (m_pDX03->iTransferLGrab2Open && !m_pDX03->iTransferLGrab2Close) {
+		if (m_pDX03->iTransferLGrab1Open && !m_pDX03->iTransferLGrab1Close)
+		{
+			if (m_pDX03->iTransferLGrab2Open && !m_pDX03->iTransferLGrab2Close) 
+			{
 				if (!m_tTransfer1Loop.Waiting_Time(300)) break;
 				m_tTransfer1Loop.Takt_Save(8, 37); m_tTransfer1Loop.Takt_Start(8, 38);
 				g_objCommon.Move_Position(AX_TRANSFER_Z1, 0);
+
+				m_sLog.Format("Seq,8,Transfer1,%d,explanation",m_nTransfer1Case); g_objLogFile.Save_SeqLog(m_sLog);
 				m_nTransfer1Case++; m_tTransfer1Loop.Set_LoopTime(5000);
 			}
 		}
 		break;
 	case 67:
-		if (g_objCommon.Check_Position(AX_TRANSFER_Z1, 0)) {
+		if (g_objCommon.Check_Position(AX_TRANSFER_Z1, 0)) 
+		{
 			g_objCommon.Save_Motion(AX_TRANSFER_Z1, 0);
 			m_sLog.Format("[Transfer1: Down Empty-Good] Lot(%s) TNo(%d) PNo(%d)", gData.sLotID_Tansfer[0], gData.nTrayNo_Tansfer[0], gData.nPortNo_Tansfer[0]);
 			g_objLogFile.Save_HandlerLog(m_sLog);
@@ -3522,12 +3707,17 @@ BOOL CSequenceMain::Run_Transfer1()
 			gData.nTrayNo_Tansfer[0] = gData.nPortNo_Tansfer[0] = 0;
 
 			m_tTransfer1Loop.Takt_Save(8, 38); m_tTransfer1Loop.Takt_Start(8, 39);
+
+			m_sLog.Format("Seq,8,Transfer1,%d,explanation",m_nTransfer1Case); g_objLogFile.Save_SeqLog(m_sLog);
 			m_nTransfer1Case++; m_tTransfer1Loop.Set_LoopTime(5000);
 		}
 		break;
 	case 68:
-		if (!m_pDX03->iTransferLTrayExist) {
+		if (!m_pDX03->iTransferLTrayExist) 
+		{
 			if (m_nElevator4Case == 20) m_nElevator4Case = 21;
+
+			m_sLog.Format("Seq,8,Transfer1,%d,explanation",m_nTransfer1Case); g_objLogFile.Save_SeqLog(m_sLog);
 			m_nTransfer1Case = 70; m_tTransfer1Loop.Set_LoopTime(5000);
 		}
 		break;
@@ -3536,12 +3726,15 @@ BOOL CSequenceMain::Run_Transfer1()
 			if (m_pDX04->iLoadStage1TrayExist && m_pDX04->iLoadStage2TrayExist) gData.nTransferX1Pos = 1;
 			else																gData.nTransferX1Pos = 3;
 			g_objCommon.Move_Position(AX_TRANSFER_X1, gData.nTransferX1Pos);
+			m_sLog.Format("Seq,8,Transfer1,%d,explanation",m_nTransfer1Case); g_objLogFile.Save_SeqLog(m_sLog);
 			m_nTransfer1Case++; m_tTransfer1Loop.Set_LoopTime(30000);
 		break;
 	case 71:
-		if (g_objCommon.Check_Position(AX_TRANSFER_X1, gData.nTransferX1Pos)) {
+		if (g_objCommon.Check_Position(AX_TRANSFER_X1, gData.nTransferX1Pos)) 
+		{
 			g_objCommon.Save_Motion(AX_TRANSFER_X1, gData.nTransferX1Pos);
 			m_tTransfer1Loop.Takt_Save(8, 39, TRUE);
+			m_sLog.Format("Seq,8,Transfer1,%d,explanation",m_nTransfer1Case); g_objLogFile.Save_SeqLog(m_sLog);
 			m_nTransfer1Case = 0; m_tTransfer1Loop.Set_LoopTime(5000);
 		}
 		break;

@@ -34,7 +34,10 @@ public:
 	void Save_ECMLog(int nType, CString strLog);	//nType:1[Alarm], 2[Joblist]
 	void Save_ECMOutPut(int nPNo, int nTNo, int nMNo, int nType);	//0:G, 1:NG
 	void Save_ECMDailyLot(CString sLog);
+
 	void Save_TestLog(CString sLog);
+	void Save_SeqLog(CString sLog);
+
 	void Save_DailyLot(CString sLog);
 	void Save_LotLog(int nPortNo);
 	void Save_OperatingRatio(CString sLog);
