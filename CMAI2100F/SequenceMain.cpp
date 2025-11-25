@@ -8575,13 +8575,15 @@ BOOL CSequenceMain::Run_UnloadPicker1()
 		break;
 	case 7:
 		if (g_objCommon.Get_UnloadPickerCheck(n1No, 9, gData.InfoUnloadPick[n1No-1])) {
-			m_tUnloadPicker1Loop.Takt_Save(18, 5); m_tUnloadPicker1Loop.Takt_Start(18, 6); 
-			if (m_nVisionStage1Case == 30) m_nVisionStage1Case = 31;
-			if (m_nVisionStage2Case == 30) m_nVisionStage2Case = 31;
-			if (m_nVisionStage3Case == 30) m_nVisionStage3Case = 31;
-			if (m_nVisionStage4Case == 30) m_nVisionStage4Case = 31;
+			if (g_objCommon.Get_UnloadPickerUp(n1No)) {
+				m_tUnloadPicker1Loop.Takt_Save(18, 5); m_tUnloadPicker1Loop.Takt_Start(18, 6); 
+				if (m_nVisionStage1Case == 30) m_nVisionStage1Case = 31;
+				if (m_nVisionStage2Case == 30) m_nVisionStage2Case = 31;
+				if (m_nVisionStage3Case == 30) m_nVisionStage3Case = 31;
+				if (m_nVisionStage4Case == 30) m_nVisionStage4Case = 31;
 
-			m_nUnloadPicker1Case = 10; m_tUnloadPicker1Loop.Set_LoopTime(30000);
+				m_nUnloadPicker1Case = 10; m_tUnloadPicker1Loop.Set_LoopTime(30000);
+			}
 		}
 		break;
 
@@ -9032,7 +9034,19 @@ BOOL CSequenceMain::Run_UnloadPicker1()
 	case 82:
 		if (g_objCommon.Get_UnloadPickerUp(n1No)) {
 			if (!m_tUnloadPicker1Loop.Waiting_Time(500)) break;
-			g_objCommon.Set_UnloadPickerDown(n1No);
+			for(int i=0; i<8; i++) {
+				if (gData.nUnloadPicker1ErrNo[i] == 1) {
+					g_objCommon.Set_UnloadPickerDown(n1No, i+1);
+				}
+			}
+			m_nUnloadPicker1Case++; m_tUnloadPicker1Loop.Set_LoopTime(30000);
+		}
+		break;
+	case 83:
+		if (g_objCommon.Check_Position(AX_UNLOAD_PICKER_Z1, 0)) {
+			if (!m_tUnloadPicker1Loop.Waiting_Time(500)) break;
+			m_tUnloadPicker1Loop.Takt_Save(18, 1); m_tUnloadPicker1Loop.Takt_Start(18, 2); 
+			g_objCommon.Move_Position(AX_UNLOAD_PICKER_Z1, n1VNo);
 			m_nUnloadPicker1Case = 4; m_tUnloadPicker1Loop.Set_LoopTime(30000);
 		}
 		break;
@@ -9160,13 +9174,15 @@ BOOL CSequenceMain::Run_UnloadPicker2()
 		break;
 	case 7:
 		if (g_objCommon.Get_UnloadPickerCheck(n2No, 9, gData.InfoUnloadPick[n2No-1])) {
-			m_tUnloadPicker2Loop.Takt_Save(19, 5); m_tUnloadPicker2Loop.Takt_Start(19, 6); 
-			if (m_nVisionStage1Case == 30) m_nVisionStage1Case = 31;
-			if (m_nVisionStage2Case == 30) m_nVisionStage2Case = 31;
-			if (m_nVisionStage3Case == 30) m_nVisionStage3Case = 31;
-			if (m_nVisionStage4Case == 30) m_nVisionStage4Case = 31;
+			if (g_objCommon.Get_UnloadPickerUp(n2No)) {
+				m_tUnloadPicker2Loop.Takt_Save(19, 5); m_tUnloadPicker2Loop.Takt_Start(19, 6); 
+				if (m_nVisionStage1Case == 30) m_nVisionStage1Case = 31;
+				if (m_nVisionStage2Case == 30) m_nVisionStage2Case = 31;
+				if (m_nVisionStage3Case == 30) m_nVisionStage3Case = 31;
+				if (m_nVisionStage4Case == 30) m_nVisionStage4Case = 31;
 
-			m_nUnloadPicker2Case = 10; m_tUnloadPicker2Loop.Set_LoopTime(30000);
+				m_nUnloadPicker2Case = 10; m_tUnloadPicker2Loop.Set_LoopTime(30000);
+			}
 		}
 		break;
 
@@ -9617,7 +9633,19 @@ BOOL CSequenceMain::Run_UnloadPicker2()
 	case 82:
 		if (g_objCommon.Get_UnloadPickerUp(n2No)) {
 			if (!m_tUnloadPicker2Loop.Waiting_Time(500)) break;
-			g_objCommon.Set_UnloadPickerDown(n2No);
+			for(int i=0; i<8; i++) {
+				if (gData.nUnloadPicker2ErrNo[i] == 1) {
+					g_objCommon.Set_UnloadPickerDown(n2No, i+1);
+				}
+			}
+			m_nUnloadPicker2Case++; m_tUnloadPicker2Loop.Set_LoopTime(30000);
+		}
+		break;
+	case 83:
+		if (g_objCommon.Check_Position(AX_UNLOAD_PICKER_Z2, 0)) {
+			if (!m_tUnloadPicker2Loop.Waiting_Time(500)) break;
+			m_tUnloadPicker2Loop.Takt_Save(19, 1); m_tUnloadPicker2Loop.Takt_Start(19, 2); 
+			g_objCommon.Move_Position(AX_UNLOAD_PICKER_Z2, n2VNo);
 			m_nUnloadPicker2Case = 4; m_tUnloadPicker2Loop.Set_LoopTime(30000);
 		}
 		break;

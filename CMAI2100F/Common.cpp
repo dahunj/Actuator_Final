@@ -926,6 +926,7 @@ void CCommon::Check_InsideLamp()
 		pDX14->iDoor11Unlock || pDX14->iDoor12Unlock || pDX14->iDoor13Unlock || pDX14->iDoor14Unlock || pDX14->iDoor15Unlock ||
 		pDX14->iDoor16Unlock || pDX14->iDoor17Unlock || pDX14->iDoor18Unlock || pDX14->iDoor19Unlock || pDX14->iDoor20Unlock ||
 		pDX14->iDoor21Unlock ) {
+		gData.bDoorOpen = TRUE;
 		if (!m_bInsideLight) {
 			m_bInsideLight = TRUE;
 			pDY14->oInsideLight = TRUE;
@@ -937,6 +938,17 @@ void CCommon::Check_InsideLamp()
 			pDY14->oInsideLight = FALSE;
 			g_objAJinAXL.Write_Output(14);
 		}
+		EQUIP_DATA *pEquipData = g_objDataManager.Get_pEquipData();
+		if (gData.bDoorOpen && !pEquipData->bUseDoorLock) {
+			CIniFileCS INI(gsCurrentDir + "\\System\\EquipData.ini");
+			if (INI.Check_File()) {
+				INI.Set_Bool("EQUIPMENT", "DOOR_LOCK", TRUE);
+			}
+			pEquipData->bUseDoorLock = TRUE;
+			gData.dwDoorStartTime = 0;
+			g_objDataManager.Read_EquipData();
+		}
+		gData.bDoorOpen = FALSE;
 	}
 }
 

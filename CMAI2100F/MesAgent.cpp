@@ -665,9 +665,16 @@ void CMesAgent::Set_CmEnd(int nType, int nPortNo, int nTrayNo, int nCmNo, int nO
 	CString strResult, strNgCode;
 	if (nType == 1) {
 		strResult = "NG";
-		if	(strNGCd == "BARCODE_NOREAD" || strCmId.GetLength() < 15) {
+		if	(strNGCd == "BARCODE_NOREAD" || strCmId.GetLength() < 15) 
+		{
 			strCmId = "NOREAD"; strNgCode = "BARCODE_NOREAD";
-		} else {
+		} 
+		else if(strNGCd == "NO_MES_INFO")
+		{
+			strNgCode = "NO_MES_INFO";
+		}
+		else 
+		{
 			strNgCode == "MARGINAL_OK"; sMarginal = "OK"; gMes.nMarCount++;
 		}
 	} else {

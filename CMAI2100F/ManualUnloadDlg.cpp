@@ -290,6 +290,10 @@ void CManualUnloadDlg::OnBtnUnloadPicker1XClick(UINT nID)
 		AfxMessageBox(_T("Unload Picker1 Z축 Ready Up 위치가 아닙니다....."));
 		return;
 	}
+	if (!g_objCommon.Get_UnloadPickerUp(1)) {
+		AfxMessageBox(_T("Unload Picker1 Picker Up 위치가 아닙니다....."));
+		return;
+	}
 	// Y축이 둘다 준비위치가 아닐때
 	if (!g_objCommon.Check_Position(AX_UNLOAD_PICKER_Y1, 0) && !g_objCommon.Check_Position(AX_UNLOAD_PICKER_Y2, 0)) {
 		AfxMessageBox(_T("Unload Picker1/2 Y축 모두 Ready 위치가 아닙니다....."));
@@ -479,6 +483,10 @@ void CManualUnloadDlg::OnBtnUnloadPicker2XClick(UINT nID)
 	// Interlock
 	if (!g_objCommon.Check_Position(AX_UNLOAD_PICKER_Z2, 0)) {
 		AfxMessageBox(_T("Unload Picker2 Z축 Ready Up 위치가 아닙니다....."));
+		return;
+	}
+	if (!g_objCommon.Get_UnloadPickerUp(2)) {
+		AfxMessageBox(_T("Unload Picker2 Picker Up 위치가 아닙니다....."));
 		return;
 	}
 	// Y축이 둘다 준비위치가 아닐때

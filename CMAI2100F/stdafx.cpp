@@ -7,10 +7,11 @@
 CString gsCurrentDir;		// 현재 프로젝트 폴더
 CString gsComputerName;		// 현재 컴퓨터 이름
 
-GLOVAL_DATA			gData;
-GLOVAL_LOT			gLot;
-GLOVAL_ALM			gAlm;
-GLOVAL_MES			gMes;
-GLOVAL_BARCODE		gBar;
-//GLOVAL_NGCODE		gNG;
+GLOVAL_DATA				gData;
+GLOVAL_LOT				gLot;
+GLOVAL_ALM				gAlm;
+GLOVAL_MES				gMes;
+GLOVAL_BARCODE			gBar;
+GLOVAL_INTERLOCKDATA	gIt;
+//GLOVAL_NGCODE			gNG;
 GLOVAL_NGCODE* gNG = new GLOVAL_NGCODE;

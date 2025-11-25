@@ -3,6 +3,8 @@
 #include "stdafx.h"
 #include "LogFile.h"
 #include "Inspector.h"
+#include "AJinAXL.h"
+#include "DataManager.h"
 
 // CLogFile
 CLogFile g_objLogFile;
@@ -1731,5 +1733,130 @@ void CLogFile::Get_ZoneMsg(int nFun, int nId, CString &sLotID, int &nPortNo, int
 		for(int i=0; i<6; i++) {
 			if (gLot.nCmCount[i] > 0) { sLotID = gLot.sLotID[i]; nPortNo = i+1; break; }
 		}
+	}
+}
+
+void CLogFile::Save_Interlock(int nType)	//nType:0[등록], 1[정시], 2[해제] 3[설정]
+{
+	CString strFile, sTitle, sTitle1, strTime, strSave, strSave1, strSave2, strSave3, strSave4, strSave5, strLotID, strDoor[21], sInterUse;
+
+	SYSTEMTIME time;
+	GetLocalTime(&time);
+
+	if (nType == 0) {
+		gIt.nOpenTime = 0;
+		gIt.nOpenStart = 0;
+		gIt.nLogYY = time.wYear;	//등록년
+		gIt.nLogMM = time.wMonth;	//등록월
+		gIt.nLogDD = time.wDay;		//등록날
+		gIt.nLogHH = time.wHour;	//등록시간
+	}
+	if (gIt.nLogMM < 1 || gIt.nLogMM > 12) return;
+
+	EQUIP_DATA *pEquipData = g_objDataManager.Get_pEquipData();
+	if (nType == 1)	strTime.Format("%04d-%02d-%02d %02d:00:00.000",		 time.wYear, time.wMonth, time.wDay, time.wHour);
+	else			strTime.Format("%04d-%02d-%02d %02d:%02d:%02d.%03d", time.wYear, time.wMonth, time.wDay, time.wHour, time.wMinute, time.wSecond, time.wMilliseconds);
+
+	sTitle1 = "Door I/L 11,Door I/L 12,Door I/L 13,Door I/L 14,Door I/L 15,Door I/L 16,Door I/L 17,Door I/L 18,Door I/L 19,Door I/L 20,Door I/L 21,Door I/L 22,Door I/L 23,Door I/L 24,Door I/L 25,Door I/L 26,Door I/L 27,Door I/L 28,Door I/L 29,Door I/L 30";
+	sTitle.Format("time,station,lotNum,barcode,SWversion,State,site,Line,Machine,operator,result,Interlock,Interlock off Time,Interlock Coverage,Door I/L 1,Door I/L 2,Door I/L 3,Door I/L 4,Door I/L 5,Door I/L 6,Door I/L 7,Door I/L 8,Door I/L 9,Door I/L 10,%s\r\n", sTitle1);
+	strFile.Format("%sGSY848CP2C2N_%04d%02d%02d%02d_InterlockResult.csv", ECM_LOG, gIt.nLogYY, gIt.nLogMM, gIt.nLogDD, gIt.nLogHH);
+	if (nType == 0) { DeleteFile(strFile); return; }
+
+	if (gLot.nJobStatus > 0) strLotID = gData.sLotID_Start;
+	else					 strLotID = "";
+
+	int		nSite;
+	CString sSite, sLine, sModel;
+	if		(pEquipData->sMachineCode.Find("C4") >= 0) nSite = 4;
+	else if (pEquipData->sMachineCode.Find("C5") >= 0) nSite = 5;
+	else											   nSite = 0;
+	if		(pEquipData->sMachineCode.Find("DFA") >= 0) sModel = "FOL";
+	else											    sModel = "EOL";
+	sSite.Format("Gumi Campus %d Area", nSite);
+	sLine.Format("Campus %d %s", nSite, sModel);
+
+	int	   nNGTime;
+	double dTime, dPer;
+	if (nType == 1) {
+		if (gIt.nOpenStart == 1) {
+			nNGTime = (GetTickCount() - gIt.dwOpenStartTime) / 1000;	//초단위
+			gIt.nOpenTime = gIt.nOpenTime + nNGTime;
+		}
+		if (gIt.nOpenTime > 0) {
+			if (gIt.nOpenTime > 3600) gIt.nOpenTime = 3600;
+			dTime = gIt.nOpenTime / 60.0;	//분단위
+			dPer = ((3600.0 - gIt.nOpenTime) / 3600.0) * 100.0;
+			if (dPer > 100.0) dPer = 100.0;
+		} else {
+			dTime = 0.0; dPer = 100.0;
+		}
+		gIt.dwOpenStartTime = GetTickCount();
+		gIt.nOpenTime = 0;
+		gIt.nLogYY = time.wYear;
+		gIt.nLogMM = time.wMonth;
+		gIt.nLogDD = time.wDay;
+		gIt.nLogHH = time.wHour;
+
+		if (pEquipData->bUseDoorLock) sInterUse = "OK";
+		else						  sInterUse = "NG";
+	}
+	if (nType == 2) {
+		sInterUse = "NG";
+		gIt.nOpenStart = 1;
+		gIt.dwOpenStartTime = GetTickCount();
+	}
+	if (nType == 3) {
+		sInterUse = "OK";
+		gIt.nOpenStart = 0;
+		nNGTime = (GetTickCount() - gIt.dwOpenStartTime) / 1000;
+		gIt.nOpenTime = gIt.nOpenTime + nNGTime;
+	}
+
+	CFile file;
+	if (!file.Open(strFile, CFile::modeCreate | CFile::modeNoTruncate | CFile::modeWrite)) return;
+
+	try {
+		file.SeekToEnd();
+
+		if (file.GetLength() < 1) file.Write(sTitle, sTitle.GetLength());
+
+		strSave1.Format("%s,%s,%s,,%s,MP,%s,%s,%s,%s", strTime, gData.sComName, strLotID, MAIN_VERSION, sSite, sLine, pEquipData->sMachineCode, gData.sOperID);
+		if (nType == 1) strSave2.Format("A1,%s,%0.2lf,%d%%", sInterUse, dTime, int(dPer+0.5));
+		if (nType == 2) strSave2.Format("F,NG,,");
+		if (nType >= 3) strSave2.Format("A2,OK,,");
+
+		DX_DATA_14 *pDX14 = g_objAJinAXL.Get_pDX14();
+		if (pDX14->iDoor01Unlock) strDoor[0] = "Open"; else strDoor[0] = "Close";
+		if (pDX14->iDoor02Unlock) strDoor[1] = "Open"; else strDoor[1] = "Close";
+		if (pDX14->iDoor03Unlock) strDoor[2] = "Open"; else strDoor[2] = "Close";
+	 	if (pDX14->iDoor04Unlock) strDoor[3] = "Open"; else strDoor[3] = "Close";
+	 	if (pDX14->iDoor05Unlock) strDoor[4] = "Open"; else strDoor[4] = "Close";
+		if (pDX14->iDoor06Unlock) strDoor[5] = "Open"; else strDoor[5] = "Close";
+		if (pDX14->iDoor07Unlock) strDoor[6] = "Open"; else strDoor[6] = "Close";
+		if (pDX14->iDoor08Unlock) strDoor[7] = "Open"; else strDoor[7] = "Close";
+		if (pDX14->iDoor09Unlock) strDoor[8] = "Open"; else strDoor[8] = "Close";
+		if (pDX14->iDoor10Unlock) strDoor[9] = "Open"; else strDoor[9] = "Close";
+		if (pDX14->iDoor11Unlock) strDoor[10] = "Open"; else strDoor[10] = "Close";
+	 	if (pDX14->iDoor12Unlock) strDoor[11] = "Open"; else strDoor[11] = "Close";
+	 	if (pDX14->iDoor13Unlock) strDoor[12] = "Open"; else strDoor[12] = "Close";
+		if (pDX14->iDoor14Unlock) strDoor[13] = "Open"; else strDoor[13] = "Close";
+		if (pDX14->iDoor15Unlock) strDoor[14] = "Open"; else strDoor[14] = "Close";
+		if (pDX14->iDoor16Unlock) strDoor[15] = "Open"; else strDoor[15] = "Close";
+		if (pDX14->iDoor17Unlock) strDoor[16] = "Open"; else strDoor[16] = "Close";
+		if (pDX14->iDoor18Unlock) strDoor[17] = "Open"; else strDoor[17] = "Close";
+		if (pDX14->iDoor19Unlock) strDoor[18] = "Open"; else strDoor[18] = "Close";
+	 	if (pDX14->iDoor20Unlock) strDoor[19] = "Open"; else strDoor[19] = "Close";
+	 	if (pDX14->iDoor21Unlock) strDoor[20] = "Open"; else strDoor[20] = "Close";
+
+		strSave3.Format("%s,%s,%s,%s,%s,%s,%s,%s,%s,%s",    strDoor[0],  strDoor[1],  strDoor[2],  strDoor[3],  strDoor[4],  strDoor[5],  strDoor[6],  strDoor[7],  strDoor[8],  strDoor[9]);
+		strSave4.Format("%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s", strDoor[10], strDoor[11], strDoor[12], strDoor[13], strDoor[14], strDoor[15], strDoor[16], strDoor[17], strDoor[18], strDoor[19], strDoor[20]);
+		strSave5.Format("-,-,-,-,-,-,-,-,-,");
+
+		strSave.Format("%s,%s,%s,%s,%s\r\n", strSave1, strSave2, strSave3, strSave4, strSave5);
+		file.Write(strSave, strSave.GetLength());
+		file.Close();
+
+	} catch (CFileException *pEx) {
+		pEx->Delete();
 	}
 }

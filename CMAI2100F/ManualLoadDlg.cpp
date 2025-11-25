@@ -277,6 +277,10 @@ void CManualLoadDlg::OnBtnLoadPicker1XClick(UINT nID)
 		AfxMessageBox(_T("Load Picker1 Z축 Ready Up 위치가 아닙니다....."));
 		return;
 	}
+	if (!g_objCommon.Get_LoadPickerUp(1)) {
+		AfxMessageBox(_T("Load Picker1 Picker Up 위치가 아닙니다....."));
+		return;
+	}
 	// Y축이 둘다 준비위치가 아닐때
 	if (!g_objCommon.Check_Position(AX_LOAD_PICKER_Y1, 0) && !g_objCommon.Check_Position(AX_LOAD_PICKER_Y2, 0)) {
 		AfxMessageBox(_T("Load Picker1/2 Y축 모두 Ready 위치가 아닙니다....."));
@@ -454,6 +458,10 @@ void CManualLoadDlg::OnBtnLoadPicker2XClick(UINT nID)
 	// Interlock
 	if (!g_objCommon.Check_Position(AX_LOAD_PICKER_Z2, 0)) {
 		AfxMessageBox(_T("Load Picker2 Z축 Ready Up 위치가 아닙니다....."));
+		return;
+	}
+	if (!g_objCommon.Get_LoadPickerUp(2)) {
+		AfxMessageBox(_T("Load Picker2 Picker Up 위치가 아닙니다....."));
 		return;
 	}
 	// Y축이 둘다 준비위치가 아닐때
