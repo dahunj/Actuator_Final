@@ -669,9 +669,9 @@ void CMesAgent::Set_CmEnd(int nType, int nPortNo, int nTrayNo, int nCmNo, int nO
 		{
 			strCmId = "NOREAD"; strNgCode = "BARCODE_NOREAD";
 		} 
-		else if(strNGCd == "MES_NO_INFO")
+		else if(strNGCd == "NO_MES_INFO")
 		{
-			strNgCode = "MES_NO_INFO";
+			strNgCode = "NO_MES_INFO";
 		}
 		else 
 		{
