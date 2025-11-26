@@ -179,6 +179,9 @@ void CErrorDlg::OnShowWindow(BOOL bShow, UINT nStatus)
 			}
 			strErrPick.Format(" #==> No. [%s] Unload Picker 2에 모듈이 있는지 확인해 주시고 #    모듈이 있으면 센서 확인후 OK or Retry 버튼을 눌러 주세요.", strCMNo);
 		}
+
+		if (m_nErrNo == 9203) strErrPick.Format(" #==>PortNo[%d] TrayNo[%d] Position[%d]", gAlm.nTempPNo, gAlm.nTempTNo, gAlm.nTempMNo);
+
 		if (m_nErrNo == 7099 || m_nErrNo == 7599) strErrPick.Format(" #==> TrayNo[%d] Position[%d]", gMes.nMarTrayCount, gData.nNoReadNo);
 
 		if (m_nErrNo == 5028 || m_nErrNo == 5034) strErrPick.Format(" #==> LotID[%s] TrayNo[%d] Module[%d]", gAlm.sAlmLID[1], gAlm.nAlmTNo[1], gAlm.nAlmPNo[1]);

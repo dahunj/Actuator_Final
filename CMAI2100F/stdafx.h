@@ -76,7 +76,7 @@
 #endif
 
 //****************************************************************************
-//#define NEW_FINAL		//Final_New(Final2호기부터적용)
+#define NEW_FINAL		//Final_New(Final2호기부터적용)
 //****************************************************************************
 #define AJIN_BOARD_USE
 
@@ -335,6 +335,10 @@ typedef struct {
 	CString sAlmLID[5];	//0:검사,1;BTM,2:Top1,3:Top2
 	int		nAlmTNo[5];	//0:검사,1;BTM,2:Top1,3:Top2
 	int		nAlmPNo[5];	//0:검사,1;BTM,2:Top1,3:Top2
+
+	int		nTempPNo;
+	int		nTempTNo;
+	int		nTempMNo;
 } GLOVAL_ALM;
 
 typedef struct {

@@ -332,6 +332,10 @@ typedef struct {
 	CString sAlmLID[5];	//0:검사,1;BTM,2:Top1,3:Top2
 	int		nAlmTNo[5];	//0:검사,1;BTM,2:Top1,3:Top2
 	int		nAlmPNo[5];	//0:검사,1;BTM,2:Top1,3:Top2
+
+	int		nTempPNo;
+	int		nTempTNo;
+	int		nTempMNo;
 } GLOVAL_ALM;
 
 typedef struct {

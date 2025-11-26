@@ -376,6 +376,11 @@ void CInspector::Get_InspectComplete(int nInspector, CString sType, CString sLot
 		gLot.sNGCode_I[nPortNo-1][nTrayNo-1][nCMNo-1][0] = "BARCODE_NOREAD";
 		gLot.nRosJugCount[nPortNo-1][5]++; gLot.nRosJugCount[nPortNo-1][7]++;
 		gData.nNG_MC[2][1]++;
+
+		gAlm.nTempPNo = nPortNo;
+		gAlm.nTempTNo = nTrayNo;
+		gAlm.nTempMNo = nCMNo;
+
 		if (gData.nNG_MC[2][0] > 0 && gData.nNG_MC[2][0] <= gData.nNG_MC[2][1]) g_objCommon.Show_Error(9203);
 		return;
 	}

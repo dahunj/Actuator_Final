@@ -176,6 +176,8 @@ void CErrorDlg::OnShowWindow(BOOL bShow, UINT nStatus)
 		}
 		if (m_nErrNo == 7099 || m_nErrNo == 7599) strErrPick.Format(" #==> TrayNo[%d] Position[%d]", gMes.nMarTrayCount, gData.nNoReadNo);
 
+		if (m_nErrNo == 9203) strErrPick.Format(" #==>PortNo[%d] TrayNo[%d] Position[%d]", gAlm.nTempPNo, gAlm.nTempTNo, gAlm.nTempMNo);
+
 		if (m_nErrNo == 5028 || m_nErrNo == 5034) strErrPick.Format(" #==> LotID[%s] TrayNo[%d] Module[%d]", gAlm.sAlmLID[1], gAlm.nAlmTNo[1], gAlm.nAlmPNo[1]);
 		if (m_nErrNo == 5528 || m_nErrNo == 5534) strErrPick.Format(" #==> LotID[%s] TrayNo[%d] Module[%d]", gAlm.sAlmLID[1], gAlm.nAlmTNo[1], gAlm.nAlmPNo[1]);
 		if (m_nErrNo == 6008 || m_nErrNo == 6012) strErrPick.Format(" #==> LotID[%s] TrayNo[%d] Module[%d]", gAlm.sAlmLID[2], gAlm.nAlmTNo[2], gAlm.nAlmPNo[2]);
