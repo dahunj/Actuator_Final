@@ -206,7 +206,9 @@ void CErrorDlg::OnShowWindow(BOOL bShow, UINT nStatus)
 		if (m_nErrNo == 9117) strErrPick.Format(" #==> Run Config[%s] != New Config[%s]", gMes.sHostNGConfig, gMes.sMESConfig);
 		if (m_nErrNo == 9180) strErrPick.Format(" #[%s]비전 PC에서 Groval Align Fail이 발생하였습니다.#제품 Loading 상태를 확인해 주세요.", gAlm.sAlmLotID[1]);
 		if (m_nErrNo > 9200 && m_nErrNo < 9210) strErrPick.Format(" #==> [%s]비전에서 발생하였습니다.", gAlm.sAlmLotID[1]);
-		if (m_nErrNo == 9211) strErrPick.Format(" #==> Barcode [%s] PortNo[%d] TrayNo[%d] Position[%d]", gAlm.sAlmLotID[1], gAlm.nTempPNo, gAlm.nTempTNo, gAlm.nTempMNo);
+		
+		// 공짜로 해주기 싫다 주석~
+		//if (m_nErrNo == 9211) strErrPick.Format(" #==> Barcode [%s] PortNo[%d] TrayNo[%d] Position[%d]", gAlm.sAlmLotID[1], gAlm.nTempPNo, gAlm.nTempTNo, gAlm.nTempMNo);
 
 		// 로더/언로더 피커에서 버큠실패, 검사완료 실패, Laser Check
 //		if (m_nErrNo == 5010 || m_nErrNo == 5017 || m_nErrNo == 5022 || m_nErrNo == 5047 || m_nErrNo == 5056 ||
