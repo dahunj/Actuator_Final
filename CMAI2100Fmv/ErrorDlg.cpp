@@ -178,10 +178,7 @@ void CErrorDlg::OnShowWindow(BOOL bShow, UINT nStatus)
 				}
 			}
 			strErrPick.Format(" #==> No. [%s] Unload Picker 2에 모듈이 있는지 확인해 주시고 #    모듈이 있으면 센서 확인후 OK or Retry 버튼을 눌러 주세요.", strCMNo);
-		}
-
-		if (m_nErrNo == 9203) strErrPick.Format(" #==>PortNo[%d] TrayNo[%d] Position[%d]", gAlm.nTempPNo, gAlm.nTempTNo, gAlm.nTempMNo);
-
+		}		
 		if (m_nErrNo == 7099 || m_nErrNo == 7599) strErrPick.Format(" #==> TrayNo[%d] Position[%d]", gMes.nMarTrayCount, gData.nNoReadNo);
 
 		if (m_nErrNo == 5028 || m_nErrNo == 5034) strErrPick.Format(" #==> LotID[%s] TrayNo[%d] Module[%d]", gAlm.sAlmLID[1], gAlm.nAlmTNo[1], gAlm.nAlmPNo[1]);
@@ -209,7 +206,7 @@ void CErrorDlg::OnShowWindow(BOOL bShow, UINT nStatus)
 		if (m_nErrNo == 9117) strErrPick.Format(" #==> Run Config[%s] != New Config[%s]", gMes.sHostNGConfig, gMes.sMESConfig);
 		if (m_nErrNo == 9180) strErrPick.Format(" #[%s]비전 PC에서 Groval Align Fail이 발생하였습니다.#제품 Loading 상태를 확인해 주세요.", gAlm.sAlmLotID[1]);
 		if (m_nErrNo > 9200 && m_nErrNo < 9210) strErrPick.Format(" #==> [%s]비전에서 발생하였습니다.", gAlm.sAlmLotID[1]);
-		if (m_nErrNo == 9211) strErrPick.Format(" # Barcode [%s]", gAlm.sAlmLotID[1]);
+		if (m_nErrNo == 9211) strErrPick.Format(" #==> Barcode [%s] PortNo[%d] TrayNo[%d] Position[%d]", gAlm.sAlmLotID[1], gAlm.nTempPNo, gAlm.nTempTNo, gAlm.nTempMNo);
 
 		// 로더/언로더 피커에서 버큠실패, 검사완료 실패, Laser Check
 //		if (m_nErrNo == 5010 || m_nErrNo == 5017 || m_nErrNo == 5022 || m_nErrNo == 5047 || m_nErrNo == 5056 ||
