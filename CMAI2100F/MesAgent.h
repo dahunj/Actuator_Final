@@ -50,7 +50,14 @@ private:
 	void Get_ModuleData1(CString sData);
 	void Get_ModuleData2(CString sData);
 
+	void Get_PPSelect(CString sLotId, CString sRecipe);
+	void Get_PPSelectFail(CString sLotId, CString sRecipe, CString sCode, CString sText);
+
+
 	void Get_NGLotStart(CString sLotId, CString sVendor, CString sConfig);
+	
+	void Get_RMSAlreadyDone();
+	void Get_RMSDone();
 
 	void Send_Command(CString sSend);
 
@@ -69,19 +76,27 @@ public:
 	void Set_RecipeList(int nFlag);						// 0:All, 1:Current Recipe
 	void Set_IdleReport(CString sOperId, CString sSTime, CString sETime, CString sCode, CString sType);	//1:Start, 2:End
 
+	void Set_LotReport(CString sLotID);
+
 	void Set_CmRequest(CString sLotId, CString sCmId, int nPortNo, int nTrayNo, int nCmNo);
 	void Set_CmEnd(int nType, int nPortNo, int nTrayNo, int nCmNo, int nOut);
 
+	void Set_LotIDReport(int nType, int nPortNo, CString sLotId, CString sRecipe, int nCount);
 	void Set_LotStart(int nType, int nPortNo, CString sLotId, CString sRecipe, int nCount);	//0:Request, 1:Started
 	void Set_LotAbort(CString sLotId);
 	void Set_LotEnd(int nPortNo, CString sLotId, CString sRecipe, int nHCount, int nOk, int nNg);
 	void Set_LotEnd(int nPortNo, CString sLotId, CString sDeepData1, CString sDeepData2, CString sDeepData3, CString sDeepData4, CString sDeepData5);
 	void Set_TerminalOK();
 	CString Set_NGSort(int nPno, int nTNo, int CNo);
-
+	
 	void Set_NGLotRequest();
 	void Set_NGLotStart(CString sNGLotId);
 	void Set_NGLotEnd(CString sNGLotId, int nMarCount);
+
+	void Set_PPSelectReport(CString sLotID, CString sVersion);
+
+
+	void Set_RMSCheck();
 };
 
 extern CMesAgent g_objMesAgent;

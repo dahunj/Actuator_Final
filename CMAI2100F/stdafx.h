@@ -78,7 +78,7 @@
 //****************************************************************************
 #define NEW_FINAL		//Final_New(Final2호기부터적용)
 //****************************************************************************
-#define AJIN_BOARD_USE
+//#define AJIN_BOARD_USE
 
 #ifdef NEW_FINAL
 	#define MAIN_VERSION	"Vf2 3.0.3"
@@ -101,6 +101,11 @@
 #define SKIP_LOT		"GPQ"
 #define SIM_WAITTIMES	 5		//
 #define SIM_WAITTIMEM	 5		//
+
+
+#define LOAD_STAGE 0
+#define GOOD_STAGE 1
+#define NG_STAGE   2
 //****************************************************************************
 //#define RESULT_TEST		// 비전 FOB 모드에서 전체 양품 처리가 안되어 추가함.
 //#define ALIGN_TEST		// Align 반복 Test.
@@ -108,7 +113,8 @@
 
 extern CString gsCurrentDir;	// 현재 프로젝트 폴더
 extern CString gsComputerName;	// 현재 컴퓨터 이름
-typedef struct {
+typedef struct 
+{
 	// 검사결과 (0:Empty, 1:미검사, 2:Good, 3:NG, 4:ROS_NG, 5:Barcode, 6:MES_NG, 7:FAI치수불량)
 	int		InfoAlignTray[10][4];		// (y,x) 0:Empty, 1:NG      2:Good
 	int		InfoLoadTray[10][4];		// (y,x) 0:Empty, 1:Module, 2:Good, NG:3~
@@ -240,6 +246,8 @@ typedef struct {
 	BOOL	bUseBarSort;
 	int		nBarSortTray;	//1:MG, 2:Good
 	int		nNoReadNo;
+
+	bool		bRMSDone;
 } GLOVAL_DATA;
 
 typedef struct {
@@ -356,6 +364,9 @@ typedef struct {
 	CString		sHostConfig;				// Host 수신 Config Code
 	CString		sMESConfig;					// Host 수신 Config Code
 
+	CString		sHostLotIDTemp;					// Host 수신 LotID
+	CString		sHostRecipeTemp;				// Host 수신 Recipe
+
 	// Cancel Data
 	CString		sHostCancelLotId;
 	CString		sHostCancelModule;			// Host Cancel 수신 code
@@ -376,6 +387,10 @@ typedef struct {
 	CString		sEndTime;					// NGLot 완공시간
 	CString		sGUItNGLotID;				// 화면Display용 NG LotID
 	int			nGUICount[5];				// 화면Display용 수량
+
+	int			nLotConfirm[3];
+
+	
 } GLOVAL_MES;
 
 typedef struct {

@@ -242,6 +242,7 @@ void CWorkDlg::OnTimer(UINT_PTR nIDEvent)
 
 	CCMAI2100Dlg *pMainDlg = (CCMAI2100Dlg*)AfxGetMainWnd();
 	EQUIP_DATA *pEquipData = g_objDataManager.Get_pEquipData();
+	
 
 	DX_DATA_13 *pDX13 = g_objAJinAXL.Get_pDX13();
 	if (pDX13->iStartSw && !m_rdoWorkStart.GetCheck()) {
@@ -670,6 +671,24 @@ BOOL CWorkDlg::Work_Start()
 {
 	CString strTemp, strTemp2, sText, strMsg;
 
+	EQUIP_DATA *pEquipData = g_objDataManager.Get_pEquipData();
+	//RMS Check 
+	g_objMesAgent.Set_RMSCheck();
+
+	DWORD dwStart = GetTickCount();
+	while(!gData.bRMSDone && pEquipData->bUseMES)
+	{		
+		g_objCommon.DoEvents();
+		Sleep(2);
+
+		if(GetTickCount() - dwStart > 2000 && pEquipData->bUseMES)
+		{
+			g_objCommon.Show_MsgBox(1, "RMS Data 준비 되지 않았습니다.확인 후 진행가능합니다");
+			m_rdoWorkStop.SetCheck(TRUE);
+			return FALSE;
+		}
+	}
+
 	g_objCommon.Locking_Slide(TRUE, 0);
 	if (gData.bAlarmShow) {
 		g_objCommon.Show_MsgBox(1, "Alaram 화면을 Close하고 Run 진행하세요.....");
@@ -677,7 +696,7 @@ BOOL CWorkDlg::Work_Start()
 		return FALSE;
 	}
 
-	EQUIP_DATA *pEquipData = g_objDataManager.Get_pEquipData();
+	
 	if (pEquipData->bUseDoorLock==FALSE) {
 		sText.Format("Door lock 해제 상태입니다.  진행하시겠습니까?");
 		if (g_objCommon.Show_MsgBox(2, sText) != IDOK){

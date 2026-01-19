@@ -1070,6 +1070,19 @@ int CCommon::Get_Random(int nStart, int nEnd)
 	return (rand() % (nEnd - nStart + 1) + nStart);
 }
 
+
+void CCommon::Copy_File(CString strPath, CString strName)
+{	
+	CString strOriginFile, strTargetFile, strDateTime;
+
+	g_objLogFile.Create_Folder("D:\\RMS");
+	strOriginFile.Format("%s\\%s.ini", strPath, strName);
+	strTargetFile.Format("D:\\RMS\\%s.ini", strName);
+
+	if (!CopyFile(strOriginFile, strTargetFile, FALSE)) return;
+}
+
+
 void CCommon::Backup_File(CString strPath, CString strName)
 {
 	g_objLogFile.Create_Folder(strPath + "\\Backup");

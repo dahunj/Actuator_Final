@@ -60,6 +60,8 @@ private:
 	void Get_HeartBeat(int nInspector);
 	void Get_AlignComplete(int nInspector, CString sType, CString sRcvData);
 	void Get_LotEnd(int nInspector, CString sLotID, CString sPortNo, CString sDeepData1, CString sDeepData2, CString sDeepData3, CString sDeepData4, CString sDeepData5);
+		
+	void Get_RecipeUpdata();
 
 	void Send_Command(int nInspector, CString strSend);
 	void Exception_Log(CString sFunc, CString sGbn, int nCase);	// Recevie Exception Log

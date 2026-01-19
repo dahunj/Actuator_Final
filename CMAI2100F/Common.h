@@ -118,7 +118,10 @@ public:
 	void Wait_Time(int msec);
 	int Get_Random(int nStart, int nEnd);
 	void Backup_File(CString strPath, CString strName);	// System Folder
+	void Copy_File(CString strPath, CString strName);	// System Folder
+	
 	void Add_NGCodeCount(int nNo, CString sJudge, CString sNGCode);
+
 
 	///////////////////////////////////////////////////////////////////////////
 

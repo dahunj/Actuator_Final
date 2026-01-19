@@ -3036,25 +3036,43 @@ BOOL CSequenceMain::Run_Transfer1()
 		break;
 
 	case 6:	//MES Start
-		if (m_pEquipData->bUseMES && (nFmTran1Pos == 3 || nFmTran1Pos == 4) && nToTran1Pos == 5) {
+		if (m_pEquipData->bUseMES && (nFmTran1Pos == 3 || nFmTran1Pos == 4) && nToTran1Pos == 5) 
+		{
 			gAlm.sAlmLotID[1].Format("%d", nPort1No);
-//			gMes.nLotPortNo = nPort1No;
-//			g_objMesAgent.Set_LotStart(0, nPort1No-1, gLot.sLotID[nPort1No-1], gData.sRecipeName, gLot.nCmCount[nPort1No-1]);
+			//gMes.nLotPortNo = nPort1No;
+			//Type 0 Lot Start : Lot ID Report 
+			g_objMesAgent.Set_LotIDReport(0, nPort1No-1, gLot.sLotID[nPort1No-1], gData.sRecipeName, gLot.nCmCount[nPort1No-1]);
 			m_nTransfer1Case++; m_tTransfer1Loop.Set_LoopTime(30000);
-		} else {
+		}
+		else
+		{
 			if (!m_pEquipData->bUseMES && nPort1No > 0) gLot.sRecipeName[nPort1No-1] = gData.sRecipeName;
 			m_nTransfer1Case = 8; m_tTransfer1Loop.Set_LoopTime(5000);
 		}
 		break;
 	case 7:
-		if (!m_pEquipData->bUseMES || gMes.nLotStatus[nPort1No-1] >= 3) {
+		if (!m_pEquipData->bUseMES || gMes.nLotStatus[nPort1No-1] >= 3) 
+		{
 			if (!m_pEquipData->bUseMES) gLot.sRecipeName[nPort1No-1] = gData.sRecipeName;
 			else						gLot.sRecipeName[nPort1No-1] = gMes.sHostRecipe[nPort1No-1];
-			m_nTransfer1Case++; m_tTransfer1Loop.Set_LoopTime(5000);
+			m_nTransfer1Case = -10; m_tTransfer1Loop.Set_LoopTime(5000);
 		}
 		break;
-
-	case 8:	//Tray Up
+	case -10:
+		if(gData.bRMSDone && gMes.nLotConfirm[LOAD_STAGE] >= 2)
+		{
+			gMes.sHostLotIDTemp = gLot.sLotID[nPort1No-1];
+			g_objMesAgent.Set_PPSelectReport(gMes.sHostLotIDTemp, gMes.sHostRecipe[nPort1No-1]);
+			m_nTransfer1Case++; m_tTransfer1Loop.Set_LoopTime(20000);			
+		}
+		break;
+	case -9:
+		if(gMes.nLotConfirm[LOAD_STAGE] >= 4)
+		{
+			m_nTransfer1Case++; m_tTransfer1Loop.Set_LoopTime(20000);				
+		}
+		break;
+	case 8:	// Tray Up
 		if (nFmTran1Pos == 1 || nFmTran1Pos == 2) m_nTransfer1Case = 10;	//Up Stage 12(1,2)
 		if (nFmTran1Pos == 3)					  m_nTransfer1Case = 20;	//Up Lot1   (3)
 		if (nFmTran1Pos == 4)					  m_nTransfer1Case = 30;	//Up Lot2   (4)
@@ -4363,21 +4381,26 @@ BOOL CSequenceMain::Run_LoadStage1()
 		}
 		break;
 	case 5:	//Inspection Start
-		if (m_pDX04->iLoadStage1TrayExist) {
+		if (m_pDX04->iLoadStage1TrayExist) 
+		{
 			nPortNo1 = m_nRcpPortNo = gData.nPortNo_LoadStage[nStageNo1] - 1;
-			if (gLot.nLotStatus[nPortNo1] == 0) {
+			if (gLot.nLotStatus[nPortNo1] == 0)
+			{
 				gLot.nLotStatus[nPortNo1] = 1;
 				gData.sReadyRecipe = gLot.sRecipeName[nPortNo1];
 				g_objInspector.Set_LotReadyFalse();
 				g_objInspector.Set_LotStart(INSPECTOR_ALL, gLot.sLotID[nPortNo1], nPortNo1+1, gLot.nTrayCount[nPortNo1]-1, gLot.nCmCount[nPortNo1], gLot.sRecipeName[nPortNo1], m_pEquipData->sPROG_VER, m_pEquipData->sPARA_VER, m_pEquipData->bUseCosmeticNG);
 				m_nLoadStage1Case++; m_tLoadStage1Loop.Set_LoopTime(180000);
-			} else {
+			}
+			else
+			{
 				m_nLoadStage1Case = 10; m_tLoadStage1Loop.Set_LoopTime(5000);
 			}
 		}
 		break;
 	case 6:
-		if (g_objInspector.Check_LotReady()) {
+		if (g_objInspector.Check_LotReady())
+		{
 			m_nLoadStage1Case++; m_tLoadStage1Loop.Set_LoopTime(5000);
 		}
 		break;
@@ -4387,19 +4410,22 @@ BOOL CSequenceMain::Run_LoadStage1()
 		return TRUE;
 
 	case 10:	//Align Wait
-		if (m_nLoadStage2Case >= 30) {
+		if (m_nLoadStage2Case >= 30)
+		{
 			m_nLoadStage1Case++; m_tLoadStage1Loop.Set_LoopTime(5000);
 		}
 		return TRUE;
 	case 11:
-		if (m_pDX04->iLoadStage1Up && !m_pDX04->iLoadStage1Down) {
+		if (m_pDX04->iLoadStage1Up && !m_pDX04->iLoadStage1Down) 
+		{
 			m_tLoadStage1Loop.Takt_Save(10, 3); m_tLoadStage1Loop.Takt_Start(10, 4);
 			g_objCommon.Move_Position(AX_LOAD_STAGE_Y1, 3);	//Aling1
 			m_nLoadStage1Case++; m_tLoadStage1Loop.Set_LoopTime(30000);
 		}
 		break;
 	case 12:
-		if (g_objCommon.Check_Position(AX_LOAD_STAGE_Y1, 3)) {
+		if (g_objCommon.Check_Position(AX_LOAD_STAGE_Y1, 3)) 
+		{
 			g_objCommon.Save_Motion(AX_LOAD_STAGE_Y1, 3);
 			m_tLoadStage1Loop.Takt_Save(10, 4); m_tLoadStage1Loop.Takt_Start(10, 5);
 			m_nLoadStage1Case++; m_tLoadStage1Loop.Set_LoopTime(30000);

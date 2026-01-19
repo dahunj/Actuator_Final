@@ -154,14 +154,21 @@ LRESULT CMesAgent::OnClientReceive(WPARAM wParam, LPARAM lParam)
 		} else if (strCmd == "HOST") {
 			if (strOp == "MESSAGE") Get_HostMessage(strArg[0]);
 
-		} else if (strCmd == "MODULE") {
+		} else if (strCmd == "MODULE") 
+		{
 			if (strOp == "DATA1") Get_ModuleData1(strRecv);
 			if (strOp == "DATA2") Get_ModuleData2(strRecv);
-
-		} else if (strCmd == "NGLOT") {
+		} 
+		else if (strCmd == "NGLOT")
+		{
 			if (strOp == "START")  Get_NGLotStart(strArg[0], strArg[1], strArg[2]);
 //			if (strOp == "CANCEL") Get_LotCancel(strArg[0], strArg[1],  strArg[2]);
 
+		}
+		else if (strCmd == "RMS")
+		{
+			if (strOp == "ALREADYDONE") Get_RMSAlreadyDone();
+			if (strOp == "LOADDONE") Get_RMSAlreadyDone();
 		}
 	}
 
@@ -235,6 +242,7 @@ void CMesAgent::Get_LotStart(CString sLotId, CString sRecipe, CString sCmCount, 
 		g_objCommon.Display_MESRecipe(sRecipe);
 	}
 
+	gMes.nLotConfirm[LOAD_STAGE]++;
 	gMes.nLotStatus[nPortNo]++;	//Lot수신1
 	g_objCommon.Set_LotCount(nPortNo+1, sLotId, nCmCount);
 }
@@ -501,6 +509,29 @@ void CMesAgent::Get_ModuleData2(CString sData)
 	g_objCommon.Show_Error(9023);
 }
 
+void CMesAgent::Get_PPSelect(CString sLotId, CString sRecipe)
+{
+	gMes.sHostLotIDTemp = sLotId;
+	gMes.sHostRecipeTemp = sRecipe;
+	if (gMes.sHostLotIDTemp.GetLength() < 5 || gMes.sHostRecipeTemp.GetLength() < 2) 
+	{
+		g_objCommon.Show_Error(9004); return;
+	}
+	gMes.nLotConfirm[LOAD_STAGE] = 2;
+}
+
+void CMesAgent::Get_PPSelectFail(CString sLotId, CString sRecipe, CString sCode, CString sText)
+{
+	gMes.sHostLotIDTemp = sLotId;
+	gMes.sHostRecipeTemp = sRecipe;
+	gMes.sHostCancelCode = sCode;
+	gMes.sHostCancelText = sText;
+	g_objCommon.Show_Error(9030);
+}
+
+
+
+
 void CMesAgent::Get_NGLotStart(CString sNGLotId, CString sNGVendor, CString sNGConfig)
 {
 	gMes.nMarCount = gMes.nMarTrayCount = gMes.nNoReadCount = 0;
@@ -515,6 +546,17 @@ void CMesAgent::Get_NGLotStart(CString sNGLotId, CString sNGVendor, CString sNGC
 
 	gMes.nMarStatus = 2;
 	Set_NGLotStart(gMes.sHostNGLotID);
+}
+
+
+void CMesAgent::Get_RMSAlreadyDone()
+{
+	gData.bRMSDone = TRUE;
+}
+
+void CMesAgent::Get_RMSDone()
+{
+	gData.bRMSDone = TRUE;
 }
 
 ///////////////////////////////////////////////////////////////////////////////
@@ -545,8 +587,18 @@ void CMesAgent::Set_ControlState(int nFlag, CString sOperId)
 
 void CMesAgent::Set_LotStart(int nType, int nPortNo, CString sLotId, CString sRecipe, int nCount)	//0:Request, 1:Started
 {
-	if (nType == 0) gMes.nLotStatus[nPortNo] = 1;	//Lot송신
-	else			gMes.nLotStatus[nPortNo] = 4;	//Lot시작
+	gMes.nLotStatus[nPortNo] = 4;	//Lot시작
+
+	CString strSend;
+	strSend.Format("LOT,START,%d,%s,%s,%d", nType, sLotId, sRecipe, nCount);
+	Send_Command(strSend);
+	m_sStartLot = sLotId;
+}
+
+void CMesAgent::Set_LotIDReport(int nType, int nPortNo, CString sLotId, CString sRecipe, int nCount)	//0:Request, 1:Started
+{
+	gMes.nLotStatus[nPortNo] = 1;	//Lot ID report = Lot 송신
+	
 	CString strSend;
 	strSend.Format("LOT,START,%d,%s,%s,%d", nType, sLotId, sRecipe, nCount);
 	Send_Command(strSend);
@@ -598,6 +650,14 @@ void CMesAgent::Set_IdleReport(CString sOperId, CString sSTime, CString sETime, 
 	CString strSend;
 	strSend.Format("IDLE,REPORT,%s,%s,%s,%s,%s", sOperId, sSTime, sETime, sCode, sType);
 	Send_Command(strSend);
+}
+
+
+void CMesAgent::Set_LotReport(CString sLotID)
+{
+	CString strSend;
+	//strSend.Format("LOT,REPORT,%s,%s,%s,%s,%s", sOperId, sSTime, sETime, sCode, sType);
+	//Send_Command(strSend);
 }
 
 void CMesAgent::Set_RecipeList(int nFlag)						// 0:All, 1:Current Recipe
@@ -771,6 +831,26 @@ void CMesAgent::Set_NGLotEnd(CString sNGLotId, int nMarCount)
 	gMes.nMarStatus = 0;
 	gMes.sHostNGConfig = "";
 }
+
+void CMesAgent::Set_RMSCheck()
+{
+	CString strSend;
+
+	gData.bRMSDone = FALSE;
+
+	strSend.Format("RMS,CHECK");
+	Send_Command(strSend);
+
+}
+
+
+void CMesAgent::Set_PPSelectReport(CString sLotId, CString sVersion)
+{
+	CString strSend; 
+	strSend.Format("RECIPE,REPORT,%s", sVersion);
+	Send_Command(strSend);	
+}
+
 
 ///////////////////////////////////////////////////////////////////////////////
 

@@ -195,9 +195,15 @@ LRESULT CInspector::OnUdpReceive(WPARAM wLocalPort, LPARAM lParam)
 		} else if (strCmd == "HEART") {
 			if (strOp == "BEAT") Get_HeartBeat(nInspector);
 
-		} else if (strCmd == "ALIGN") {
+		}
+		else if (strCmd == "ALIGN")
+		{
 			if (strOp == "COMPLETE") Get_AlignComplete(nInspector, strArg[0], strRecv);
 
+		}
+		else if (strCmd == "RECIPE") 
+		{			
+			if (strOp == "UPDATA") Get_RecipeUpdata();
 		}
 	}
 
@@ -206,6 +212,13 @@ LRESULT CInspector::OnUdpReceive(WPARAM wLocalPort, LPARAM lParam)
 
 ///////////////////////////////////////////////////////////////////////////////
 // Get Command
+
+
+void CInspector::Get_RecipeUpdata()
+{
+	g_objMesAgent.Set_RMSCheck();
+}
+
 
 void CInspector::Get_ConnectRequest(int nInspector)
 {
