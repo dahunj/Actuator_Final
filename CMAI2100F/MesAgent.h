@@ -52,7 +52,7 @@ private:
 
 	void Get_PPSelect(CString sLotId, CString sRecipe);
 	void Get_PPSelectFail(CString sLotId, CString sRecipe, CString sCode, CString sText);
-
+	void Get_PPSelectCompletedReport(CString sLotId, CString sRecipe);
 
 	void Get_NGLotStart(CString sLotId, CString sVendor, CString sConfig);
 	

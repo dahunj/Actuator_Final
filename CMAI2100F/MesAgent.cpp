@@ -146,6 +146,8 @@ LRESULT CMesAgent::OnClientReceive(WPARAM wParam, LPARAM lParam)
 
 		} else if (strCmd == "RECIPE") {
 			if (strOp == "REQUEST") Get_RecipeList(strArg[0]);
+			if (strOp == "SELECT") Get_PPSelect(strArg[0], strArg[1]);
+			if (strOp == "COMPLETE") Get_PPSelectCompletedReport(strArg[0], strArg[1]);
 
 		} else if (strCmd == "CM") {
 			if (strOp == "RESULT") Get_CmResult(strArg[0], strArg[1],  strArg[2], strArg[3], strArg[4], strArg[5]);
@@ -212,15 +214,15 @@ void CMesAgent::Get_LotStart(CString sLotId, CString sRecipe, CString sCmCount, 
 		g_objCommon.Show_Error(9117); return;
 	}
 
-#ifndef AJIN_BOARD_USE
-	nCmCount = 640;
-	sLotId = "TEST1234";
-	sRecipe = "A53B_DPAMS_REV0";
-	sCmCount = "320";
-	sVendor = "DPAMS";
-	sConfig = "";
-
-#endif
+//#ifndef AJIN_BOARD_USE
+//	nCmCount = 640;
+//	sLotId = "TEST1234";
+//	sRecipe = "A53B_DPAMS_REV0";
+//	sCmCount = "320";
+//	sVendor = "DPAMS";
+//	sConfig = "";
+//
+//#endif
 	gMes.nHostRcvCmCount = nCmCount;
 	gMes.sHostCancelLotId = sLotId;
 	gMes.sHostCancelCode = sRecipe;
@@ -253,8 +255,7 @@ void CMesAgent::Get_LotStart(CString sLotId, CString sRecipe, CString sCmCount, 
 		}
 		g_objCommon.Display_MESRecipe(sRecipe);
 	}
-
-	gMes.nLotConfirm[LOAD_STAGE]++;
+		
 	gMes.nLotStatus[nPortNo]++;	//Lot수신1
 	g_objCommon.Set_LotCount(nPortNo+1, sLotId, nCmCount);
 }
@@ -392,6 +393,11 @@ void CMesAgent::Get_ModuleData1(CString sData)
 {
 	CString strLog, sTemp, sCnt, sRcvData[320][11];
 
+#ifndef AJIN_BOARD_USE
+	gMes.nLotConfirm[LOAD_STAGE] = 4;
+	gMes.nLotStatus[0]++;
+	return;
+#endif
 	AfxExtractSubString(sCnt, sData, 2, ',');
 	int nLen = sData.GetLength();
 	int nCnt = atoi(sCnt);
@@ -471,6 +477,8 @@ void CMesAgent::Get_ModuleData2(CString sData)
 {
 	CString strLog, sTemp, sCnt, sRcvData[320][11];
 
+
+
 	AfxExtractSubString(sCnt, sData, 2, ',');
 	int nLen = sData.GetLength();
 	int nCnt = atoi(sCnt);
@@ -483,8 +491,10 @@ void CMesAgent::Get_ModuleData2(CString sData)
 
 	int k=3, nRcvCnt, jx;
 	nRcvCnt = nCnt - 320;
-	for(int i=0; i<nRcvCnt; i++) {
-		for(int j=0; j<11; j++) {
+	for(int i=0; i<nRcvCnt; i++) 
+	{
+		for(int j=0; j<11; j++) 
+		{
 			AfxExtractSubString(sRcvData[i][j], sData, k++, ',');
 		}
 	}
@@ -492,27 +502,36 @@ void CMesAgent::Get_ModuleData2(CString sData)
 	//0:LOTID,1:MODULEID,2:SITE,3:EQPID,4:EQPNAME,5:TOOL_CAVITY,6:PARA,7:DATE,8:ROS_JUDGE,9:DFA_LOTID,10:POCKETNO =>
 	//0:MODULEID,1:SITE,2:EQPID,3:EQPNAME,4:TOOL_CAVITY,5:PARA,6:DATE,7:ROS_JUDGE,8:DFA_LOTID,9:POCKETNO
 //	gLot.sLotID[2] = sRcvData[0][0];	//gjc_test
-	for(int i=0; i<6; i++) {
-		if (gLot.sLotID[i] == sRcvData[0][0]) {
-			for(int j=320; j<nCnt; j++) {
-				for(int k=1; k<11; k++) {
+	for(int i=0; i<6; i++) 
+	{
+
+		if (gLot.sLotID[i] == sRcvData[0][0]) 
+		{
+			for(int j=320; j<nCnt; j++) 
+			{
+				for(int k=1; k<11; k++) 
+				{
 					jx = j - 320;
 					gNG->sModuleID[i][j][k-1] = sRcvData[jx][k];
 				}
 			}
-			gMes.nLotStatus[i]++;	//Lot수신2
+			gMes.nLotStatus[i]++;
+
 
 			strLog.Format("Module Port(%d) Data2: Count(%d) LotID(%s) Module(%s)", i, nCnt, sRcvData[0][0], gNG->sModuleID[i][0][0]);
 			g_objLogFile.Save_MesAgentLog(strLog);
 
-			for(int j=320; j<nCnt; j++) {
+			for(int j=320; j<nCnt; j++) 
+			{
 				sTemp = "";
-				for(int k=0; k<10; k++) {
+				for(int k=0; k<10; k++) 
+				{
 					sTemp += "," + gNG->sModuleID[i][j][k];
 				}
 				strLog.Format("Module Data2: %s", sTemp);
 				g_objLogFile.Save_MesAgentLog(strLog);
 			}
+			gMes.nLotConfirm[LOAD_STAGE] = 4;
 			return;
 		}
 	}
@@ -530,6 +549,14 @@ void CMesAgent::Get_PPSelect(CString sLotId, CString sRecipe)
 		g_objCommon.Show_Error(9004); return;
 	}
 	gMes.nLotConfirm[LOAD_STAGE] = 2;
+}
+
+void CMesAgent::Get_PPSelectCompletedReport(CString sLotId, CString sRecipe)
+{
+	gMes.sHostLotIDTemp = sLotId;
+	gMes.sHostRecipeTemp = sRecipe;
+
+	gMes.nLotConfirm[LOAD_STAGE] = 3;
 }
 
 void CMesAgent::Get_PPSelectFail(CString sLotId, CString sRecipe, CString sCode, CString sText)

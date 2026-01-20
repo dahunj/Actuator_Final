@@ -231,15 +231,13 @@ void CErrorDlg::OnShowWindow(BOOL bShow, UINT nStatus)
 			m_btnErrRetry.EnableWindow(FALSE);
 		}
 
-		if (m_nErrNo == 3990 || m_nErrNo == 3991 ||
-			m_nErrNo == 4490 || m_nErrNo == 4491 ) 
+		if (m_nErrNo == 3090 || m_nErrNo == 3091 || m_nErrNo == 3092) 
 		{ 
-				int nCase1 = g_objSequenceMain.Get_MainRunCase(AUTO_LOAD_STAGE_1);
-				int nCase2 = g_objSequenceMain.Get_MainRunCase(AUTO_LOAD_STAGE_2);
-				if (nCase1 > 5 && nCase1 < 8) g_objSequenceMain.Set_MainRunCase(AUTO_LOAD_STAGE_1, 6);
-				if (nCase2 > 5 && nCase2 < 8) g_objSequenceMain.Set_MainRunCase(AUTO_LOAD_STAGE_2, 6);
-				if (nCase1 == -9 || nCase1 == -10) g_objSequenceMain.Set_MainRunCase(AUTO_LOAD_STAGE_1, 6);
-				if (nCase2 == -9 || nCase2== -10) g_objSequenceMain.Set_MainRunCase(AUTO_LOAD_STAGE_2, 6);
+				int nCase1 = g_objSequenceMain.Get_MainRunCase(AUTO_TRANSFER_1);
+				
+				if (nCase1 >= 90 && nCase1 <= 92) g_objSequenceMain.Set_MainRunCase(AUTO_TRANSFER_1, 6);
+			
+				
 		}
 
 
