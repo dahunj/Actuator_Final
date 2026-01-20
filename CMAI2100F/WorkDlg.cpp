@@ -1022,10 +1022,24 @@ BOOL CWorkDlg::LotID_MESCheck()
 {
 	CString strMsg, sLotID[6], sCMCount, sTyCount;
 
-	for(int i=0; i<6; i++) m_stcLotsIdS[i].GetWindowText(sLotID[i]);
-	for(int i=0; i<6; i++) {
-		for(int j=0; j<6; j++) {
-			if (i != j && sLotID[i].GetLength() > 0 && sLotID[i] == sLotID[j]) {
+	for(int i=0; i<6; i++)
+	{
+#ifndef AJIN_BOARD_USE
+		sCMCount = "320";
+		sTyCount = "9";
+		sLotID[i].Format("%s%d","Test",i);
+		m_stcCmsCountS[i].SetWindowText(sCMCount);
+		m_stcTrayCountS[i].SetWindowText(sTyCount);
+		m_stcLotsIdS[i].SetWindowText(sLotID[i]);
+#endif
+		m_stcLotsIdS[i].GetWindowText(sLotID[i]);
+	}
+	for(int i=0; i<6; i++) 
+	{
+		for(int j=0; j<6; j++) 
+		{
+			if (i != j && sLotID[i].GetLength() > 0 && sLotID[i] == sLotID[j]) 
+			{
 				if (gData.nLanguage == 0) strMsg.Format("[%d-%d]에 동일 Lot ID가 있습니다........", i+1, j+1);
 				else					  strMsg.Format("[%d-%d] has the same Lot ID........", i+1, j+1);
 				g_objCommon.Show_MsgBox(1, strMsg);
@@ -1038,6 +1052,7 @@ BOOL CWorkDlg::LotID_MESCheck()
 		if (sLotID[i].GetLength() > 0) {
 			m_stcCmsCountS[i].GetWindowText(sCMCount);
 			m_stcTrayCountS[i].GetWindowText(sTyCount);
+
 
 			int nCMCount = atoi(sCMCount);
 			int nTyCount = atoi(sTyCount);

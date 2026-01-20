@@ -208,9 +208,12 @@ void CErrorDlg::OnShowWindow(BOOL bShow, UINT nStatus)
 		// 로더/언로더 피커에서 버큠실패, 검사완료 실패, Laser Check
 //		if (m_nErrNo == 5010 || m_nErrNo == 5017 || m_nErrNo == 5022 || m_nErrNo == 5047 || m_nErrNo == 5056 ||
 //			m_nErrNo == 5510 || m_nErrNo == 5517 || m_nErrNo == 5522 || m_nErrNo == 5547 || m_nErrNo == 5556 ||
-		if (m_nErrNo == 7012 || m_nErrNo == 7512) {
+		if (m_nErrNo == 7012 || m_nErrNo == 7512)
+		{
 			m_btnErrSkip.EnableWindow(TRUE);
-		} else {
+		} 
+		else
+		{
 			m_btnErrSkip.EnableWindow(FALSE);
 		}
 		if (m_nErrNo == 4014 || m_nErrNo == 4016 || m_nErrNo == 4018 || m_nErrNo == 4019 || m_nErrNo == 4514 || m_nErrNo == 4516 || m_nErrNo == 4518 ||  m_nErrNo == 4519 || 
@@ -219,11 +222,26 @@ void CErrorDlg::OnShowWindow(BOOL bShow, UINT nStatus)
 			m_nErrNo == 6008 || m_nErrNo == 6012 || m_nErrNo == 6018 || m_nErrNo == 6208 || m_nErrNo == 6212 || m_nErrNo == 6218 ||
 			m_nErrNo == 6408 || m_nErrNo == 6412 || m_nErrNo == 6418 || m_nErrNo == 6608 || m_nErrNo == 6612 || m_nErrNo == 6618 ||
 			m_nErrNo == 7007 || m_nErrNo == 7507 ||
-			m_nErrNo == 8804 || m_nErrNo == 8806 || m_nErrNo == 8808) {
+			m_nErrNo == 8804 || m_nErrNo == 8806 || m_nErrNo == 8808)
+		{
 			m_btnErrRetry.EnableWindow(TRUE);
-		} else {
+		} 
+		else
+		{
 			m_btnErrRetry.EnableWindow(FALSE);
 		}
+
+		if (m_nErrNo == 3990 || m_nErrNo == 3991 ||
+			m_nErrNo == 4490 || m_nErrNo == 4491 ) 
+		{ 
+				int nCase1 = g_objSequenceMain.Get_MainRunCase(AUTO_LOAD_STAGE_1);
+				int nCase2 = g_objSequenceMain.Get_MainRunCase(AUTO_LOAD_STAGE_2);
+				if (nCase1 > 5 && nCase1 < 8) g_objSequenceMain.Set_MainRunCase(AUTO_LOAD_STAGE_1, 6);
+				if (nCase2 > 5 && nCase2 < 8) g_objSequenceMain.Set_MainRunCase(AUTO_LOAD_STAGE_2, 6);
+				if (nCase1 == -9 || nCase1 == -10) g_objSequenceMain.Set_MainRunCase(AUTO_LOAD_STAGE_1, 6);
+				if (nCase2 == -9 || nCase2== -10) g_objSequenceMain.Set_MainRunCase(AUTO_LOAD_STAGE_2, 6);
+		}
+
 
 		m_strErrMsg = strErrMsg + strErrPick + m_strErrSubMsg;
 
@@ -274,7 +292,9 @@ void CErrorDlg::OnShowWindow(BOOL bShow, UINT nStatus)
 		g_objDispatcher.Set_StatusUpdate(2);	// 0:Stop, 1:Run, 2:Error
 		SetTimer(0, 100, NULL);
 		
-	} else {
+	} 
+	else
+	{
 		KillTimer(0);
 
 		m_strErrSubMsg = "";
