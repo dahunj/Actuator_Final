@@ -148,6 +148,7 @@ LRESULT CMesAgent::OnClientReceive(WPARAM wParam, LPARAM lParam)
 			if (strOp == "REQUEST") Get_RecipeList(strArg[0]);
 			if (strOp == "SELECT") Get_PPSelect(strArg[0], strArg[1]);
 			if (strOp == "COMPLETE") Get_PPSelectCompletedReport(strArg[0], strArg[1]);
+			if (strOp == "FAIL")	Get_PPSelectFail(strArg[0], strArg[1], strArg[2], strArg[3]);
 
 		} else if (strCmd == "CM") {
 			if (strOp == "RESULT") Get_CmResult(strArg[0], strArg[1],  strArg[2], strArg[3], strArg[4], strArg[5]);

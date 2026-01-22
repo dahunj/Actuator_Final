@@ -202,6 +202,9 @@ void CErrorDlg::OnShowWindow(BOOL bShow, UINT nStatus)
 		if (m_nErrNo == 9180) strErrPick.Format(" #[%s]비전 PC에서 Groval Align Fail이 발생하였습니다.#제품 Loading 상태를 확인해 주세요.", gAlm.sAlmLotID[1]);
 		if (m_nErrNo > 9200 && m_nErrNo < 9210) strErrPick.Format(" #==> [%s]비전에서 발생하였습니다.", gAlm.sAlmLotID[1]);
 
+		if (m_nErrNo == 9030) strErrPick.Format(" #==> LotID[%s] RecipeID[%s] Code[%s] #   Text[%s]", gMes.sHostLotIDTemp, gMes.sHostRecipeTemp, gMes.sHostCancelCode, gMes.sHostCancelText);
+
+
 		//공짜로 해주기 싫다 주석~
 		//if (m_nErrNo == 9211) strErrPick.Format(" #==> Barcode [%s] PortNo[%d] TrayNo[%d] Position[%d]", gAlm.sAlmLotID[1], gAlm.nTempPNo, gAlm.nTempTNo, gAlm.nTempMNo);
 		
