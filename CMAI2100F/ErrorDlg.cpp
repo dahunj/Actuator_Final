@@ -234,7 +234,7 @@ void CErrorDlg::OnShowWindow(BOOL bShow, UINT nStatus)
 			m_btnErrRetry.EnableWindow(FALSE);
 		}
 
-		if (m_nErrNo == 3090 || m_nErrNo == 3091 || m_nErrNo == 3092) 
+		if (m_nErrNo == 3090 || m_nErrNo == 3091 || m_nErrNo == 3092 || m_nErrNo ==9030) 
 		{ 
 				int nCase1 = g_objSequenceMain.Get_MainRunCase(AUTO_TRANSFER_1);
 				

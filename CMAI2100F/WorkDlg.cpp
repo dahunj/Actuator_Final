@@ -372,7 +372,7 @@ void CWorkDlg::OnStcCmsCountSClick(UINT nID)
 		return;
 	}
 */
-	EQUIP_DATA *pEquipData = g_objDataManager.Get_pEquipData();
+	/*EQUIP_DATA *pEquipData = g_objDataManager.Get_pEquipData();
 	if (pEquipData->bUseMES) {
 		m_stcLotsIdS[ID].GetWindowText(strValue);
 		if (strValue.GetLength() > 0 && (gMes.nLotStatus[ID] == 0 || gMes.nLotStatus[ID] == 9 || strValue != gLot.sLotID[ID])) {
@@ -380,7 +380,7 @@ void CWorkDlg::OnStcCmsCountSClick(UINT nID)
 			g_objMesAgent.Set_LotStart(0, ID, gLot.sLotID[ID], gData.sRecipeName, gLot.nCmCount[ID]);
 		}
 		return;
-	}
+	}*/
 
 	m_stcCmsCountS[ID].GetWindowText(strOld);
 	if (g_objCommon.Show_NumPad(strOld, strNew) != IDOK) return;

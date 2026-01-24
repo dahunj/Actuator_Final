@@ -3042,44 +3042,44 @@ BOOL CSequenceMain::Run_Transfer1()
 			//gMes.nLotPortNo = nPort1No;
 			//Type 0 Lot Start : Lot ID Report 
 			g_objMesAgent.Set_LotIDReport(0, nPort1No-1, gLot.sLotID[nPort1No-1], gData.sRecipeName, gLot.nCmCount[nPort1No-1]);
-			m_nTransfer1Case++; m_tTransfer1Loop.Set_LoopTime(30000);
+			m_nTransfer1Case++; m_tTransfer1Loop.Set_LoopTime(5000);
 		}
 		else
 		{
 			if (!m_pEquipData->bUseMES && nPort1No > 0) gLot.sRecipeName[nPort1No-1] = gData.sRecipeName;
-			m_nTransfer1Case = 8; m_tTransfer1Loop.Set_LoopTime(30000);
+			m_nTransfer1Case = 8; m_tTransfer1Loop.Set_LoopTime(5000);
 		}
 		break;
 	case 7:
 		if (!m_pEquipData->bUseMES)
 		{
 			gLot.sRecipeName[nPort1No-1] = gData.sRecipeName;
-			m_nTransfer1Case = 8;m_tTransfer1Loop.Set_LoopTime(30000);
+			m_nTransfer1Case = 8;m_tTransfer1Loop.Set_LoopTime(5000);
 		}
 		else
 		{
-			m_nTransfer1Case = 90; m_tTransfer1Loop.Set_LoopTime(30000);
+			m_nTransfer1Case = 90; m_tTransfer1Loop.Set_LoopTime(5000);
 		}
 		break;
 	case 90:
 		if(gData.bRMSDone && gMes.nLotConfirm[LOAD_STAGE] >= 2)
 		{
 			gMes.sHostLotIDTemp = gLot.sLotID[nPort1No-1];
-			g_objMesAgent.Set_PPSelectReport(gMes.sHostLotIDTemp, gMes.sHostRecipe[nPort1No-1]);
-			m_nTransfer1Case++; m_tTransfer1Loop.Set_LoopTime(20000);			
+			g_objMesAgent.Set_PPSelectReport(gMes.sHostLotIDTemp, gMes.sHostRecipeTemp);//gMes.sHostRecipe[nPort1No-1]);
+			m_nTransfer1Case++; m_tTransfer1Loop.Set_LoopTime(5000);			
 		}
 		break;
 	case 91:
 		if(gMes.nLotConfirm[LOAD_STAGE] >= 3)
 		{
-			m_nTransfer1Case++; m_tTransfer1Loop.Set_LoopTime(20000);
+			m_nTransfer1Case++; m_tTransfer1Loop.Set_LoopTime(5000);
 		}		
 		break;
 	case 92:
 		if(gMes.nLotConfirm[LOAD_STAGE] >= 4 && gMes.nLotStatus[nPort1No-1] >= 3)
 		{			
-			gLot.sRecipeName[nPort1No-1] = gMes.sHostRecipe[nPort1No-1];
-			m_nTransfer1Case = 8; m_tTransfer1Loop.Set_LoopTime(20000);				
+			gLot.sRecipeName[nPort1No-1] = gMes.sHostRecipeTemp;
+			m_nTransfer1Case = 8; m_tTransfer1Loop.Set_LoopTime(5000);				
 		}
 		break;
 	case 8:	// Tray Up
