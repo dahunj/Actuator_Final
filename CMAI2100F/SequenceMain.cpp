@@ -1270,7 +1270,8 @@ BOOL CSequenceMain::Get_TrayPosition(int nPNo, int nJobNo, int nPosX, int nPosY,
 	m_pMoveData  = g_objDataManager.Get_pMoveData();
 
 	//(0,0) (3,0) (3,9) 점 좌표계산 (30,28)
-	if (nJobNo == 1) {	//NG1
+	if (nJobNo == 1) //NG1
+	{	
 		dX[0] = (nPNo == 1 ? m_pMoveData->dUnloadPickerX1[5] : m_pMoveData->dUnloadPickerX2[5]);
 		dY[0] = m_pMoveData->dNGStageY1[3];			//(0,0)
 		dX[1] = (nPNo == 1 ? m_pMoveData->dUnloadPickerX1[9] : m_pMoveData->dUnloadPickerX2[9]);
@@ -1278,7 +1279,8 @@ BOOL CSequenceMain::Get_TrayPosition(int nPNo, int nJobNo, int nPosX, int nPosY,
 		dX[2] = (nPNo == 1 ? m_pMoveData->dUnloadPickerX1[10] : m_pMoveData->dUnloadPickerX2[10]);
 		dY[2] = m_pMoveData->dNGStageY1[5];			//(3,9)
 	}
-	if (nJobNo == 2) {	//NG2
+	if (nJobNo == 2) //NG2 
+	{	
 		dX[0] = (nPNo == 1 ? m_pMoveData->dUnloadPickerX1[6] : m_pMoveData->dUnloadPickerX2[6]);
 		dY[0] = m_pMoveData->dNGStageY2[3];			//(0,0)
 		dX[1] = (nPNo == 1 ? m_pMoveData->dUnloadPickerX1[11] : m_pMoveData->dUnloadPickerX2[11]);
@@ -1286,7 +1288,8 @@ BOOL CSequenceMain::Get_TrayPosition(int nPNo, int nJobNo, int nPosX, int nPosY,
 		dX[2] = (nPNo == 1 ? m_pMoveData->dUnloadPickerX1[12] : m_pMoveData->dUnloadPickerX2[12]);
 		dY[2] = m_pMoveData->dNGStageY2[5];			//(3,9)
 	}
-	if (nJobNo == 3) {	//Good1
+	if (nJobNo == 3) //Good1
+	{	
 		dX[0] = (nPNo == 1 ? m_pMoveData->dUnloadPickerX1[7] : m_pMoveData->dUnloadPickerX2[7]);
 		dY[0] = m_pMoveData->dGoodStageY1[3];		//(0,0)
 		dX[1] = (nPNo == 1 ? m_pMoveData->dUnloadPickerX1[13] : m_pMoveData->dUnloadPickerX2[13]);
@@ -1294,7 +1297,8 @@ BOOL CSequenceMain::Get_TrayPosition(int nPNo, int nJobNo, int nPosX, int nPosY,
 		dX[2] = (nPNo == 1 ? m_pMoveData->dUnloadPickerX1[14] : m_pMoveData->dUnloadPickerX2[14]);
 		dY[2] = m_pMoveData->dGoodStageY1[5];		//(3,9)
 	}
-	if (nJobNo == 4) {	//Good2
+	if (nJobNo == 4) //Good2 
+	{	
 		dX[0] = (nPNo == 1 ? m_pMoveData->dUnloadPickerX1[8] : m_pMoveData->dUnloadPickerX2[8]);
 		dY[0] = m_pMoveData->dGoodStageY2[3];		//(0,0)
 		dX[1] = (nPNo == 1 ? m_pMoveData->dUnloadPickerX1[15] : m_pMoveData->dUnloadPickerX2[15]);
@@ -1304,7 +1308,8 @@ BOOL CSequenceMain::Get_TrayPosition(int nPNo, int nJobNo, int nPosX, int nPosY,
 	}
 
 	//(0,0) (3,0) (3,9) 위치에 Vision Align 편차 계산
-	if (m_pEquipData->bUseAlign2) {
+	if (m_pEquipData->bUseAlign2)
+	{
 		dX[0] = dX[0] + gData.dAlignVisionX[nJobNo-1][0];
 		dY[0] = dY[0] + gData.dAlignVisionY[nJobNo-1][0];
 		dX[1] = dX[1] + gData.dAlignVisionX[nJobNo-1][1];
@@ -8514,27 +8519,33 @@ BOOL CSequenceMain::Run_UnloadPicker1()
 	static int n1VNo, n1NSNo, n1ModuleNo, n1PosX, n1PosY, n1UP, n1UT, n1UM, nJudgeNo1;
 	static double d1PosX, d1PosY;
 
-	switch (m_nUnloadPicker1Case) {
+	switch (m_nUnloadPicker1Case) 
+	{
 	case 0:	// Wait
 		n1VNo = 0;
 		if (m_nVisionStage1Case == 30) n1VNo = 1;
 		if (m_nVisionStage2Case == 30) n1VNo = 2;
 		if (m_nVisionStage3Case == 30) n1VNo = 3;
 		if (m_nVisionStage4Case == 30) n1VNo = 4;
-		if (n1VNo > 0) {
-			if (gData.nTrayNo_VisionStage[n1VNo-1] > 0) {
+		if (n1VNo > 0) 
+		{
+			if (gData.nTrayNo_VisionStage[n1VNo-1] > 0) 
+			{
 				m_nUnloadPicker1Case++; m_tUnloadPicker1Loop.Set_LoopTime(5000);
 
 				m_sLog.Format("[UnloadPicker1: Start] Inspection StageNo(%d)", n1VNo);
 				g_objLogFile.Save_HandlerLog(m_sLog);
-			} else {
+			}
+			else
+			{
 				if (m_nVisionStage1Case == 30) m_nVisionStage1Case = 31;
 				if (m_nVisionStage2Case == 30) m_nVisionStage2Case = 31;
 				if (m_nVisionStage3Case == 30) m_nVisionStage3Case = 31;
 				if (m_nVisionStage4Case == 30) m_nVisionStage4Case = 31;
 			}
 		}
-		if (Check_EmptyUnloadPicker()) {
+		if (Check_EmptyUnloadPicker()) 
+		{
 			if (m_nNGStage1Case == 30) m_nNGStage1Case = 31;
 			if (m_nNGStage2Case == 30) m_nNGStage2Case = 31;
 			if (m_nGoodStage1Case == 30) m_nGoodStage1Case = 31;
@@ -8543,8 +8554,10 @@ BOOL CSequenceMain::Run_UnloadPicker1()
 		return TRUE;
 
 	case 1:
-		if (g_objCommon.Check_Position(AX_UNLOAD_PICKER_Z1, 0)) {
-			if (g_objCommon.Get_UnloadPickerUp(n1No)) {
+		if (g_objCommon.Check_Position(AX_UNLOAD_PICKER_Z1, 0)) 
+		{
+			if (g_objCommon.Get_UnloadPickerUp(n1No))
+			{
 				g_objCommon.Move_Position(AX_UNLOAD_PICKER_X1, n1VNo);
 				g_objCommon.Move_Position(AX_UNLOAD_PICKER_Y1, n1VNo);
 				g_objCommon.Move_Position(AX_UNLOAD_PICKER_P1, 0);
@@ -8586,7 +8599,8 @@ BOOL CSequenceMain::Run_UnloadPicker1()
 		}
 		break;
 	case 4:
-		if (g_objCommon.Check_Position(AX_UNLOAD_PICKER_Z1, n1VNo)) {
+		if (g_objCommon.Check_Position(AX_UNLOAD_PICKER_Z1, n1VNo))
+		{
 			g_objCommon.Save_Motion(AX_UNLOAD_PICKER_Z1, n1VNo);
 			m_tUnloadPicker1Loop.Takt_Save(18, 2); m_tUnloadPicker1Loop.Takt_Start(18, 3); 
 			g_objCommon.Set_VisionVacuumOff(n1VNo);
@@ -8595,7 +8609,8 @@ BOOL CSequenceMain::Run_UnloadPicker1()
 		}
 		break;
 	case 5:
-		if (g_objCommon.Get_UnloadPickerClose(n1No)) {
+		if (g_objCommon.Get_UnloadPickerClose(n1No)) 
+		{
 			if (!m_tUnloadPicker1Loop.Waiting_Time(m_pEquipData->nDelayTime[8])) break;
 			m_tUnloadPicker1Loop.Takt_Save(18, 3); m_tUnloadPicker1Loop.Takt_Start(18, 4); 
 			g_objCommon.Move_Position(AX_UNLOAD_PICKER_Z1, 0);
@@ -8604,8 +8619,10 @@ BOOL CSequenceMain::Run_UnloadPicker1()
 		}
 		break;
 	case 6:
-		if (g_objCommon.Check_Position(AX_UNLOAD_PICKER_Z1, 0)) {
-			if (g_objCommon.Get_UnloadPickerUp(n1No)) {
+		if (g_objCommon.Check_Position(AX_UNLOAD_PICKER_Z1, 0))
+		{
+			if (g_objCommon.Get_UnloadPickerUp(n1No)) 
+			{
 				g_objCommon.Save_Motion(AX_UNLOAD_PICKER_Z1, 0);
 				m_tUnloadPicker1Loop.Takt_Save(18, 4); m_tUnloadPicker1Loop.Takt_Start(18, 5); 
 				m_nUnloadPicker1Case++; m_tUnloadPicker1Loop.Set_LoopTime(30000);
@@ -8613,8 +8630,10 @@ BOOL CSequenceMain::Run_UnloadPicker1()
 		}
 		break;
 	case 7:
-		if (g_objCommon.Get_UnloadPickerCheck(n1No, 9, gData.InfoUnloadPick[n1No-1])) {
-			if (g_objCommon.Get_UnloadPickerUp(n1No)) {
+		if (g_objCommon.Get_UnloadPickerCheck(n1No, 9, gData.InfoUnloadPick[n1No-1])) 
+		{
+			if (g_objCommon.Get_UnloadPickerUp(n1No))
+			{
 				m_tUnloadPicker1Loop.Takt_Save(18, 5); m_tUnloadPicker1Loop.Takt_Start(18, 6); 
 				if (m_nVisionStage1Case == 30) m_nVisionStage1Case = 31;
 				if (m_nVisionStage2Case == 30) m_nVisionStage2Case = 31;
@@ -8627,15 +8646,16 @@ BOOL CSequenceMain::Run_UnloadPicker1()
 		break;
 
 	case 10:
-		if (m_nUnloadPicker2Case > 33 && m_nUnloadPicker2Case < 70) {
-			g_objCommon.Move_Position(AX_UNLOAD_PICKER_X1, 5);
+		if (m_nUnloadPicker2Case > 33 && m_nUnloadPicker2Case < 70)
+		{
+			g_objCommon.Move_Position(AX_UNLOAD_PICKER_X1, UNLOAD_PICKER1_X_NG_STAGE1_11);
 			g_objCommon.Move_Position(AX_UNLOAD_PICKER_P1, 1);
 			m_nUnloadPicker1Case++; m_tUnloadPicker1Loop.Set_LoopTime(30000);
 		}
 		return TRUE;
 	case 11:
-		if (g_objCommon.Check_Position(AX_UNLOAD_PICKER_X1, 5) && g_objCommon.Check_Position(AX_UNLOAD_PICKER_P1, 1)) {
-			g_objCommon.Save_Motion(AX_UNLOAD_PICKER_X1, 5);	g_objCommon.Save_Motion(AX_UNLOAD_PICKER_P1, 1);
+		if (g_objCommon.Check_Position(AX_UNLOAD_PICKER_X1, UNLOAD_PICKER1_X_NG_STAGE1_11) && g_objCommon.Check_Position(AX_UNLOAD_PICKER_P1, 1)) {
+			g_objCommon.Save_Motion(AX_UNLOAD_PICKER_X1, UNLOAD_PICKER1_X_NG_STAGE1_11);	g_objCommon.Save_Motion(AX_UNLOAD_PICKER_P1, 1);
 			gAlm.sAlmLID[0] = gData.sLotID_UnloadPicker[n1No-1]; gAlm.nAlmTNo[0] = gData.nTrayNo_UnloadPicker[n1No-1]; gAlm.nAlmPNo[0] = gData.InfoUnloadPick[n1No-1][9];
 			m_nUnloadPicker1Case++; m_tUnloadPicker1Loop.Set_LoopTime(m_pEquipData->nTimeOver[0]);
 		}
@@ -8656,16 +8676,23 @@ BOOL CSequenceMain::Run_UnloadPicker1()
 		break;
 
 	case 14:
-		if (!m_pEquipData->bUseMES || gMes.nMarStatus == 2) {	// 0:None, 1:요청, 2:Start수신 Run, 3:End송신
+		// 0:None, 1:요청, 2:Start수신 Run, 3:End송신
+		if (!m_pEquipData->bUseMES || gMes.nMarStatus == 2) 
+		{	
 			m_nUnloadPicker1Case = 17; m_tUnloadPicker1Loop.Set_LoopTime(30000);
-		} else {
+		}
+		else
+		{
 			m_nUnloadPicker1Case++; m_tUnloadPicker1Loop.Set_LoopTime(30000);
 		}
 		break;
 	case 15:
-		if (gMes.nMarStatus == 3) {
+		if (gMes.nMarStatus == 3) 
+		{
 			m_nUnloadPicker1Case = 14; m_tUnloadPicker1Loop.Set_LoopTime(30000);
-		} else {
+		}
+		else
+		{
 			gMes.nMarStatus = gMes.nMarCount = gMes.nMarTrayCount = gMes.nNGLotCount = gMes.nManualEnd = 0;
 			gMes.sHostNGLotID = gMes.sHostNGVendor = gMes.sStartTime = gMes.sEndTime = "";
 
@@ -8700,10 +8727,15 @@ BOOL CSequenceMain::Run_UnloadPicker1()
 		int nType;
 		n1ModuleNo = Check_NGExist(n1No, nType);
 		nJudgeNo1 = nType;
-		if (n1ModuleNo > 0) {
+		if (n1ModuleNo > 0) 
+		{
 			m_nUnloadPicker1Case = 21; m_tUnloadPicker1Loop.Set_LoopTime(30000);
-		} else {
-			if (gMes.nManualEnd == 1) {	//NGLot수동완공
+		} 
+		else
+		{
+			//NGLot수동완공
+			if (gMes.nManualEnd == 1) 
+			{	
 				g_objMesAgent.Set_NGLotEnd(gMes.sHostNGLotID, gMes.nMarCount);
 				m_nUnloadPicker1Case = 18; m_tUnloadPicker1Loop.Set_LoopTime(60000);
 				gMes.nManualEnd = 0;
@@ -8715,7 +8747,8 @@ BOOL CSequenceMain::Run_UnloadPicker1()
 							gMes.sHostNGLotID, gMes.nMarCount, gMes.nMarTrayCount, gData.nMgnTrayCount, gMes.nMarStatus, m_nNGStage1Case, m_nNGStage2Case, gData.nNGLot_NGTray[0] , gData.nNGLot_NGTray[1]);
 				g_objLogFile.Save_HandlerLog(m_sLog);
 
-				if (!m_pEquipData->bUseMES) {
+				if (!m_pEquipData->bUseMES) 
+				{
 					gMes.nMarStatus = gMes.nMarCount = gMes.nMarTrayCount = gMes.nNGLotCount = gMes.nManualEnd = 0;
 				}
 			}
@@ -8724,12 +8757,14 @@ BOOL CSequenceMain::Run_UnloadPicker1()
 		}
 		break;
 	case 20:
-		if (m_nUnloadPicker2Case < 20 || (m_nUnloadPicker2Case > 42 && m_nUnloadPicker2Case < 70)) {
+		if (m_nUnloadPicker2Case < 20 || (m_nUnloadPicker2Case > 42 && m_nUnloadPicker2Case < 70)) 
+		{
 			m_nUnloadPicker1Case = 30; m_tUnloadPicker1Loop.Set_LoopTime(30000);
 		}
 		return TRUE;
 	case 21:
-		if (m_nUnloadPicker2Case < 20 || (m_nUnloadPicker2Case > 42 && m_nUnloadPicker2Case < 70)) {
+		if (m_nUnloadPicker2Case < 20 || (m_nUnloadPicker2Case > 42 && m_nUnloadPicker2Case < 70)) 
+		{
 			n1NSNo = 0;
 //			if (m_nNGStage1Case == 30 && !m_pDX11->iNGStage1TrayExist && gData.nPortNo_NGTray[0] < 1) m_nNGStage1Case = 31;
 //			if (m_nNGStage2Case == 30 && !m_pDX11->iNGStage2TrayExist && gData.nPortNo_NGTray[1] < 1) m_nNGStage2Case = 31;
@@ -8738,12 +8773,17 @@ BOOL CSequenceMain::Run_UnloadPicker1()
 
 			if (m_nNGStage1Case == 30) n1NSNo = 5;
 			if (m_nNGStage2Case == 30) n1NSNo = 6;
-			if (n1NSNo > 0) {
-				if (Select_NGTrayPoketNo(nJudgeNo1, n1PosX, n1PosY)) {
+			if (n1NSNo > 0) 
+			{
+				if (Select_NGTrayPoketNo(nJudgeNo1, n1PosX, n1PosY)) 
+				{
 					g_objCommon.Move_Position(AX_UNLOAD_PICKER_Y1, n1NSNo);
 					m_nUnloadPicker1Case++; m_tUnloadPicker1Loop.Set_LoopTime(30000);
-				} else {
-					if (gMes.nMarTrayCount >= gData.nMgnTrayCount) {	//NGLot자동완공
+				}
+				else
+				{
+					if (gMes.nMarTrayCount >= gData.nMgnTrayCount) 
+					{	//NGLot자동완공
 						g_objMesAgent.Set_NGLotEnd(gMes.sHostNGLotID, gMes.nMarCount);
 						m_nUnloadPicker1Case = 18; m_tUnloadPicker1Loop.Set_LoopTime(60000);
 
@@ -8754,10 +8794,13 @@ BOOL CSequenceMain::Run_UnloadPicker1()
 										gMes.sHostNGLotID, gMes.nMarCount, gMes.nMarTrayCount, gData.nMgnTrayCount, gMes.nMarStatus, m_nNGStage1Case, m_nNGStage2Case, gData.nNGLot_NGTray[0] , gData.nNGLot_NGTray[1]);
 						g_objLogFile.Save_HandlerLog(m_sLog);
 
-						if (!m_pEquipData->bUseMES) {
+						if (!m_pEquipData->bUseMES) 
+						{
 							gMes.nMarStatus = gMes.nMarCount = gMes.nMarTrayCount = gMes.nNGLotCount = gMes.nManualEnd = 0;
 						}
-					} else {
+					} 
+					else
+					{
 						if (m_nNGStage1Case == 30) { m_nNGStage1Case = 31; gData.nNGLot_NGTray[0] = 0; }
 						if (m_nNGStage2Case == 30) { m_nNGStage2Case = 31; gData.nNGLot_NGTray[1] = 0; }
 					}
@@ -8766,8 +8809,10 @@ BOOL CSequenceMain::Run_UnloadPicker1()
 		}
 		return TRUE;
 	case 22:
-		if (g_objCommon.Check_Position(AX_UNLOAD_PICKER_Y1, n1NSNo)) {
-			if (Get_TrayPosition(n1No, (n1NSNo-4), n1PosX, n1PosY, d1PosX, d1PosY)) {
+		if (g_objCommon.Check_Position(AX_UNLOAD_PICKER_Y1, n1NSNo)) 
+		{
+			if (Get_TrayPosition(n1No, (n1NSNo-4), n1PosX, n1PosY, d1PosX, d1PosY)) 
+			{
 				g_objCommon.Save_Motion(AX_UNLOAD_PICKER_Y1, n1NSNo);
 				m_tUnloadPicker1Loop.Takt_Save(18, 8); m_tUnloadPicker1Loop.Takt_Start(18, 9); 
 //				d1PosX = d1PosX + (m_pEquipData->dTrayPitchX * (n1ModuleNo - n1PosX));
@@ -8783,14 +8828,16 @@ BOOL CSequenceMain::Run_UnloadPicker1()
 		}
 		break;
 	case 23:
-		if (g_objAJinAXL.Is_MoveDone(AX_UNLOAD_PICKER_X1, d1PosX)) {
+		if (g_objAJinAXL.Is_MoveDone(AX_UNLOAD_PICKER_X1, d1PosX))
+		{
 			g_objCommon.Save_Motion(AX_UNLOAD_PICKER_X1, -1, d1PosX);
 			m_nUnloadPicker1Case++; m_tUnloadPicker1Loop.Set_LoopTime(30000);
 		}
 		break;
 	case 24:
 		if ((n1NSNo==5 && g_objAJinAXL.Is_MoveDone(AX_NG_STAGE_Y1, d1PosY)) ||
-			(n1NSNo==6 && g_objAJinAXL.Is_MoveDone(AX_NG_STAGE_Y2, d1PosY)) ) {
+			(n1NSNo==6 && g_objAJinAXL.Is_MoveDone(AX_NG_STAGE_Y2, d1PosY)) ) 
+		{
 			if (n1NSNo==5) g_objCommon.Save_Motion(AX_NG_STAGE_Y1, -1, d1PosY);
 			if (n1NSNo==6) g_objCommon.Save_Motion(AX_NG_STAGE_Y2, -1, d1PosY);
 			m_tUnloadPicker1Loop.Takt_Save(18, 9); m_tUnloadPicker1Loop.Takt_Start(18, 10); 
@@ -9057,12 +9104,18 @@ BOOL CSequenceMain::Run_UnloadPicker1()
 		break;
 
 	case 81:
-		if (g_objCommon.Get_UnloadPickerUp(n1No)) {
-			if (g_objCommon.Get_UnloadPickerCheck(n1No, 9, gData.InfoUnloadPick[n1No-1])) {
+		if (g_objCommon.Get_UnloadPickerUp(n1No)) 
+		{
+			if (g_objCommon.Get_UnloadPickerCheck(n1No, 9, gData.InfoUnloadPick[n1No-1])) 
+			{
 				m_nUnloadPicker1Case = 7; m_tUnloadPicker1Loop.Set_LoopTime(30000);
-			} else {
-				for(int i=0; i<8; i++) {
-					if (gData.nUnloadPicker1ErrNo[i] == 1) {
+			}
+			else
+			{
+				for(int i=0; i<8; i++) 
+				{
+					if (gData.nUnloadPicker1ErrNo[i] == 1) 
+					{
 						g_objCommon.Set_UnloadPickerOpen(n1No, i+1);
 					}
 				}
@@ -9071,10 +9124,13 @@ BOOL CSequenceMain::Run_UnloadPicker1()
 		}
 		break;
 	case 82:
-		if (g_objCommon.Get_UnloadPickerUp(n1No)) {
+		if (g_objCommon.Get_UnloadPickerUp(n1No))
+		{
 			if (!m_tUnloadPicker1Loop.Waiting_Time(500)) break;
-			for(int i=0; i<8; i++) {
-				if (gData.nUnloadPicker1ErrNo[i] == 1) {
+			for(int i=0; i<8; i++) 
+			{
+				if (gData.nUnloadPicker1ErrNo[i] == 1) 
+				{
 					g_objCommon.Set_UnloadPickerDown(n1No, i+1);
 				}
 			}
@@ -9082,7 +9138,8 @@ BOOL CSequenceMain::Run_UnloadPicker1()
 		}
 		break;
 	case 83:
-		if (g_objCommon.Check_Position(AX_UNLOAD_PICKER_Z1, 0)) {
+		if (g_objCommon.Check_Position(AX_UNLOAD_PICKER_Z1, 0))
+		{
 			if (!m_tUnloadPicker1Loop.Waiting_Time(500)) break;
 			m_tUnloadPicker1Loop.Takt_Save(18, 1); m_tUnloadPicker1Loop.Takt_Start(18, 2); 
 			g_objCommon.Move_Position(AX_UNLOAD_PICKER_Z1, n1VNo);
@@ -9093,8 +9150,10 @@ BOOL CSequenceMain::Run_UnloadPicker1()
 	}
 
 	// 18. (Error : 7000)
-	if (m_tUnloadPicker1Loop.Over_LoopTime()) {
-		if (m_nUnloadPicker1Case == 12 && m_pEquipData->bUseAutoSkip) {
+	if (m_tUnloadPicker1Loop.Over_LoopTime()) 
+	{
+		if (m_nUnloadPicker1Case == 12 && m_pEquipData->bUseAutoSkip) 
+		{
 			Set_ReInspectDone(1, gData.nPortNo_UnloadPicker[0], gData.nTrayNo_UnloadPicker[0]);
 			m_tUnloadPicker1Loop.Set_LoopTime(30000);
 			return TRUE;
@@ -10555,13 +10614,15 @@ BOOL CSequenceMain::Run_ShipAlign()
 
 	switch (m_nShipAlignCase) {
 	case 0:	// Wait
-		if (Check_ShipAlign(nSJobNo)) {
+		if (Check_ShipAlign(nSJobNo)) 
+		{
 			m_nShipAlignCase++; m_tShipAlignLoop.Set_LoopTime(5000);
 		}
 		return TRUE;
 
 	case 1:
-		if (Check_ShipAlign(nSJobNo)) {
+		if (Check_ShipAlign(nSJobNo)) 
+		{
 			if (!m_tShipAlignLoop.Waiting_Time(500)) break;
 			Init_ShiipAlignData(nSJobNo);
 
@@ -10571,16 +10632,21 @@ BOOL CSequenceMain::Run_ShipAlign()
 			if (nSJobNo == 3 && m_pDX12->iGoodStage1TrayExist) bTrayExist = TRUE;
 			if (nSJobNo == 4 && m_pDX12->iGoodStage2TrayExist) bTrayExist = TRUE;
 
-			if (bTrayExist == FALSE || !m_pEquipData->bUseAlign2) {
+			if (bTrayExist == FALSE || !m_pEquipData->bUseAlign2) 
+			{
 				if (nSJobNo == 1) m_nNGStage1Case   = 21;
 				if (nSJobNo == 2) m_nNGStage2Case   = 21;	
 				if (nSJobNo == 3) m_nGoodStage1Case = 21;
 				if (nSJobNo == 4) m_nGoodStage2Case = 21;
 				m_nShipAlignCase = 0; m_tShipAlignLoop.Set_LoopTime(5000);
-			} else {
+			} 
+			else
+			{
 				m_nShipAlignCase++; m_tShipAlignLoop.Set_LoopTime(5000);
 			}
-		} else {
+		} 
+		else
+		{
 			m_nShipAlignCase = 0; m_tShipAlignLoop.Set_LoopTime(5000);
 		}
 		break;
