@@ -38,6 +38,7 @@ public:
 	void Save_DailyLot(CString sLog);
 	void Save_LotLog(int nPortNo);
 	void Save_OperatingRatio(CString sLog);
+	void Save_SeqLog(CString sLog);
 
 	void Save_OutTrayGLog(int nPortNo, int nTrayNo, int nCMNo);
 	void Save_OutTrayNLog(int nPortNo, int nTrayNo, int nCMNo);
