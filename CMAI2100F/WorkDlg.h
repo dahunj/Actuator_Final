@@ -147,8 +147,7 @@ private:
 	void Display_UnloadPicker();
 	void Display_TrayCheck();
 	void Reset_AlarmLog();
-	BOOL LotID_Check();
-	BOOL LotID_MESCheck();
+	
 	void Reset_TackData();
 	void ReadJobList();
 	void SaveJobList();
@@ -173,6 +172,20 @@ public:
 	void Set_AutoRunStatus(BOOL bAutoRun) { m_bAutoRunning = bAutoRun; }
 	void Clear_MainLotID();
 	void Set_LotCount(int nPortNo, CString sLotID, int nCount);
+
+public:
+	BOOL LotID_Check();
+	BOOL LotID_MESCheck();
+
+private:
+		void Begin_MESThread();
+		void End_MESThread();
+		BOOL Get_ThreadMES() { return m_bThreadMES; }
+protected:
+		BOOL	m_bThreadMES;
+		CWinThread *m_pThreadMES;
+		static UINT	Thread_MES(LPVOID lpVoid);
+
 };
 
 extern CWorkDlg g_dlgWork;

@@ -25,6 +25,8 @@ IMPLEMENT_DYNAMIC(CWorkDlg, CDialogEx)
 CWorkDlg::CWorkDlg(CWnd* pParent /*=NULL*/)
 	: CDialogEx(CWorkDlg::IDD, pParent)
 {
+	m_pThreadMES = NULL;
+	m_bThreadMES = FALSE;
 }
 
 CWorkDlg::~CWorkDlg()
@@ -266,8 +268,10 @@ void CWorkDlg::OnTimer(UINT_PTR nIDEvent)
 */
 	Display_Status();
 
-	if (m_rdoWorkStart.GetCheck()) {
-		if (!m_bAutoRunning) {		// First AutoRun
+	if (m_rdoWorkStart.GetCheck()) 
+	{
+		if (!m_bAutoRunning)  // First AutoRun
+		{		
 			if (!Work_Start()) { SetTimer(0, 100, NULL); m_rdoWorkStop.SetCheck(TRUE); return; }
 
 			if (g_objSequenceInit.Get_InitComplete()) {
@@ -365,22 +369,64 @@ void CWorkDlg::OnStcCmsCountSClick(UINT nID)
 {
 	int ID = nID - IDC_STC_CMS_COUNT_S_0;
 	CString strOld, strNew, strValue;
-/*
-	if (m_rdoWorkStart.GetCheck()) {
-		if (gData.nLanguage == 0) g_objCommon.Show_MsgBox(1, "장비 Stop 상태에서 진행이 가능합니다.....");
-		else					  g_objCommon.Show_MsgBox(1, "You can proceed with the equipment stopped.");
-		return;
-	}
-*/
-	/*EQUIP_DATA *pEquipData = g_objDataManager.Get_pEquipData();
-	if (pEquipData->bUseMES) {
+	static int nTick = 0;
+
+	//if (m_rdoWorkStart.GetCheck()) {
+	//	if (gData.nLanguage == 0) g_objCommon.Show_MsgBox(1, "장비 Stop 상태에서 진행이 가능합니다.....");
+	//	else					  g_objCommon.Show_MsgBox(1, "You can proceed with the equipment stopped.");
+	//	return;
+	//}
+
+	EQUIP_DATA *pEquipData = g_objDataManager.Get_pEquipData();
+	if (pEquipData->bUseMES) 
+	{
 		m_stcLotsIdS[ID].GetWindowText(strValue);
-		if (strValue.GetLength() > 0 && (gMes.nLotStatus[ID] == 0 || gMes.nLotStatus[ID] == 9 || strValue != gLot.sLotID[ID])) {
+		if (strValue.GetLength() > 0 && (gMes.nLotStatus[ID] == 0 || gMes.nLotStatus[ID] == 9 || strValue != gLot.sLotID[ID])) 
+		{
 			gLot.sLotID[ID] = strValue;
 			g_objMesAgent.Set_LotStart(0, ID, gLot.sLotID[ID], gData.sRecipeName, gLot.nCmCount[ID]);
+
+			g_dlgWork.m_bThreadMES = FALSE;	
+			g_dlgWork.m_pThreadMES = NULL;
+
+			Begin_MESThread(); gMes.nRMSStep = 1;
+			nTick = 0;
+			while(TRUE)
+			{			
+				nTick++;
+				Sleep(100);
+				if(gMes.nRMSStep == 4)
+				{					
+					gMes.nRMSStep = 0;
+					g_dlgWork.m_bThreadMES = FALSE;	
+					g_dlgWork.m_pThreadMES = NULL;
+					break;
+				}
+				if(nTick > 100)
+				{
+					gMes.nRMSStep = 0;
+					g_dlgWork.m_bThreadMES = FALSE;	
+					g_dlgWork.m_pThreadMES = NULL;
+					g_objCommon.Show_MsgBox(1,"RMS Time Out");
+					break;
+				}
+			}
+			
+
+#ifndef AJIN_BOARD_USE
+
+	CString sCMCount, sTyCount, sLotID[1];	
+	sCMCount = "320";
+	sTyCount = "9";	
+	m_stcCmsCountS[0].SetWindowText(sCMCount);
+	m_stcTrayCountS[0].SetWindowText(sTyCount);
+	//m_stcLotsIdS[0].SetWindowText(sLotID[0]);
+#endif
+
+
 		}
 		return;
-	}*/
+	}
 
 	m_stcCmsCountS[ID].GetWindowText(strOld);
 	if (g_objCommon.Show_NumPad(strOld, strNew) != IDOK) return;
@@ -688,6 +734,9 @@ BOOL CWorkDlg::Work_Start()
 			return FALSE;
 		}
 	}
+
+
+
 
 	g_objCommon.Locking_Slide(TRUE, 0);
 	if (gData.bAlarmShow) {
@@ -1024,14 +1073,6 @@ BOOL CWorkDlg::LotID_MESCheck()
 
 	for(int i=0; i<6; i++)
 	{
-#ifndef AJIN_BOARD_USE
-		sCMCount = "320";
-		sTyCount = "9";
-		sLotID[i].Format("%s%d","Test",i);
-		m_stcCmsCountS[i].SetWindowText(sCMCount);
-		m_stcTrayCountS[i].SetWindowText(sTyCount);
-		m_stcLotsIdS[i].SetWindowText(sLotID[i]);
-#endif
 		m_stcLotsIdS[i].GetWindowText(sLotID[i]);
 	}
 	for(int i=0; i<6; i++) 
@@ -1048,25 +1089,30 @@ BOOL CWorkDlg::LotID_MESCheck()
 		}
 	}
 
-	for(int i=0; i<6; i++) { 
-		if (sLotID[i].GetLength() > 0) {
+	for(int i=0; i<6; i++) 
+	{ 
+		if (sLotID[i].GetLength() > 0)
+		{
 			m_stcCmsCountS[i].GetWindowText(sCMCount);
 			m_stcTrayCountS[i].GetWindowText(sTyCount);
 
 
 			int nCMCount = atoi(sCMCount);
 			int nTyCount = atoi(sTyCount);
-			if (nCMCount < 1) {
+			if (nCMCount < 1) 
+			{
 				strMsg.Format("Port(%d) LotID(%s)의 MES 수량정보 수신후 진행가능합니다.", i+1, sLotID[i]);
 				g_objCommon.Show_MsgBox(1, strMsg);
 				return FALSE;
 			}
-			if (nCMCount < 1 || nCMCount > MAX_CM) {
+			if (nCMCount < 1 || nCMCount > MAX_CM) 
+			{
 				strMsg.Format("Port(%d) LotID(%s)의 모듈수량(%d)에 문제가 있습니다.", i+1, sLotID[i], nCMCount);
 				g_objCommon.Show_MsgBox(1, strMsg);
 				return FALSE;
 			}
-			if (nTyCount < 2 || nTyCount > 20) {
+			if (nTyCount < 2 || nTyCount > 20) 
+			{
 				strMsg.Format("Port(%d) LotID(%s)의 Tray수량(%d)에 문제가 있습니다.", i+1, sLotID[i], nTyCount);
 				g_objCommon.Show_MsgBox(1, strMsg);
 				return FALSE;
@@ -1626,6 +1672,13 @@ LRESULT CWorkDlg::OnUpdateBarcode(WPARAM wParam, LPARAM lParam)
 {
 	CString strTemp;
 	CString sData = g_objBarcodeLot.Get_BarcodeLot();
+	static int i = 0;
+#ifndef AJIN_BOARD_USE
+	
+	sData.Format("%s%i","TEST00000000", i++);
+#endif
+
+	
 	if (sData.GetLength() < 1) return 0;
 /*
 	if (m_rdoWorkStart.GetCheck()) {
@@ -1633,21 +1686,24 @@ LRESULT CWorkDlg::OnUpdateBarcode(WPARAM wParam, LPARAM lParam)
 		else					  AfxMessageBox(_T("You can proceed with the equipment stopped."));
 		return 0;
 	}*/
-	if (gData.nSelectNo < 1 || gData.nSelectNo > 6) {
+	if (gData.nSelectNo < 1 || gData.nSelectNo > 6) 
+	{
 		if (gData.nLanguage == 0) AfxMessageBox(_T("Lot을 먼저 선택후 진행하세요..."));
 		else					  AfxMessageBox(_T("Select Lot first and proceed."));
 		return 0;
 	}
 
 	m_stcLotsIdS[gData.nSelectNo-1].GetWindowText(strTemp);
-	if (strTemp.GetLength() > 0) {
+	if (strTemp.GetLength() > 0) 
+	{
 		if (gData.nLanguage == 0) AfxMessageBox(_T("기존 Lot ID Clear를 먼저하고 진행하세요..."));
 		else					  AfxMessageBox(_T("Please proceed with the existing Lot ID Clear first."));
 		return 0;
 	}
 
 	//바코드 인식 후 작업 모델이 맞는지 확인.
-	if(BarcodeLotID_Check(sData) == FALSE){
+	if(BarcodeLotID_Check(sData) == FALSE)
+	{
 		if (gData.nLanguage == 0) g_objCommon.Show_MsgBox(1, "모델 확인 후 다시 입력해 주십시오.....");
 		else					  g_objCommon.Show_MsgBox(1, "Please check the model and re-enter...");
 		return 0;
@@ -2542,6 +2598,11 @@ void CWorkDlg::OnBnClickedBtnNGLotEnd()
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 void CWorkDlg::OnBnClickedButton2()
 {
+#ifndef AJIN_BOARD_USE
+	OnUpdateBarcode(0,0);
+#endif	
+
+
 //	gLot.nJobNo = 0;
 //	g_dlgWork.PostMessage(UM_UPDATE_UPH, 0, NULL);
 //	g_objSequenceMain.Set_MainRunCase(AUTO_TRANSFER_1, 0);
@@ -2732,4 +2793,59 @@ void CWorkDlg::OnBnClickedBtnBuzzerOff()
 //	ElevatorOpen(7);
 //	CCMAI2100Dlg *pMainDlg = (CCMAI2100Dlg*)AfxGetMainWnd();
 //	pMainDlg->StdLogAllDelete();
+}
+
+
+void CWorkDlg::Begin_MESThread()
+{
+	if (m_pThreadMES) return;
+
+	m_bThreadMES = TRUE;
+	m_pThreadMES = AfxBeginThread(Thread_MES, NULL);
+}
+
+void CWorkDlg::End_MESThread()
+{
+	if (m_pThreadMES) {
+		m_bThreadMES = FALSE;
+		WaitForSingleObject(m_pThreadMES->m_hThread, INFINITE);
+	}
+}
+
+
+UINT CWorkDlg::Thread_MES(LPVOID lpVoid)
+{
+	
+	while (g_dlgWork.m_bThreadMES) 
+	{
+		switch (gMes.nRMSStep)
+		{
+		case 0:
+			break;
+		case 1:
+			if(gData.bRMSDone && gMes.nLotConfirm[LOAD_STAGE] >= 2)
+			{
+				gMes.sHostLotIDTemp = gLot.sLotID[gData.nSelectNo-1];
+				g_objMesAgent.Set_PPSelectReport(gMes.sHostLotIDTemp, gMes.sHostRecipeTemp);//gMes.sHostRecipe[nPort1No-1]);
+				gMes.nRMSStep++; 			
+			}
+			break;
+		case 2:
+			if(gMes.nLotConfirm[LOAD_STAGE] >= 3)
+			{
+				gMes.nRMSStep++; 
+			}		
+			break;
+		case 3:
+			if(gMes.nLotConfirm[LOAD_STAGE] >= 4 && gMes.nLotStatus[gData.nSelectNo-1] >= 3)
+			{			
+				gLot.sRecipeName[gData.nSelectNo-1] = gMes.sHostRecipeTemp;
+				g_dlgWork.m_bThreadMES = FALSE;	
+				g_dlgWork.m_pThreadMES = NULL;
+				gMes.nRMSStep = 4;
+			}
+			break;
+		}
+	}	
+	return 0;
 }

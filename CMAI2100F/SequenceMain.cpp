@@ -62,6 +62,8 @@ CSequenceMain::CSequenceMain()
 	m_bThreadMainRun = FALSE;
 	m_pThreadMainRun = NULL;
 
+	
+
 	Reset_MainRunCase();
 }
 
@@ -2985,12 +2987,17 @@ BOOL CSequenceMain::Run_Transfer1()
 	static int nToTran1Pos = 0;
 	static int nPort1No = 0;
 
-	switch (m_nTransfer1Case) {
+	switch (m_nTransfer1Case)
+	{
 	case 0:	//작업판단
-		if (Check_Transfer1(nFmTran1Pos, nToTran1Pos, nPort1No)) {
+		if (Check_Transfer1(nFmTran1Pos, nToTran1Pos, nPort1No))
+		{
 			m_nTransfer1Case++; m_tTransfer1Loop.Set_LoopTime(60000);
-		} else {
-			if (Check_Load12Empy()) {
+		} 
+		else
+		{
+			if (Check_Load12Empy()) 
+			{
 				if (m_nLoadStage1Case == 0 && m_nLoadStage2Case == 50 && m_pDX04->iLoadStage2TrayExist) {
 					m_nLoadStage1Case = 10; gNG->nTrayOX[0][0] = 0;
 				}
@@ -3046,7 +3053,7 @@ BOOL CSequenceMain::Run_Transfer1()
 			gAlm.sAlmLotID[1].Format("%d", nPort1No);
 			//gMes.nLotPortNo = nPort1No;
 			//Type 0 Lot Start : Lot ID Report 
-			g_objMesAgent.Set_LotIDReport(0, nPort1No-1, gLot.sLotID[nPort1No-1], gData.sRecipeName, gLot.nCmCount[nPort1No-1]);
+			//g_objMesAgent.Set_LotIDReport(0, nPort1No-1, gLot.sLotID[nPort1No-1], gData.sRecipeName, gLot.nCmCount[nPort1No-1]);
 			m_nTransfer1Case++; m_tTransfer1Loop.Set_LoopTime(5000);
 		}
 		else
@@ -3056,37 +3063,9 @@ BOOL CSequenceMain::Run_Transfer1()
 		}
 		break;
 	case 7:
-		if (!m_pEquipData->bUseMES)
-		{
-			gLot.sRecipeName[nPort1No-1] = gData.sRecipeName;
-			m_nTransfer1Case = 8;m_tTransfer1Loop.Set_LoopTime(5000);
-		}
-		else
-		{
-			m_nTransfer1Case = 90; m_tTransfer1Loop.Set_LoopTime(5000);
-		}
+		m_nTransfer1Case++; m_tTransfer1Loop.Set_LoopTime(5000);		
 		break;
-	case 90:
-		if(gData.bRMSDone && gMes.nLotConfirm[LOAD_STAGE] >= 2)
-		{
-			gMes.sHostLotIDTemp = gLot.sLotID[nPort1No-1];
-			g_objMesAgent.Set_PPSelectReport(gMes.sHostLotIDTemp, gMes.sHostRecipeTemp);//gMes.sHostRecipe[nPort1No-1]);
-			m_nTransfer1Case++; m_tTransfer1Loop.Set_LoopTime(5000);			
-		}
-		break;
-	case 91:
-		if(gMes.nLotConfirm[LOAD_STAGE] >= 3)
-		{
-			m_nTransfer1Case++; m_tTransfer1Loop.Set_LoopTime(5000);
-		}		
-		break;
-	case 92:
-		if(gMes.nLotConfirm[LOAD_STAGE] >= 4 && gMes.nLotStatus[nPort1No-1] >= 3)
-		{			
-			gLot.sRecipeName[nPort1No-1] = gMes.sHostRecipeTemp;
-			m_nTransfer1Case = 8; m_tTransfer1Loop.Set_LoopTime(5000);				
-		}
-		break;
+	
 	case 8:	// Tray Up
 		if (nFmTran1Pos == 1 || nFmTran1Pos == 2) m_nTransfer1Case = 10;	//Up Stage 12(1,2)
 		if (nFmTran1Pos == 3)					  m_nTransfer1Case = 20;	//Up Lot1   (3)
