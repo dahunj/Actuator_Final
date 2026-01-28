@@ -20,6 +20,7 @@ CCriticalSection g_csDailyLotLog;
 CCriticalSection g_csOperatingRatioLog;
 CCriticalSection g_csStdMotionLog;
 CCriticalSection g_csEfficiencyLog;
+CCriticalSection g_csSeqLog;
 
 CLogFile::CLogFile()
 {
@@ -780,6 +781,42 @@ void CLogFile::Save_OperatingRatio(CString sLog)	// 가동률 작업 중
 		}
 	}
 	g_csOperatingRatioLog.Unlock();
+}
+
+
+void CLogFile::Save_SeqLog(CString sLog)
+{
+	CString strPath = gsCurrentDir + "\\LOG\\Seq";
+
+	Create_Folder(strPath);
+
+	SYSTEMTIME time;
+	GetLocalTime(&time);
+
+	CString strFile, strSave;
+	strFile.Format("%s\\%04d%02d%02d_Seq.csv", strPath, time.wYear, time.wMonth, time.wDay);
+
+	g_csSeqLog.Lock();
+
+	CFile file;
+	if (file.Open(strFile, CFile::modeCreate | CFile::modeNoTruncate | CFile::modeWrite | CFile::shareDenyNone)) 
+	{
+		try 
+		{
+			file.SeekToEnd();
+
+			strSave.Format("[%02d:%02d:%02d %03d], %s\r\n", time.wHour, time.wMinute, time.wSecond, time.wMilliseconds, sLog);
+
+			file.Write(strSave, strSave.GetLength());
+			file.Close();
+
+		} 
+		catch (CFileException *pEx)
+		{
+			pEx->Delete();
+		}
+	}
+	g_csSeqLog.Unlock();
 }
 
 ///////////////////////////////////////////////////////////////////////////////
