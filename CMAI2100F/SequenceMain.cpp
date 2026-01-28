@@ -8695,7 +8695,8 @@ BOOL CSequenceMain::Run_UnloadPicker1()
 		}
 		break;
 	case 2:
-		if (g_objCommon.Check_Position(AX_UNLOAD_PICKER_X1, n1VNo) && g_objCommon.Check_Position(AX_UNLOAD_PICKER_Y1, n1VNo) && g_objCommon.Check_Position(AX_UNLOAD_PICKER_P1, 0)) {
+		if (g_objCommon.Check_Position(AX_UNLOAD_PICKER_X1, n1VNo) && g_objCommon.Check_Position(AX_UNLOAD_PICKER_Y1, n1VNo) && g_objCommon.Check_Position(AX_UNLOAD_PICKER_P1, 0)) 
+		{
 			g_objCommon.Save_Motion(AX_UNLOAD_PICKER_X1, n1VNo);	g_objCommon.Save_Motion(AX_UNLOAD_PICKER_Y1, n1VNo);	g_objCommon.Save_Motion(AX_UNLOAD_PICKER_P1, 0);
 			m_tUnloadPicker1Loop.Takt_Start(18, 1, TRUE); 
 			g_objCommon.Set_UnloadPickerOpen(n1No);
@@ -8706,7 +8707,8 @@ BOOL CSequenceMain::Run_UnloadPicker1()
 			gData.nPortNo_UnloadPicker[n1No-1] = gData.nPortNo_VisionStage[n1VNo-1];
 			gData.sLotID_UnloadPicker[2]	   = gData.sLotID_UnloadPicker[n1No-1];
 
-			for(int i=0; i<10; i++) {
+			for(int i=0; i<10; i++) 
+			{
 				gData.InfoUnloadPick[n1No-1][i] = gData.InfoVision[n1VNo-1][i];	gData.InfoVision[n1VNo-1][i] = 0;
 			}
 			gData.sLotID_VisionStage[n1VNo-1] = "";
@@ -8721,7 +8723,8 @@ BOOL CSequenceMain::Run_UnloadPicker1()
 		}
 		break;
 	case 3:
-		if (g_objCommon.Get_UnloadPickerDown(n1No)) {
+		if (g_objCommon.Get_UnloadPickerDown(n1No)) 
+		{
 			m_tUnloadPicker1Loop.Takt_Save(18, 1); m_tUnloadPicker1Loop.Takt_Start(18, 2); 
 			g_objCommon.Move_Position(AX_UNLOAD_PICKER_Z1, n1VNo);
 			m_nUnloadPicker1Case++; m_tUnloadPicker1Loop.Set_LoopTime(30000);
@@ -8777,21 +8780,21 @@ BOOL CSequenceMain::Run_UnloadPicker1()
 	case 10:
 		if (m_nUnloadPicker2Case > 33 && m_nUnloadPicker2Case < 70)
 		{
-			g_objCommon.Move_Position(AX_UNLOAD_PICKER_X1, UNLOAD_PICKER1_X_NG_STAGE1_11);
+			g_objCommon.Move_Position(AX_UNLOAD_PICKER_X1, UNLOAD_PICKER1_X_GOOD_STAGE1_11);
 			g_objCommon.Move_Position(AX_UNLOAD_PICKER_P1, 1);
 			m_nUnloadPicker1Case++; m_tUnloadPicker1Loop.Set_LoopTime(30000);
 		}
 		return TRUE;
 	case 11:
-		if (g_objCommon.Check_Position(AX_UNLOAD_PICKER_X1, UNLOAD_PICKER1_X_NG_STAGE1_11) && g_objCommon.Check_Position(AX_UNLOAD_PICKER_P1, 1)) {
-			g_objCommon.Save_Motion(AX_UNLOAD_PICKER_X1, UNLOAD_PICKER1_X_NG_STAGE1_11);	g_objCommon.Save_Motion(AX_UNLOAD_PICKER_P1, 1);
+		if (g_objCommon.Check_Position(AX_UNLOAD_PICKER_X1, UNLOAD_PICKER1_X_GOOD_STAGE1_11) && g_objCommon.Check_Position(AX_UNLOAD_PICKER_P1, 1)) {
+			g_objCommon.Save_Motion(AX_UNLOAD_PICKER_X1, UNLOAD_PICKER1_X_GOOD_STAGE1_11);	g_objCommon.Save_Motion(AX_UNLOAD_PICKER_P1, 1);
 			gAlm.sAlmLID[0] = gData.sLotID_UnloadPicker[n1No-1]; gAlm.nAlmTNo[0] = gData.nTrayNo_UnloadPicker[n1No-1]; gAlm.nAlmPNo[0] = gData.InfoUnloadPick[n1No-1][9];
 			m_nUnloadPicker1Case++; m_tUnloadPicker1Loop.Set_LoopTime(m_pEquipData->nTimeOver[0]);
 		}
 		break;
 	case 12:
 		if (Check_InspectDone(n1No, gData.nPortNo_UnloadPicker[n1No-1], gData.nTrayNo_UnloadPicker[n1No-1])) {
-			if (!m_tUnloadPicker1Loop.Waiting_Time(500)) break;
+			if (!m_tUnloadPicker1Loop.Waiting_Time(100)) break;
 			m_tUnloadPicker1Loop.Takt_Save(18, 6); m_tUnloadPicker1Loop.Takt_Start(18, 7); 
 			Set_ROSTime(n1No, gData.nPortNo_UnloadPicker[n1No-1], gData.nTrayNo_UnloadPicker[n1No-1]);
 			m_nUnloadPicker1Case++; m_tUnloadPicker1Loop.Set_LoopTime(300000);	//5Ка
