@@ -9898,13 +9898,15 @@ BOOL CSequenceMain::Run_NGStage1()
 	static int	  nNStage1No      = 0;	//0°íÁ¤
 	static int	  nNStage1YAxisNo = AX_NG_STAGE_Y1;
 
-	switch (m_nNGStage1Case) {
+	switch (m_nNGStage1Case) 
+	{
 	case 0:	// Wait
 		m_tNGStage1Loop.Set_LoopTime(5000);
 		return TRUE;
 
 	case 1:
-		if (m_pDX11->iNGStage1TrayExist) {
+		if (m_pDX11->iNGStage1TrayExist) 
+		{
 			gNG->nTrayOX[1][0] = 1;
 			m_tNGStage1Loop.Takt_Start(20, 1, TRUE); 
 			m_pDY11->oNGStage1MasterIn = TRUE; m_pDY11->oNGStage1MasterOut = FALSE;
@@ -9913,7 +9915,8 @@ BOOL CSequenceMain::Run_NGStage1()
 		}
 		break;
 	case 2:
-		if (m_pDX11->iNGStage1MasterIn && !m_pDX11->iNGStage1MasterOut) {
+		if (m_pDX11->iNGStage1MasterIn && !m_pDX11->iNGStage1MasterOut) 
+		{
 			m_tNGStage1Loop.Takt_Save(20, 1); m_tNGStage1Loop.Takt_Start(20, 2); 
 			m_pDY11->oNGStage1SlaveIn = TRUE; m_pDY11->oNGStage1SlaveOut = FALSE;
 			g_objAJinAXL.Write_Output(11);
@@ -9921,13 +9924,15 @@ BOOL CSequenceMain::Run_NGStage1()
 		}
 		break;
 	case 3:
-		if (m_pDX11->iNGStage1SlaveIn && !m_pDX11->iNGStage1SlaveOut) {
+		if (m_pDX11->iNGStage1SlaveIn && !m_pDX11->iNGStage1SlaveOut) 
+		{
 			m_tNGStage1Loop.Takt_Save(20, 2); m_tNGStage1Loop.Takt_Start(20, 3); 
 			m_nNGStage1Case++; m_tNGStage1Loop.Set_LoopTime(5000);
 		}
 		break;
 	case 4:
-		if (m_pDX11->iNGStage1Up && !m_pDX11->iNGStage1Down) {
+		if (m_pDX11->iNGStage1Up && !m_pDX11->iNGStage1Down) 
+		{
 			m_nNGStage1Case = 10; m_tNGStage1Loop.Set_LoopTime(5000);
 		}
 		break;
