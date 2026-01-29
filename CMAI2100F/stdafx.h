@@ -103,9 +103,6 @@
 #define SIM_WAITTIMEM	 5		//
 
 
-#define LOAD_STAGE 0
-#define GOOD_STAGE 1
-#define NG_STAGE   2
 //****************************************************************************
 //#define RESULT_TEST		// 비전 FOB 모드에서 전체 양품 처리가 안되어 추가함.
 //#define ALIGN_TEST		// Align 반복 Test.
@@ -420,6 +417,10 @@ typedef struct {
 } GLOVAL_NGCODE;
 extern GLOVAL_NGCODE* gNG;
 
+#define LOAD_STAGE	0
+#define GOOD_STAGE	2
+#define NG_STAGE	1
+
 typedef struct {
 	int		nType;			//nType:1[정시], 2[해제] 3[설정]
 	int		nOpenStart;		//1:Start
@@ -431,10 +432,6 @@ typedef struct {
 	int		nLogHH;		//등록시간
 } GLOVAL_INTERLOCKDATA;
 extern  GLOVAL_INTERLOCKDATA	gIt;
-
-
-
-
 
 
 #define UNLOAD_PICKER1_X_GOOD_STAGE1_1_1 5
@@ -481,7 +478,12 @@ extern  GLOVAL_INTERLOCKDATA	gIt;
 #define UNLOAD_PICKER2_Y_NG_STAGE1 7
 #define UNLOAD_PICKER2_Y_NG_STAGE2 8
 
-#define UNLOAD_PICKER1_X_VisionStg1 1
-#define UNLOAD_PICKER1_X_VisionStg2 2
-#define UNLOAD_PICKER1_X_VisionStg3 3
-#define UNLOAD_PICKER1_X_VisionStg4 4
+#define UNLOAD_PICKER1_X_VISION_STG1 1
+#define UNLOAD_PICKER1_X_VISION_STG2 2
+#define UNLOAD_PICKER1_X_VISION_STG3 3
+#define UNLOAD_PICKER1_X_VISION_STG4 4
+
+#define UNLOAD_PICKER2_X_VISION_STG1 1
+#define UNLOAD_PICKER2_X_VISION_STG2 2
+#define UNLOAD_PICKER2_X_VISION_STG3 3
+#define UNLOAD_PICKER2_X_VISION_STG4 4

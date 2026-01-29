@@ -340,10 +340,10 @@ void CSetupMoveTab4Dlg::Save_MoveData()
 	for (int i = 0; i < 9; i++) { strKey.Format("%02d", i);		m_stcUnloadPickZ2[i].GetWindowText(strData);	dData = atof(strData);	INI.Set_Double("36_UNLOAD_PICKER_Z2", strKey, dData, "%0.3lf"); }
 	for (int i = 0; i < 3; i++) { strKey.Format("%02d", i);		m_stcUnloadPickP2[i].GetWindowText(strData);	dData = atof(strData);	INI.Set_Double("37_UNLOAD_PICKER_P2", strKey, dData, "%0.3lf"); }
 
-	for (int i = 0; i < 6; i++) { strKey.Format("%02d", i);		m_stcGoodStageY1[i].GetWindowText(strData);		dData = atof(strData);	INI.Set_Double("38_GOOD_STAGE_Y1", strKey, dData, "%0.3lf"); }
-	for (int i = 0; i < 6; i++) { strKey.Format("%02d", i);		m_stcGoodStageY2[i].GetWindowText(strData);		dData = atof(strData);	INI.Set_Double("39_GOOD_STAGE_Y2", strKey, dData, "%0.3lf"); }
-	for (int i = 0; i < 6; i++) { strKey.Format("%02d", i);		m_stcNGStageY1[i].GetWindowText(strData);		dData = atof(strData);	INI.Set_Double("40_NG_STAGE_Y1", strKey, dData, "%0.3lf"); }
-	for (int i = 0; i < 6; i++) { strKey.Format("%02d", i);		m_stcNGStageY2[i].GetWindowText(strData);		dData = atof(strData);	INI.Set_Double("41_NG_STAGE_Y2", strKey, dData, "%0.3lf"); }
+	for (int i = 0; i < 6; i++) { strKey.Format("%02d", i);		m_stcGoodStageY1[i].GetWindowText(strData);		dData = atof(strData);	INI.Set_Double("40_GOOD_STAGE_Y1", strKey, dData, "%0.3lf"); }
+	for (int i = 0; i < 6; i++) { strKey.Format("%02d", i);		m_stcGoodStageY2[i].GetWindowText(strData);		dData = atof(strData);	INI.Set_Double("41_GOOD_STAGE_Y2", strKey, dData, "%0.3lf"); }
+	for (int i = 0; i < 6; i++) { strKey.Format("%02d", i);		m_stcNGStageY1[i].GetWindowText(strData);		dData = atof(strData);	INI.Set_Double("38_NG_STAGE_Y1", strKey, dData, "%0.3lf"); }
+	for (int i = 0; i < 6; i++) { strKey.Format("%02d", i);		m_stcNGStageY2[i].GetWindowText(strData);		dData = atof(strData);	INI.Set_Double("39_NG_STAGE_Y2", strKey, dData, "%0.3lf"); }
 
 //	Save_ModelMoveData();
 

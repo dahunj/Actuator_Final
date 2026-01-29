@@ -138,8 +138,8 @@ private:
 	BOOL Run_ShipAlign();				// 24. (Error : 8800)
 	BOOL Run_Simulation();				// 99.
 
-	BOOL Check_Transfer1(int &nFmTarget, int &nToTarget, int &nPortNo);
-	BOOL Check_Transfer2(int &nFmTarget, int &nToTarget, int &nPortNo);
+	BOOL Check_Transfer1(int &nFrom, int &nToTarget, int &nPortNo);
+	BOOL Check_Transfer2(int &nFrom, int &nToTarget, int &nPortNo);
 	BOOL Check_TrayEmpty();
 	BOOL Check_LotEndUnloadPicker(CString sLotID, int nPortNo);
 	BOOL Check_LotEndUnloadNG(CString sLotID, int nPortNo, int nPickNo);
