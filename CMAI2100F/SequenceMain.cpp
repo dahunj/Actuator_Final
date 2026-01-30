@@ -4474,7 +4474,10 @@ BOOL CSequenceMain::Run_Transfer2()
 		}
 		break;
 	case 96:
-		if (g_objCommon.Check_Position(AX_TRANSFER_X2, nPosX)) {
+		if (g_objCommon.Check_Position(AX_TRANSFER_X2, nPosX)) 
+		{
+			
+
 			g_objCommon.Save_Motion(AX_TRANSFER_X2, nPosX);
 			m_tTransfer2Loop.Takt_Save(9, 43, TRUE);
 			m_nTransfer2Case = 0; m_tTransfer2Loop.Set_LoopTime(5000);
@@ -8788,9 +8791,15 @@ BOOL CSequenceMain::Run_UnloadPicker1()
 		}
 		return TRUE;
 	case 11:
-		if (g_objCommon.Check_Position(AX_UNLOAD_PICKER_X1, UNLOAD_PICKER1_X_GOOD_STAGE1_1_1) && g_objCommon.Check_Position(AX_UNLOAD_PICKER_P1, 1)) {
-			g_objCommon.Save_Motion(AX_UNLOAD_PICKER_X1, UNLOAD_PICKER1_X_GOOD_STAGE1_1_1);	g_objCommon.Save_Motion(AX_UNLOAD_PICKER_P1, 1);
+		if (g_objCommon.Check_Position(AX_UNLOAD_PICKER_X1, UNLOAD_PICKER1_X_GOOD_STAGE1_1_1) && g_objCommon.Check_Position(AX_UNLOAD_PICKER_P1, 1)) 
+		{
+			g_objCommon.Save_Motion(AX_UNLOAD_PICKER_X1, UNLOAD_PICKER1_X_GOOD_STAGE1_1_1);	
+			g_objCommon.Save_Motion(AX_UNLOAD_PICKER_P1, 1);
 			gAlm.sAlmLID[0] = gData.sLotID_UnloadPicker[n1No-1]; gAlm.nAlmTNo[0] = gData.nTrayNo_UnloadPicker[n1No-1]; gAlm.nAlmPNo[0] = gData.InfoUnloadPick[n1No-1][9];
+			
+			m_sLog.Format("MCC,18,UnloadPicker1,%d,Move Done to On Good Stage Position,target : %0.3lf, actual : %0.3lf", m_nUnloadPicker1Case, 
+				m_pMoveData->dUnloadPickerX1[UNLOAD_PICKER1_X_GOOD_STAGE1_1_1], g_objAJinAXL.Get_Position(AX_UNLOAD_PICKER_X1));
+			g_objLogFile.Save_SeqLog(m_sLog);
 			m_nUnloadPicker1Case++; m_tUnloadPicker1Loop.Set_LoopTime(m_pEquipData->nTimeOver[0]);
 		}
 		break;
@@ -8965,6 +8974,10 @@ BOOL CSequenceMain::Run_UnloadPicker1()
 		if (g_objAJinAXL.Is_MoveDone(AX_UNLOAD_PICKER_X1, d1PosX))
 		{
 			g_objCommon.Save_Motion(AX_UNLOAD_PICKER_X1, -1, d1PosX);
+
+			m_sLog.Format("MCC,18,UnloadPicker1,%d,Move Done to On NG Stg to put NG,target : %0.3lf, actual : %0.3lf", m_nUnloadPicker1Case, 
+				d1PosX, g_objAJinAXL.Get_Position(AX_UNLOAD_PICKER_X1));
+			g_objLogFile.Save_SeqLog(m_sLog);
 			m_nUnloadPicker1Case++; m_tUnloadPicker1Loop.Set_LoopTime(30000);
 		}
 		break;
@@ -8972,6 +8985,14 @@ BOOL CSequenceMain::Run_UnloadPicker1()
 		if ((n1NSNo==UNLOAD_PICKER1_Y_NG_STAGE1 && g_objAJinAXL.Is_MoveDone(AX_NG_STAGE_Y1, d1PosY)) ||
 			(n1NSNo==UNLOAD_PICKER1_Y_NG_STAGE2 && g_objAJinAXL.Is_MoveDone(AX_NG_STAGE_Y2, d1PosY)) ) 
 		{
+			m_sLog.Format("MCC,18,UnloadPicker1(NGStage1),%d,Move Done to empty pocket position for receiving NG,target : %0.3lf, actual : %0.3lf", m_nUnloadPicker1Case, 
+				d1PosY, g_objAJinAXL.Get_Position(AX_NG_STAGE_Y1));
+			g_objLogFile.Save_SeqLog(m_sLog);
+
+			m_sLog.Format("MCC,18,UnloadPicker1(NGStage2),%d,Move Done to empty pocket position for receiving NG,target : %0.3lf, actual : %0.3lf", m_nUnloadPicker1Case, 
+				d1PosY, g_objAJinAXL.Get_Position(AX_NG_STAGE_Y2));
+			g_objLogFile.Save_SeqLog(m_sLog);
+
 			if (n1NSNo==UNLOAD_PICKER1_Y_NG_STAGE1) g_objCommon.Save_Motion(AX_NG_STAGE_Y1, -1, d1PosY);
 			if (n1NSNo==UNLOAD_PICKER1_Y_NG_STAGE2) g_objCommon.Save_Motion(AX_NG_STAGE_Y2, -1, d1PosY);
 			m_tUnloadPicker1Loop.Takt_Save(18, 9); m_tUnloadPicker1Loop.Takt_Start(18, 10); 
@@ -9117,14 +9138,29 @@ BOOL CSequenceMain::Run_UnloadPicker1()
 		}
 		break;
 	case 33:
-		if (g_objAJinAXL.Is_MoveDone(AX_UNLOAD_PICKER_X1, d1PosX)) {
+		if (g_objAJinAXL.Is_MoveDone(AX_UNLOAD_PICKER_X1, d1PosX)) 
+		{
+			m_sLog.Format("MCC,18,UnloadPicker1,%d,Move Done to On NG Stg to put NG,target : %0.3lf, actual : %0.3lf", m_nUnloadPicker1Case, 
+				d1PosX, g_objAJinAXL.Get_Position(AX_UNLOAD_PICKER_X1));
+			g_objLogFile.Save_SeqLog(m_sLog);
+
+
 			g_objCommon.Save_Motion(AX_UNLOAD_PICKER_X1, -1, d1PosX);
 			m_nUnloadPicker1Case++; m_tUnloadPicker1Loop.Set_LoopTime(30000);
 		}
 		break;
 	case 34:
 		if ((n1NSNo==UNLOAD_PICKER2_X_GOOD_STAGE1_1_1 && g_objAJinAXL.Is_MoveDone(AX_GOOD_STAGE_Y1, d1PosY)) ||
-			(n1NSNo==UNLOAD_PICKER2_X_GOOD_STAGE2_1_1 && g_objAJinAXL.Is_MoveDone(AX_GOOD_STAGE_Y2, d1PosY)) ) {
+			(n1NSNo==UNLOAD_PICKER2_X_GOOD_STAGE2_1_1 && g_objAJinAXL.Is_MoveDone(AX_GOOD_STAGE_Y2, d1PosY)) ) 
+		{
+			m_sLog.Format("MCC,18,UnloadPicker1(GoodStage1),%d,Move Done to empty pocket position for receiving NG,target : %0.3lf, actual : %0.3lf", m_nUnloadPicker1Case, 
+				d1PosY, g_objAJinAXL.Get_Position(AX_GOOD_STAGE_Y1));
+			g_objLogFile.Save_SeqLog(m_sLog);
+
+			m_sLog.Format("MCC,18,UnloadPicker1(GoodStage2),%d,Move Done to empty pocket position for receiving NG,target : %0.3lf, actual : %0.3lf", m_nUnloadPicker1Case, 
+				d1PosY, g_objAJinAXL.Get_Position(AX_GOOD_STAGE_Y2));
+			g_objLogFile.Save_SeqLog(m_sLog);
+
 			if (n1NSNo==UNLOAD_PICKER2_X_GOOD_STAGE1_1_1) g_objCommon.Save_Motion(AX_GOOD_STAGE_Y1, -1, d1PosY);
 			if (n1NSNo==UNLOAD_PICKER2_X_GOOD_STAGE2_1_1) g_objCommon.Save_Motion(AX_GOOD_STAGE_Y2, -1, d1PosY);
 			m_tUnloadPicker1Loop.Takt_Save(18, 15); m_tUnloadPicker1Loop.Takt_Start(18, 16); 
@@ -9443,7 +9479,12 @@ BOOL CSequenceMain::Run_UnloadPicker2()
 		}
 		return TRUE;
 	case 11:
-		if (g_objCommon.Check_Position(AX_UNLOAD_PICKER_X2, UNLOAD_PICKER2_X_GOOD_STAGE1_1_1) && g_objCommon.Check_Position(AX_UNLOAD_PICKER_P2, 1)) {
+		if (g_objCommon.Check_Position(AX_UNLOAD_PICKER_X2, UNLOAD_PICKER2_X_GOOD_STAGE1_1_1) && g_objCommon.Check_Position(AX_UNLOAD_PICKER_P2, 1)) 
+		{
+			m_sLog.Format("MCC,19,UnloadPicker2,%d,Move Done to On Good Stage Position,target : %0.3lf, actual : %0.3lf", m_nUnloadPicker2Case, 
+				m_pMoveData->dUnloadPickerX2[UNLOAD_PICKER2_X_GOOD_STAGE1_1_1], g_objAJinAXL.Get_Position(AX_UNLOAD_PICKER_X2));
+			g_objLogFile.Save_SeqLog(m_sLog);
+
 			g_objCommon.Save_Motion(AX_UNLOAD_PICKER_X2, UNLOAD_PICKER2_X_GOOD_STAGE1_1_1);
 			gAlm.sAlmLID[0] = gData.sLotID_UnloadPicker[n2No-1]; gAlm.nAlmTNo[0] = gData.nTrayNo_UnloadPicker[n2No-1]; gAlm.nAlmPNo[0] = gData.InfoUnloadPick[n2No-1][9];
 			m_nUnloadPicker2Case++; m_tUnloadPicker2Loop.Set_LoopTime(m_pEquipData->nTimeOver[0]);
@@ -9601,6 +9642,14 @@ BOOL CSequenceMain::Run_UnloadPicker2()
 		if ((n2NSNo==UNLOAD_PICKER2_Y_NG_STAGE1 && g_objAJinAXL.Is_MoveDone(AX_NG_STAGE_Y1, d2PosY)) ||
 			(n2NSNo==UNLOAD_PICKER2_Y_NG_STAGE2 && g_objAJinAXL.Is_MoveDone(AX_NG_STAGE_Y2, d2PosY)) ) 
 		{
+			m_sLog.Format("MCC,19,UnloadPicker2(NGStage1),%d,Move Done to empty pocket position for receiving NG,target : %0.3lf, actual : %0.3lf", m_nUnloadPicker2Case, 
+				d2PosY, g_objAJinAXL.Get_Position(AX_NG_STAGE_Y1));
+			g_objLogFile.Save_SeqLog(m_sLog);
+
+			m_sLog.Format("MCC,18,UnloadPicker2(NGStage2),%d,Move Done to empty pocket position for receiving NG,target : %0.3lf, actual : %0.3lf", m_nUnloadPicker2Case, 
+				d2PosY, g_objAJinAXL.Get_Position(AX_NG_STAGE_Y2));
+			g_objLogFile.Save_SeqLog(m_sLog);
+
 			if (n2NSNo==UNLOAD_PICKER2_Y_NG_STAGE1) g_objCommon.Save_Motion(AX_NG_STAGE_Y1, -1, d2PosY);
 			if (n2NSNo==UNLOAD_PICKER2_Y_NG_STAGE2) g_objCommon.Save_Motion(AX_NG_STAGE_Y2, -1, d2PosY);
 			m_tUnloadPicker2Loop.Takt_Save(19, 9); m_tUnloadPicker2Loop.Takt_Start(19, 10); 
@@ -9736,14 +9785,28 @@ BOOL CSequenceMain::Run_UnloadPicker2()
 		}
 		break;
 	case 33:
-		if (g_objAJinAXL.Is_MoveDone(AX_UNLOAD_PICKER_X2, d2PosX)) {
+		if (g_objAJinAXL.Is_MoveDone(AX_UNLOAD_PICKER_X2, d2PosX)) 
+		{
+			m_sLog.Format("MCC,19,UnloadPicker2,%d,Move Done to On NG Stg to put NG,target : %0.3lf, actual : %0.3lf", m_nUnloadPicker2Case, 
+				d2PosX, g_objAJinAXL.Get_Position(AX_UNLOAD_PICKER_X2));
+			g_objLogFile.Save_SeqLog(m_sLog);
+
 			g_objCommon.Save_Motion(AX_UNLOAD_PICKER_X2, -1, d2PosX);
 			m_nUnloadPicker2Case++; m_tUnloadPicker2Loop.Set_LoopTime(30000);
 		}
 		break;
 	case 34:
 		if ((n2NSNo==UNLOAD_PICKER2_X_GOOD_STAGE1_1_1 && g_objAJinAXL.Is_MoveDone(AX_GOOD_STAGE_Y1, d2PosY)) ||
-			(n2NSNo==UNLOAD_PICKER2_X_GOOD_STAGE2_1_1 && g_objAJinAXL.Is_MoveDone(AX_GOOD_STAGE_Y2, d2PosY)) ) {
+			(n2NSNo==UNLOAD_PICKER2_X_GOOD_STAGE2_1_1 && g_objAJinAXL.Is_MoveDone(AX_GOOD_STAGE_Y2, d2PosY)) ) 
+		{
+			m_sLog.Format("MCC,19,UnloadPicker2(GoodStage1),%d,Move Done to empty pocket position for receiving NG,target : %0.3lf, actual : %0.3lf", m_nUnloadPicker2Case, 
+				d2PosY, g_objAJinAXL.Get_Position(AX_GOOD_STAGE_Y1));
+			g_objLogFile.Save_SeqLog(m_sLog);
+
+			m_sLog.Format("MCC,19,UnloadPicker2(GoodStage2),%d,Move Done to empty pocket position for receiving NG,target : %0.3lf, actual : %0.3lf", m_nUnloadPicker2Case, 
+				d2PosY, g_objAJinAXL.Get_Position(AX_GOOD_STAGE_Y2));
+			g_objLogFile.Save_SeqLog(m_sLog);
+
 			if (n2NSNo==UNLOAD_PICKER2_X_GOOD_STAGE1_1_1) g_objCommon.Save_Motion(AX_GOOD_STAGE_Y1, -1, d2PosY);
 			if (n2NSNo==UNLOAD_PICKER2_X_GOOD_STAGE2_1_1) g_objCommon.Save_Motion(AX_GOOD_STAGE_Y2, -1, d2PosY);
 			m_tUnloadPicker2Loop.Takt_Save(19, 15); m_tUnloadPicker2Loop.Takt_Start(19, 16); 
