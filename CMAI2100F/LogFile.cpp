@@ -786,7 +786,7 @@ void CLogFile::Save_OperatingRatio(CString sLog)	// 가동률 작업 중
 
 void CLogFile::Save_SeqLog(CString sLog)
 {
-	CString strPath = gsCurrentDir + "\\LOG\\Seq";
+	CString strPath = gsCurrentDir + "\\LOG\\SeqTest";
 
 	Create_Folder(strPath);
 
