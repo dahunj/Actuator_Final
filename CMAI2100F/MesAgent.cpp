@@ -393,7 +393,7 @@ void CMesAgent::Get_HostMessage(CString sMsg)
 void CMesAgent::Get_ModuleData1(CString sData)
 {
 	CString strLog, sTemp, sCnt, sRcvData[320][11];
-
+	gMes.nLotConfirm[LOAD_STAGE] = 4;
 #ifndef AJIN_BOARD_USE
 	gMes.nLotConfirm[LOAD_STAGE] = 4;
 	gMes.nLotStatus[0]++;
@@ -479,7 +479,7 @@ void CMesAgent::Get_ModuleData2(CString sData)
 	CString strLog, sTemp, sCnt, sRcvData[320][11];
 
 
-
+	gMes.nLotConfirm[LOAD_STAGE] = 4;
 	AfxExtractSubString(sCnt, sData, 2, ',');
 	int nLen = sData.GetLength();
 	int nCnt = atoi(sCnt);
@@ -532,7 +532,7 @@ void CMesAgent::Get_ModuleData2(CString sData)
 				strLog.Format("Module Data2: %s", sTemp);
 				g_objLogFile.Save_MesAgentLog(strLog);
 			}
-			gMes.nLotConfirm[LOAD_STAGE] = 4;
+			
 			return;
 		}
 	}
