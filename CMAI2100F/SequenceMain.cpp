@@ -9231,13 +9231,7 @@ BOOL CSequenceMain::Run_UnloadPicker1()
 
 			m_nUnloadPicker1Case = 30; m_tUnloadPicker1Loop.Set_LoopTime(30000);
 		}
-		break;
-
-	case 40:
-		if (g_objCommon.Get_UnloadPickerUp(n1No)) {
-			
-		}
-		break;
+		break;	
 	case 41:
 		if (g_objCommon.Check_Position(AX_UNLOAD_PICKER_Z1, UNLOADPICKER1_Z_Ready) 
 			&& g_objCommon.Check_Position(AX_UNLOAD_PICKER_Y1, UNLOADPICKER1_Y_Ready)) 
@@ -9870,12 +9864,6 @@ BOOL CSequenceMain::Run_UnloadPicker2()
 			g_objLogFile.Save_HandlerLog(m_sLog);
 
 			m_nUnloadPicker2Case = 30; m_tUnloadPicker2Loop.Set_LoopTime(30000);
-		}
-		break;
-
-	case 40:
-		if (g_objCommon.Get_UnloadPickerUp(n2No)) {
-			
 		}
 		break;
 	case 41:
