@@ -395,6 +395,7 @@ void CWorkDlg::OnStcCmsCountSClick(UINT nID)
 			{			
 				nTick++;
 				Sleep(100);
+				g_objCommon.DoEvents();
 				if(gMes.nRMSStep == 4)
 				{					
 					gMes.nRMSStep = 0;
@@ -402,7 +403,7 @@ void CWorkDlg::OnStcCmsCountSClick(UINT nID)
 					g_dlgWork.m_pThreadMES = NULL;
 					break;
 				}
-				if(nTick > 100)
+				if(nTick > 300)
 				{
 					gMes.nRMSStep = 0;
 					g_dlgWork.m_bThreadMES = FALSE;	
@@ -718,23 +719,7 @@ BOOL CWorkDlg::Work_Start()
 	CString strTemp, strTemp2, sText, strMsg;
 
 	EQUIP_DATA *pEquipData = g_objDataManager.Get_pEquipData();
-	//RMS Check 
-	g_objMesAgent.Set_RMSCheck();
-
-	DWORD dwStart = GetTickCount();
-	while(!gData.bRMSDone && pEquipData->bUseMES)
-	{		
-		g_objCommon.DoEvents();
-		Sleep(2);
-
-		if(GetTickCount() - dwStart > 2000 && pEquipData->bUseMES)
-		{
-			g_objCommon.Show_MsgBox(1, "RMS Data 준비 되지 않았습니다.확인 후 진행가능합니다");
-			m_rdoWorkStop.SetCheck(TRUE);
-			return FALSE;
-		}
-	}
-
+	
 
 
 
@@ -1677,6 +1662,24 @@ LRESULT CWorkDlg::OnUpdateBarcode(WPARAM wParam, LPARAM lParam)
 	
 	sData.Format("%s%i","TEST00000000", i++);
 #endif
+	//RMS Check 
+	EQUIP_DATA *pEquipData = g_objDataManager.Get_pEquipData();
+
+	g_objMesAgent.Set_RMSCheck();
+
+	DWORD dwStart = GetTickCount();
+	while(!gData.bRMSDone && pEquipData->bUseMES)
+	{		
+		g_objCommon.DoEvents();
+		Sleep(2);
+
+		if(GetTickCount() - dwStart > 2000 && pEquipData->bUseMES)
+		{
+			g_objCommon.Show_MsgBox(1, "RMS Data 준비 되지 않았습니다.확인 후 진행가능합니다");
+			m_rdoWorkStop.SetCheck(TRUE);
+			return 0;
+		}
+	}
 
 	
 	if (sData.GetLength() < 1) return 0;
