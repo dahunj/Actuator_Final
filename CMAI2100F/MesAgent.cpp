@@ -762,7 +762,7 @@ void CMesAgent::Set_CmEnd(int nType, int nPortNo, int nTrayNo, int nCmNo, int nO
 	CString	strNGCd = gLot.sNGCode_I[nPortNo-1][nTrayNo-1][nCmNo-1][0];
 	CString	sMarginal = "";
 
-	CString strResult, strNgCode;
+	/*CString strResult, strNgCode;
 	if (nType == 1) {
 		strResult = "NG";
 		if	(strNGCd == "BARCODE_NOREAD" || strCmId.GetLength() < 15) 
@@ -780,11 +780,12 @@ void CMesAgent::Set_CmEnd(int nType, int nPortNo, int nTrayNo, int nCmNo, int nO
 	} else {
 		strResult = "OK";
 		strNgCode = "00";
-	}
+	}*/
 
-	/*
+	
 	CString strResult, strNgCode;
-	if (nType == 1) {
+	if (nType == 1) 
+	{
 		strResult = "NG";
 		strNgCode = Set_NGSort(nPortNo, nTrayNo, nCmNo);
 		if	(gLot.nJudge_R[nPortNo-1][nTrayNo-1][nCmNo-1] == 4) strNgCode = "Repair";
@@ -793,11 +794,13 @@ void CMesAgent::Set_CmEnd(int nType, int nPortNo, int nTrayNo, int nCmNo, int nO
 		if	(strNGCd == "Skip_ROS_N")  strNgCode = "Skip ROS N";
 		if	(strNGCd == "BARCODE_NOREAD" || strNgCode == "BARCODE_NOREAD") { strCmId = "NOREAD"; strNgCode = "BARCODE_NOREAD"; }
 		if  (strNGCd == "MARGINAL_OK") { strNgCode == "MARGINAL_OK"; sMarginal = "OK"; gMes.nMarCount++; }
-	} else {
+	} 
+	else
+	{
 		strResult = "OK";
 		strNgCode = "00";
 	}
-	*/
+	
 	CString strSend;
 	strSend.Format("CM,END,%s,%s,%s,%s,%d,%s", sLotID, strCmId, strResult, strNgCode, nOut, sMarginal);
 	g_objLogFile.Save_TestLog(strSend);
