@@ -190,7 +190,7 @@ BOOL CDataManager::Read_EquipData()
 	m_EquipData.nLogDate = INI.Get_Integer("EQUIPMENT", "LOT_DELETE_DATE", 90);
 	m_EquipData.bUseLightCurtain = INI.Get_Bool("EQUIPMENT", "LIGHT_CURTAIN", FALSE);
 	m_EquipData.bUseCosmeticNG = INI.Get_Bool("EQUIPMENT", "COSMETICNG", FALSE);
-	gData.bMemphis	= INI.Get_Bool("EQUIPMENT", "MEMPHIS_USE", FALSE);	gData.bMemphis = TRUE;
+	gData.bMemphis	= INI.Get_Bool("EQUIPMENT", "MEMPHIS_USE", FALSE);	
 
 	gData.bUseDryRun = INI.Get_Bool("OPTION", "DRY_RUN_USE", FALSE);
 	m_EquipData.bUseAlign1 = INI.Get_Bool("OPTION", "ALIGN_1", FALSE);

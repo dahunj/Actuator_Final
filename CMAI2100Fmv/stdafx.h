@@ -78,7 +78,7 @@
 //****************************************************************************
 //#define NEW_FINAL		//Final_New(Final2호기부터적용)
 //****************************************************************************
-#define AJIN_BOARD_USE
+//#define AJIN_BOARD_USE
 
 #ifdef NEW_FINAL		
 	#define MAIN_VERSION	"Vf2 3.0.3mv"	//C5 Final 3호기 이외 장비

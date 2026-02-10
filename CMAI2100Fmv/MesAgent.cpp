@@ -757,27 +757,8 @@ void CMesAgent::Set_CmEnd(int nType, int nPortNo, int nTrayNo, int nCmNo, int nO
 	CString	strNGCd = gLot.sNGCode_I[nPortNo-1][nTrayNo-1][nCmNo-1][0];
 	CString	sMarginal = "";
 
-	CString strResult, strNgCode;
-	if (nType == 1) {
-		strResult = "NG";
-		if	(strNGCd == "BARCODE_NOREAD" || strCmId.GetLength() < 15) 
-		{
-			strCmId = "NOREAD"; strNgCode = "BARCODE_NOREAD";
-		} 
-		else if(strNGCd == "NO_MES_INFO")
-		{
-			strNgCode = "NO_MES_INFO";
-		}
-		else 
-		{
-			strNgCode == "MARGINAL_OK"; sMarginal = "OK"; gMes.nMarCount++;
-		}
-	} else {
-		strResult = "OK";
-		strNgCode = "00";
-	}
 
-	/*
+
 	CString strResult, strNgCode;
 	if (nType == 1) {
 		strResult = "NG";
@@ -792,7 +773,7 @@ void CMesAgent::Set_CmEnd(int nType, int nPortNo, int nTrayNo, int nCmNo, int nO
 		strResult = "OK";
 		strNgCode = "00";
 	}
-	*/
+
 	CString strSend;
 	strSend.Format("CM,END,%s,%s,%s,%s,%d,%s", sLotID, strCmId, strResult, strNgCode, nOut, sMarginal);
 	g_objLogFile.Save_TestLog(strSend);
