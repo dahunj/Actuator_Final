@@ -527,3 +527,27 @@ const int UNLOADPICKER2_Z_GoodStage2 = 8;
 const int UNLOADPICKER2_P_InspectionStage = 0;
 const int UNLOADPICKER2_P_NGStage = 1;
 const int UNLOADPICKER2_P_GoodStage = 2;
+
+const int INSPECT_STAGE1_X_AlignPos		= 0;
+const int INSPECT_STAGE1_X_Top1Pos		= 1;
+const int INSPECT_STAGE1_X_Top2Pos		= 2;
+const int INSPECT_STAGE1_X_BufferPos	= 4;
+const int INSPECT_STAGE1_X_UnloadPos	= 3;
+
+const int INSPECT_STAGE2_X_AlignPos		= 0;
+const int INSPECT_STAGE2_X_Top1Pos		= 1;
+const int INSPECT_STAGE2_X_Top2Pos		= 2;
+const int INSPECT_STAGE2_X_BufferPos	= 4;
+const int INSPECT_STAGE2_X_UnloadPos	= 3;
+
+const int INSPECT_STAGE3_X_AlignPos		= 0;
+const int INSPECT_STAGE3_X_Top1Pos		= 1;
+const int INSPECT_STAGE3_X_Top2Pos		= 2;
+const int INSPECT_STAGE3_X_BufferPos	= 4;
+const int INSPECT_STAGE3_X_UnloadPos	= 3;
+
+const int INSPECT_STAGE4_X_AlignPos		= 0;
+const int INSPECT_STAGE4_X_Top1Pos		= 1;
+const int INSPECT_STAGE4_X_Top2Pos		= 2;
+const int INSPECT_STAGE4_X_BufferPos	= 4;
+const int INSPECT_STAGE4_X_UnloadPos	= 3;
