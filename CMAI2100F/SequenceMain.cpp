@@ -6080,15 +6080,19 @@ BOOL CSequenceMain::Run_LoadPicker2()
 		}
 		break;
 	case 23:
-		if (m_pEquipData->bUseBottom) {
+		if (m_pEquipData->bUseBottom)
+		{
 			//g_objCommon.Move_Position(AX_LOAD_PICKER_Z2, 3);
 			m_nLoadPicker2Case++; m_tLoadPicker2Loop.Set_LoopTime(30000);
-		} else {
+		} 
+		else
+		{
 			m_nLoadPicker2Case = 29; m_tLoadPicker2Loop.Set_LoopTime(30000);
 		}
 		break;
 	case 24:
-		if (g_objCommon.Check_Position(AX_BTM_ANGLE_Y, 1) ) {
+		if (g_objCommon.Check_Position(AX_BTM_ANGLE_Y, 1) )
+		{
 			g_objCommon.Save_Motion(AX_BTM_ANGLE_Y, 1);
 			m_tLoadPicker2Loop.Takt_Save(13, 12); m_tLoadPicker2Loop.Takt_Start(13, 13);
 //			g_objCommon.Move_Position(AX_BTM_FOCUS_Z, 1);
