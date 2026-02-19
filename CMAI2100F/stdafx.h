@@ -443,6 +443,17 @@ extern  GLOVAL_INTERLOCKDATA	gIt;
 #define UNLOAD_PICKER1_X_GOOD_STAGE2_11 8
 
 
+const int nLOADPICKER1_X_Stage1 = 1;
+const int nLOADPICKER1_X_Stage2 = 2;
+const int nLOADPICKER1_X_Bottom = 3;
+const int nLOADPICKER1_X_Align  = 4;
+
+const int nLOADPICKER2_X_Stage1 = 1;
+const int nLOADPICKER2_X_Stage2 = 2;
+const int nLOADPICKER2_X_Bottom = 3;
+const int nLOADPICKER2_X_Align  = 4;
+
+
 const int UNLOADPICKER1_X_Ready = 0;
 const int UNLOADPICKER1_X_InspectionStage1 = 1;
 const int UNLOADPICKER1_X_InspectionStage2 = 2;
