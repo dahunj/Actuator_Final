@@ -191,7 +191,7 @@ void CLogFile::Save_JobListLog(CString sLog)
 	strFile.Format("%s\\%04d%02d%02d.csv", strPath, time.wYear, time.wMonth, time.wDay);
 	if (time.wHour < 7) {
 		CTime PreDay(time);
-		PreDay -= CTimeSpan(1,0,0,0);	//CTimeSpan(일,시,분,초)
+		PreDay -= CTimeSpan(1,0,0,0);	//CTimeSpan(??,??,??,??)
 		strFile.Format("%s\\%04d%02d%02d.csv", strPath,  PreDay.GetYear(), PreDay.GetMonth(), PreDay.GetDay());
 	}
 
@@ -265,7 +265,7 @@ void CLogFile::Save_ECMOutPut(int nPNo, int nTNo, int nMNo, int nType)
 	strTime2.Format("%02d:%02d:%02d", time.wHour, time.wMinute, time.wSecond);
 	strTime1.Format("%02d:%02d:%02d.%03d", time.wHour, time.wMinute, time.wSecond, time.wMilliseconds);
 
-	sTitle.Format("Time,Station,SensorID,Barcode,Date,Time2,Machine_Code,Time,LotNum,LoadPort,LoadTray,LoadPos,LoadPicker,LoadPickerNo,VisionStage,VisionStageNo,UnloadPicker,UnloadPickerNo,Output,OutTray,OutPos,Judge,JudgeB1,DefectCodeB1,JudgeAG,DefectCodeAG,JudgeT1,DefectCodeT1,JudgeTG,DefectCodeTG,JudgeT2,DefectCodeT2,ADJ Result,Flow Time,BTM Vision Process Time,Top1 Vision Process Time,Top2 Vision Process Time,ULD delay,ROS Operator,ROS Images,ROS Result,ROS Judge Time,ROS Response Time,최종 판정 결과 코드,LoadMZID,InputCarrierID,OutputCarrierID,Repair,MN-Code\r\n");
+	sTitle.Format("Time,Station,SensorID,Barcode,Date,Time2,Machine_Code,Time,LotNum,LoadPort,LoadTray,LoadPos,LoadPicker,LoadPickerNo,VisionStage,VisionStageNo,UnloadPicker,UnloadPickerNo,Output,OutTray,OutPos,Judge,JudgeB1,DefectCodeB1,JudgeAG,DefectCodeAG,JudgeT1,DefectCodeT1,JudgeTG,DefectCodeTG,JudgeT2,DefectCodeT2,ADJ Result,Flow Time,BTM Vision Process Time,Top1 Vision Process Time,Top2 Vision Process Time,ULD delay,ROS Operator,ROS Images,ROS Result,ROS Judge Time,ROS Response Time,???? ???? ????? ???,LoadMZID,InputCarrierID,OutputCarrierID,Repair,MN-Code\r\n");
 	strFile.Format("%s%s_%04d%02d%02d%02d_Output.csv", ECM_LOG, sLotID, time.wYear, time.wMonth, time.wDay, time.wHour);
 
 	CFile file;
@@ -302,7 +302,7 @@ void CLogFile::Save_ECMOutPut(int nPNo, int nTNo, int nMNo, int nType)
 
 		sData2.Format("%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,", sJudge[0], sJudge[1], sCode[1], sJudge[2], sCode[2], sJudge[3], sCode[3], sJudge[4], sCode[4], sJudge[5], sCode[5]);
 
-		//ROS Images,ROS Result,ROS Judge Time,ROS Response Time,최종 판정 결과 코드,LoadMZID,InputCarrierID,OutputCarrierID,Repair,MN-Code\r\n");
+		//ROS Images,ROS Result,ROS Judge Time,ROS Response Time,???? ???? ????? ???,LoadMZID,InputCarrierID,OutputCarrierID,Repair,MN-Code\r\n");
 		sData3.Format(",,,,,,,%d,%s,,,%s,,,,,%s", gLot.nImageCnt[nPNo-1][nTNo-1][nMNo-1], sRosJ, sJudge[0], sCode[0]);
 
 		strSave.Format("%s,%s,,%s,%s,%s,%s,%s,%s,%s%s%s\r\n", strTime, m_sPCID, gLot.sBarCode[nPNo-1][nTNo-1][nMNo-1], strDate, strTime2, m_sMachineCode, strTime1, sLotID, sData1, sData2, sData3);
@@ -388,7 +388,7 @@ void CLogFile::Save_LotResult(CString sLog)
 	CFile file;
 	if (!file.Open(strFile, CFile::modeCreate | CFile::modeNoTruncate | CFile::modeWrite | CFile::shareDenyNone)) return;
 
-	if (gData.nLanguage == 0) strTitle.Format("날짜,Lot Start,Lot End,Term,호기,Lot ID,투입수,양품수,불량수,불량률,HREN(H),HREP(P),Spider(S),BA(B),Chip(C),MES(M)\r\n");
+	if (gData.nLanguage == 0) strTitle.Format("???,Lot Start,Lot End,Term,???,Lot ID,?????,?????,?????,?????,HREN(H),HREP(P),Spider(S),BA(B),Chip(C),MES(M)\r\n");
 	else					  strTitle.Format("Date,Lot Start,Lot End,Term,No,Lot ID,Number of inputs,Number of good,Number of NG,Defect rate,HREN(H),HREP(P),Spider(S),BA(B),Chip(C),MES(M)\r\n");
 
 	try {
@@ -549,7 +549,7 @@ void CLogFile::Save_OutTray(CString strLotID, CString strOut, int nPosX, int nPo
 
 		if (file.GetLength() < 1) file.Write(strTitle, strTitle.GetLength());
 
-		//검사결과 (0:Empty, 1:Good, 2:NG)
+		//????? (0:Empty, 1:Good, 2:NG)
 		int nJudge = gData.InfoUnloadPick[nPickNo-1];
 		strSave.Format("%d,%d,%d,%d,%d,%d,%d\r\n", nPosX, nPosY, nMzNo, nCarNo, nLineNo, nPickNo, nJudge);
 
@@ -738,7 +738,7 @@ void CLogFile::Save_LotLog(int nPortNo)
 	}
 }
 
-void CLogFile::Save_OperatingRatio(CString sLog)	// 가동률 작업 중
+void CLogFile::Save_OperatingRatio(CString sLog)	// ?????? ??? ??
 {
 	g_csOperatingRatioLog.Lock();
 
@@ -752,7 +752,7 @@ void CLogFile::Save_OperatingRatio(CString sLog)	// 가동률 작업 중
 	strFile.Format("%s\\%04d%02d%02d.csv", strPath, time.wYear, time.wMonth, time.wDay);
 	strFile2.Format("%s\\%04d%02d%02d.txt", strPath, time.wYear, time.wMonth, time.wDay);
 
-	strTitle.Format("Time,호기,Lot ID,Lot Start,Lot End,Cycle Time,LM(EA),Run Time,Stop Time,Error Time,Error Count,수율,UPH,MTB\r\n");
+	strTitle.Format("Time,???,Lot ID,Lot Start,Lot End,Cycle Time,LM(EA),Run Time,Stop Time,Error Time,Error Count,????,UPH,MTB\r\n");
 	strSave.Format("[%02d:%02d:%02d %03d]%s\r\n", time.wHour, time.wMinute, time.wSecond, time.wMilliseconds, sLog);
 
 	CFile file;
@@ -1083,14 +1083,14 @@ void CLogFile::Save_StdMotionLog(CString sLotID, CString sType, int nZone, int n
 	SYSTEMTIME time;
 	GetLocalTime(&time);
 
-	// 파일명 : LotID_생성년월일시_공정명_Normal_#호기번호_PC이름_모델명_순번.csv => Lot Start시 생성
+	// ????? : LotID_????????????_??????_Normal_#??????_PC???_????_????.csv => Lot Start?? ????
 	gData.sStdMotionFile.Format("%s_%04d%02d%02d%02d_AVI_Normal_#%04d_%s_%s_%04d.csv",
 						strLotId, time.wYear, time.wMonth, time.wDay, time.wHour, gData.nStdEqNo, gsComputerName, gData.sRecipeName, nSeqNo);
 	strFile.Format("%s%s", ECM_ME_LOG, gData.sStdMotionFile);
 
 	strKey.Format("[CH_DV]%s%03d%03d[1]", sType, nZone, nCase);
-	if (sType == "Y" && nValue == 1) strCycle = "";	// 선행동작 (시작시 공란)
-	else strCycle.Format("%s%03d%03d", sType, nZone, nCase-1);	// 선행동작 표시
+	if (sType == "Y" && nValue == 1) strCycle = "";	// ?????? (????? ????)
+	else strCycle.Format("%s%03d%03d", sType, nZone, nCase-1);	// ?????? ???
 
 	int nNo = sMsg.Find(",");
 	if (nNo > 0) sData = sMsg.Left(nNo);
@@ -1155,7 +1155,7 @@ void CLogFile::Save_EfficiencyLog(CString sLotID, CString sStatus, CString strZo
 	SYSTEMTIME time;
 	GetLocalTime(&time);
 
-	//파일명 : LotID_생성년월일시_공정명_Efficiency_#호기번호_PC이름_모델명_순번.csv
+	//????? : LotID_????????????_??????_Efficiency_#??????_PC???_????_????.csv
 	gData.sEfficiencyFile.Format("%s_%04d%02d%02d%02d_AVI_Efficiency_#%04d_%s_%s_%04d.csv",
 						strLotId, time.wYear, time.wMonth, time.wDay, time.wHour, gData.nStdEqNo, gsComputerName, gData.sRecipeName, nSeqNo);
 	strFile.Format("%s%s", ECM_ME_LOG, gData.sEfficiencyFile);
@@ -1181,7 +1181,7 @@ void CLogFile::Save_EfficiencyLog(CString sLotID, CString sStatus, CString strZo
 
 void CLogFile::Get_ZoneMsg(int nFun, int nId, CString &sLotID, int &nPortNo, int &nSeqTotal, CString &strFun, CString &strMsg, CString &sType)
 {
-	nPortNo = nSeqTotal = 0; sType = "X";	//X:모터,실린더 구동, M:검사시간, B:동작대기시간, Y:Unit Tack
+	nPortNo = nSeqTotal = 0; sType = "X";	//X:????,????? ????, M:???ð???, B:??????ð?, Y:Unit Tack
 	switch (nFun) {
 	case 1:
 		strFun = "Elevator_1"; nSeqTotal = 4;
@@ -1463,34 +1463,75 @@ void CLogFile::Get_ZoneMsg(int nFun, int nId, CString &sLotID, int &nPortNo, int
 	case 14:
 		strFun = "Inspect_Stage_1"; nSeqTotal = 28;
 		switch (nId) {
-		case  1: sType = "X"; strMsg = "X1 Axis Move To Top1 Position,start"; break;
-		case  2: sType = "B"; strMsg = "Wait for Top1 Scan,ing"; break;
-		case  3: sType = "X"; strMsg = "X1 Axis Move To Top1 Pitch,ing"; break;
-		case  4: sType = "M"; strMsg = "X1 Top1 Scan Complete,ing"; break;
-		case  5: sType = "B"; strMsg = "Wait for Top1 Angle Scan,ing"; break;
-		case  6: sType = "X"; strMsg = "X1 Axis Move To Top1 Angle Pitch,ing"; break;
-		case  7: sType = "M"; strMsg = "X1 Top1 Angle Scan Complete,ing"; break;
-		case  8: sType = "B"; strMsg = "Wait for Move Top2,ing"; break;
-		case  9: sType = "X"; strMsg = "X1 Axis Move To Top2 Position,ing"; break;
-		case 10: sType = "B"; strMsg = "Wait for Top2 Scan,ing"; break;
-		case 11: sType = "X"; strMsg = "X1 Axis Move To Top2 Pitch,ing"; break;
-		case 12: sType = "M"; strMsg = "X1 Top2 Scan Complete,ing"; break;
-		case 13: sType = "B"; strMsg = "Wait for Move Buffer,ing"; break;
-		case 14: sType = "X"; strMsg = "X1 Axis Move To Buffer Position,ing"; break;
-		case 15: sType = "B"; strMsg = "Wait for Move Unload,ing"; break;
-		case 16: sType = "X"; strMsg = "X1 Axis Move To Unload Position,ing"; break;
-		case 17: sType = "B"; strMsg = "Wait for Work Unload_Picker,ing"; break;
-		case 18: sType = "X"; strMsg = "X1 Stage Down,ing"; break;
-		case 19: sType = "X"; strMsg = "X1 Stage Out,ing"; break;
-		case 20: sType = "B"; strMsg = "Wait for Move Down-Top2,ing"; break;
-		case 21: sType = "X"; strMsg = "X1 Axis Move Back Top2 Position,ing"; break;
-		case 22: sType = "B"; strMsg = "Wait for Move Down-Top1,ing"; break;
-		case 23: sType = "X"; strMsg = "X1 Axis Move Back Top1 Position,ing"; break;
-		case 24: sType = "B"; strMsg = "Wait for Move Down-Align,ing"; break;
-		case 25: sType = "X"; strMsg = "X1 Axis Move Back Align Position,ing"; break;
-		case 26: sType = "B"; strMsg = "Wait for Stage In,ing"; break;
-		case 27: sType = "X"; strMsg = "X1 Stage In,ing"; break;
-		case 28: sType = "X"; strMsg = "X1 Stage Up,end"; break;
+		case  1: sType = "X"; strMsg = "Stage 1 90 Degree 0 True & Degree 90 FALSE"; break;
+		case  2: sType = "X"; strMsg = "Inspect Stage Move to Top1 or Align"; break;
+		case  3: sType = "X"; strMsg = "Top1 Z focus Move or Move to Top1"; break;
+		case  4: sType = "B"; strMsg = "Information Exchange"; break;
+		case  5: sType = "B"; strMsg = "Wait for Top1 Scan,ing"; break;
+		case  6: sType = "X"; strMsg = "Inspect Stage 1 Pitch Move"; break;
+		case  7: sType = "B"; strMsg = "Set Load Complete T1"; break;
+		case  8: sType = "M"; strMsg = "T1 Scan Complete"; break;
+		case  9: sType = "B"; strMsg = "Top1 Vision Z Move Done"; break;
+		case  10: sType = "X"; strMsg = "Inspect Stage 1 and Top1 Z move"; break;			
+		case  11: sType = "B"; strMsg = "Set Load Complete TG"; break;
+		case  12: sType = "M"; strMsg = "TG Scan Complete"; break;
+		case  13: sType = "B"; strMsg = "Wait for front stage move to Buffer Pos"; break;
+		case  14: sType = "X"; strMsg = "Stage 1 X Move to Top2 and Top2 Z focus move"; break;
+		case  15: sType = "B"; strMsg = "Information Exchange"; break;
+		case  16: sType = "X"; strMsg = "Stage 1 X Pitch Move and Top2 Z focus Move"; break;
+		case  17: sType = "B"; strMsg = "Set Load Complete T2"; break;
+		case  18: sType = "M"; strMsg = "T2 Scan Done"; break;
+		case  19: sType = "B"; strMsg = "Wait Interlock buffer Pos"; break;
+		case  20: sType = "B"; strMsg = "Wait Interlock until front stage move to unload"; break;
+		case  21: sType = "X"; strMsg = "Inspect Stage 1 Move to Unload and deg 0"; break;
+		case  22: sType = "B"; strMsg = "Information exchange"; break;
+		case  23: sType = "X"; strMsg = "Stage X1 Move to buffer pos"; break;
+		case  24: sType = "B"; strMsg = "Information exchange"; break;
+		case  25: sType = "B"; strMsg = "wait for ROS Start"; break;
+		case  26: sType = "B"; strMsg = "Wait Done ROS"; break;
+		case  31: sType = "X"; strMsg = "Stage1 Down"; break;	
+		case  32: sType = ""; strMsg = ""; break;
+		case  33: sType = ""; strMsg = ""; break;
+		case  34: sType = ""; strMsg = ""; break;
+		case  35: sType = ""; strMsg = ""; break;
+		case  36: sType = ""; strMsg = ""; break;
+		case  37: sType = ""; strMsg = ""; break;
+		case  38: sType = ""; strMsg = ""; break;
+		case  39: sType = ""; strMsg = ""; break;
+		case  40: sType = ""; strMsg = ""; break;
+		case  41: sType = ""; strMsg = ""; break;
+		case  42: sType = ""; strMsg = ""; break;
+		case  43: sType = ""; strMsg = ""; break;
+		case  44: sType = ""; strMsg = ""; break;
+		case  45: sType = ""; strMsg = ""; break;
+		case  46: sType = ""; strMsg = ""; break;
+		case  47: sType = ""; strMsg = ""; break;
+		case  48: sType = ""; strMsg = ""; break;
+		case  49: sType = ""; strMsg = ""; break;
+		case  50: sType = ""; strMsg = ""; break;
+		case  51: sType = ""; strMsg = ""; break;
+		case  52: sType = ""; strMsg = ""; break;
+		case  53: sType = ""; strMsg = ""; break;
+		case  54: sType = ""; strMsg = ""; break;
+		case  55: sType = ""; strMsg = ""; break;
+		case  56: sType = ""; strMsg = ""; break;
+		case  57: sType = ""; strMsg = ""; break;
+		case  58: sType = ""; strMsg = ""; break;
+		case  59: sType = ""; strMsg = ""; break;
+		case  60: sType = ""; strMsg = ""; break;
+		case  61: sType = ""; strMsg = ""; break;
+		case  62: sType = ""; strMsg = ""; break;
+		case  63: sType = ""; strMsg = ""; break;
+		case  64: sType = ""; strMsg = ""; break;
+		case  65: sType = ""; strMsg = ""; break;
+		case  66: sType = ""; strMsg = ""; break;
+		case  67: sType = ""; strMsg = ""; break;
+		case  68: sType = ""; strMsg = ""; break;
+		case  69: sType = ""; strMsg = ""; break;
+		
+		
+		
+		
 		}
 		break;
 	case 15:
@@ -1773,7 +1814,7 @@ void CLogFile::Get_ZoneMsg(int nFun, int nId, CString &sLotID, int &nPortNo, int
 	}
 }
 
-void CLogFile::Save_Interlock(int nType)	//nType:0[등록], 1[정시], 2[해제] 3[설정]
+void CLogFile::Save_Interlock(int nType)	//nType:0[?????], 1[????], 2[????] 3[????]
 {
 	CString strFile, sTitle, sTitle1, strTime, strSave, strSave1, strSave2, strSave3, strSave4, strSave5, strLotID, strDoor[21], sInterUse;
 
@@ -1783,10 +1824,10 @@ void CLogFile::Save_Interlock(int nType)	//nType:0[등록], 1[정시], 2[해제] 3[설�
 	if (nType == 0) {
 		gIt.nOpenTime = 0;
 		gIt.nOpenStart = 0;
-		gIt.nLogYY = time.wYear;	//등록년
-		gIt.nLogMM = time.wMonth;	//등록월
-		gIt.nLogDD = time.wDay;		//등록날
-		gIt.nLogHH = time.wHour;	//등록시간
+		gIt.nLogYY = time.wYear;	//??????
+		gIt.nLogMM = time.wMonth;	//??????
+		gIt.nLogDD = time.wDay;		//??????
+		gIt.nLogHH = time.wHour;	//???ð???
 	}
 	if (gIt.nLogMM < 1 || gIt.nLogMM > 12) return;
 
@@ -1816,12 +1857,12 @@ void CLogFile::Save_Interlock(int nType)	//nType:0[등록], 1[정시], 2[해제] 3[설�
 	double dTime, dPer;
 	if (nType == 1) {
 		if (gIt.nOpenStart == 1) {
-			nNGTime = (GetTickCount() - gIt.dwOpenStartTime) / 1000;	//초단위
+			nNGTime = (GetTickCount() - gIt.dwOpenStartTime) / 1000;	//?????
 			gIt.nOpenTime = gIt.nOpenTime + nNGTime;
 		}
 		if (gIt.nOpenTime > 0) {
 			if (gIt.nOpenTime > 3600) gIt.nOpenTime = 3600;
-			dTime = gIt.nOpenTime / 60.0;	//분단위
+			dTime = gIt.nOpenTime / 60.0;	//?д???
 			dPer = ((3600.0 - gIt.nOpenTime) / 3600.0) * 100.0;
 			if (dPer > 100.0) dPer = 100.0;
 		} else {
