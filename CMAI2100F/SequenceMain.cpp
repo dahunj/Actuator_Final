@@ -5355,15 +5355,19 @@ BOOL CSequenceMain::Run_LoadPicker1()
 		}
 		break;
 	case 23:
-		if (m_pEquipData->bUseBottom) {
-			g_objCommon.Move_Position(AX_LOAD_PICKER_Z1, 3);
+		if (m_pEquipData->bUseBottom) 
+		{
+			//g_objCommon.Move_Position(AX_LOAD_PICKER_Z1, 3);
 			m_nLoadPicker1Case++; m_tLoadPicker1Loop.Set_LoopTime(30000);
-		} else {
+		}
+		else
+		{
 			m_nLoadPicker1Case = 29; m_tLoadPicker1Loop.Set_LoopTime(30000);
 		}
 		break;
 	case 24:
-		if (g_objCommon.Check_Position(AX_BTM_ANGLE_Y, 1) ) {
+		if (g_objCommon.Check_Position(AX_BTM_ANGLE_Y, 1) )
+		{
 			g_objCommon.Save_Motion(AX_BTM_ANGLE_Y, 1);
 			m_tLoadPicker1Loop.Takt_Save(12, 12); m_tLoadPicker1Loop.Takt_Start(12, 13);
 //			g_objCommon.Move_Position(AX_BTM_FOCUS_Z, 1);
@@ -5373,7 +5377,8 @@ BOOL CSequenceMain::Run_LoadPicker1()
 		}
 		break;
 	case 25:
-		if (g_objCommon.Get_LoadPickerDown(n1No)) {
+		if (g_objCommon.Get_LoadPickerDown(n1No)) 
+		{
 			n1BTMNo = gData.nLPCount1 = gData.nScanRetry[0] = 0;
 			n1CMno1 = gData.InfoLoadPick[n1No-1][9];
 			n1CMno5 = gData.InfoLoadPick[n1No-1][9] + 4;
@@ -5381,7 +5386,8 @@ BOOL CSequenceMain::Run_LoadPicker1()
 		}
 		break;
 	case 26:
-		if (g_objCommon.Get_LoadPickerDown(n1No)) {
+		if (g_objCommon.Get_LoadPickerDown(n1No)) 
+		{
 			m_tLoadPicker1Loop.Takt_Save(12, 13); m_tLoadPicker1Loop.Takt_Start(12, 14);
 			dLPStage1PosX = m_pMoveData->dLoadPickerX1[3] + (m_pEquipData->dPitchBtm * n1BTMNo);
 			g_objAJinAXL.Move_Absolute(AX_LOAD_PICKER_X1, dLPStage1PosX);
@@ -5390,8 +5396,10 @@ BOOL CSequenceMain::Run_LoadPicker1()
 		}
 		break;
 	case 27:
-		if (g_objAJinAXL.Is_MoveDone(AX_LOAD_PICKER_X1, dLPStage1PosX)) {
-			if (g_objCommon.Check_Position(AX_BTM_LIGHT_Z, 1) && g_objAJinAXL.Is_Done(AX_BTM_FOCUS_Z)) {
+		if (g_objAJinAXL.Is_MoveDone(AX_LOAD_PICKER_X1, dLPStage1PosX))
+		{
+			if (g_objCommon.Check_Position(AX_BTM_LIGHT_Z, 1) && g_objAJinAXL.Is_Done(AX_BTM_FOCUS_Z)) 
+			{
 				if (!m_tLoadPicker1Loop.Waiting_Time(m_pEquipData->nDelayTime[2])) break;
 				g_objCommon.Save_Motion(AX_LOAD_PICKER_X1, -1, dLPStage1PosX);	g_objCommon.Save_Motion(AX_BTM_LIGHT_Z, 1);
 				m_tLoadPicker1Loop.Takt_Save(12, 14); m_tLoadPicker1Loop.Takt_Start(12, 15);
@@ -6073,7 +6081,7 @@ BOOL CSequenceMain::Run_LoadPicker2()
 		break;
 	case 23:
 		if (m_pEquipData->bUseBottom) {
-			g_objCommon.Move_Position(AX_LOAD_PICKER_Z2, 3);
+			//g_objCommon.Move_Position(AX_LOAD_PICKER_Z2, 3);
 			m_nLoadPicker2Case++; m_tLoadPicker2Loop.Set_LoopTime(30000);
 		} else {
 			m_nLoadPicker2Case = 29; m_tLoadPicker2Loop.Set_LoopTime(30000);
