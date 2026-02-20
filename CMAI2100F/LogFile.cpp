@@ -61,8 +61,10 @@ void CLogFile::Save_AlarmLog(CString sLog)
 	strFile.Format("%s\\%04d%02d%02d.txt", strPath, time.wYear, time.wMonth, time.wDay);
 
 	CFile file;
-	if (file.Open(strFile, CFile::modeCreate | CFile::modeNoTruncate | CFile::modeWrite | CFile::shareDenyNone)) {
-		try {
+	if (file.Open(strFile, CFile::modeCreate | CFile::modeNoTruncate | CFile::modeWrite | CFile::shareDenyNone)) 
+	{
+		try
+		{
 			file.SeekToEnd();
 
 			strSave.Format("%02d:%02d:%02d %03d,%s\r\n", time.wHour, time.wMinute, time.wSecond, time.wMilliseconds, sLog);
@@ -70,7 +72,9 @@ void CLogFile::Save_AlarmLog(CString sLog)
 			file.Write(strSave, strSave.GetLength());
 			file.Close();
 
-		} catch (CFileException *pEx) {
+		}
+		catch (CFileException *pEx)
+		{
 			pEx->Delete();
 		}
 	}
@@ -1462,6 +1466,58 @@ void CLogFile::Get_ZoneMsg(int nFun, int nId, CString &sLotID, int &nPortNo, int
 		break;
 	case 14:
 		strFun = "Inspect_Stage_1"; nSeqTotal = 28;
+		switch (nId)
+		{
+		case  1: sType = "X"; strMsg = "Stage 1 90 Degree 0 True & Degree 90 FALSE"; break;
+		case  2: sType = "X"; strMsg = "Inspect Stage Move to Top1 or Align"; break;
+		case  3: sType = "X"; strMsg = "Top1 Z focus Move or Move to Top1"; break;
+		case  4: sType = "B"; strMsg = "Information Exchange"; break;
+		case  5: sType = "B"; strMsg = "Wait for Top1 Scan,ing"; break;
+		case  6: sType = "X"; strMsg = "Inspect Stage 1 Pitch Move"; break;
+		case  7: sType = "B"; strMsg = "Set Load Complete T1"; break;
+		case  8: sType = "M"; strMsg = "T1 Scan Complete"; break;
+		case  9: sType = "B"; strMsg = "Top1 Vision Z Move Done"; break;
+		case  10: sType = "X"; strMsg = "Inspect Stage 1 and Top1 Z move"; break;			
+		case  11: sType = "B"; strMsg = "Set Load Complete TG"; break;
+		case  12: sType = "M"; strMsg = "TG Scan Complete"; break;
+		case  13: sType = "B"; strMsg = "Wait for front stage move to Buffer Pos"; break;
+		case  14: sType = "X"; strMsg = "Stage 1 X Move to Top2 and Top2 Z focus move"; break;
+		case  15: sType = "B"; strMsg = "Information Exchange"; break;
+		case  16: sType = "X"; strMsg = "Stage 1 X Pitch Move and Top2 Z focus Move"; break;
+		case  17: sType = "B"; strMsg = "Set Load Complete T2"; break;
+		case  18: sType = "M"; strMsg = "T2 Scan Done"; break;
+		case  19: sType = "B"; strMsg = "Wait Interlock buffer Pos"; break;
+		case  20: sType = "B"; strMsg = "Wait Interlock until front stage move to unload"; break;
+		case  21: sType = "X"; strMsg = "Inspect Stage 1 Move to Unload and deg 0"; break;
+		case  22: sType = "B"; strMsg = "Information exchange"; break;
+		case  23: sType = "X"; strMsg = "Stage X1 Move to buffer pos"; break;
+		case  24: sType = "B"; strMsg = "Information exchange"; break;
+		case  25: sType = "B"; strMsg = "wait for ROS Start"; break;
+		case  26: sType = "B"; strMsg = "Wait Done ROS"; break;
+		case  31: sType = "X"; strMsg = "Stage1 sylinder Down"; break;	
+		case  32: sType = "X"; strMsg = "Stage1 or 4 Y Out"; break;		
+		case  34: sType = "M"; strMsg = "Y Out Done"; break;
+		case  35: sType = "B"; strMsg = "Wait till front stage move to safe position"; break;
+		case  40: sType = "B"; strMsg = "Wait till front stage move to safe position(top1)"; break;
+		case  41: sType = "X"; strMsg = "Stage1 X move to Top2 pos"; break;
+		case  42: sType = "M"; strMsg = "Stage1 X move Done to Top2"; break;
+		case  50: sType = "B"; strMsg = "Wait till front stage move to safe position(Align)"; break;
+		case  51: sType = "X"; strMsg = "Stage1 X move to Top1 pos"; break;
+		case  52: sType = "M"; strMsg = "Stage1 X move Done to Top1"; break;
+		case  60: sType = "B"; strMsg = "Wait till front stage move to safe position(after align)"; break;
+		case  61: sType = "X"; strMsg = "Stage1 X move to Align pos"; break;
+		case  62: sType = "M"; strMsg = "Stage1 X move Done to Align"; break;
+		case  63: sType = "M"; strMsg = "Stage1 Sylinder Down check"; break;
+		case  64: sType = "B"; strMsg = "Wait Stage1 Out"; break;
+		case  70: sType = "B"; strMsg = "Wait till front stage move to safe pos(after top1)"; break;
+		case  71: sType = "X"; strMsg = "Stage Y In"; break;
+		case  72: sType = "X"; strMsg = "Stage Y In Done and Stage Sylinder Up"; break;
+		case  73: sType = "M"; strMsg = "Stage Up Done"; break;
+				
+		}
+		break;
+	case 15:
+		strFun = "Inspect_Stage_2"; nSeqTotal = 28;
 		switch (nId) {
 		case  1: sType = "X"; strMsg = "Stage 1 90 Degree 0 True & Degree 90 FALSE"; break;
 		case  2: sType = "X"; strMsg = "Inspect Stage Move to Top1 or Align"; break;
@@ -1489,148 +1545,125 @@ void CLogFile::Get_ZoneMsg(int nFun, int nId, CString &sLotID, int &nPortNo, int
 		case  24: sType = "B"; strMsg = "Information exchange"; break;
 		case  25: sType = "B"; strMsg = "wait for ROS Start"; break;
 		case  26: sType = "B"; strMsg = "Wait Done ROS"; break;
-		case  31: sType = "X"; strMsg = "Stage1 Down"; break;	
-		case  32: sType = ""; strMsg = ""; break;
-		case  33: sType = ""; strMsg = ""; break;
-		case  34: sType = ""; strMsg = ""; break;
-		case  35: sType = ""; strMsg = ""; break;
-		case  36: sType = ""; strMsg = ""; break;
-		case  37: sType = ""; strMsg = ""; break;
-		case  38: sType = ""; strMsg = ""; break;
-		case  39: sType = ""; strMsg = ""; break;
-		case  40: sType = ""; strMsg = ""; break;
-		case  41: sType = ""; strMsg = ""; break;
-		case  42: sType = ""; strMsg = ""; break;
-		case  43: sType = ""; strMsg = ""; break;
-		case  44: sType = ""; strMsg = ""; break;
-		case  45: sType = ""; strMsg = ""; break;
-		case  46: sType = ""; strMsg = ""; break;
-		case  47: sType = ""; strMsg = ""; break;
-		case  48: sType = ""; strMsg = ""; break;
-		case  49: sType = ""; strMsg = ""; break;
-		case  50: sType = ""; strMsg = ""; break;
-		case  51: sType = ""; strMsg = ""; break;
-		case  52: sType = ""; strMsg = ""; break;
-		case  53: sType = ""; strMsg = ""; break;
-		case  54: sType = ""; strMsg = ""; break;
-		case  55: sType = ""; strMsg = ""; break;
-		case  56: sType = ""; strMsg = ""; break;
-		case  57: sType = ""; strMsg = ""; break;
-		case  58: sType = ""; strMsg = ""; break;
-		case  59: sType = ""; strMsg = ""; break;
-		case  60: sType = ""; strMsg = ""; break;
-		case  61: sType = ""; strMsg = ""; break;
-		case  62: sType = ""; strMsg = ""; break;
-		case  63: sType = ""; strMsg = ""; break;
-		case  64: sType = ""; strMsg = ""; break;
-		case  65: sType = ""; strMsg = ""; break;
-		case  66: sType = ""; strMsg = ""; break;
-		case  67: sType = ""; strMsg = ""; break;
-		case  68: sType = ""; strMsg = ""; break;
-		case  69: sType = ""; strMsg = ""; break;
-		
-		
-		
-		
-		}
-		break;
-	case 15:
-		strFun = "Inspect_Stage_2"; nSeqTotal = 28;
-		switch (nId) {
-		case  1: sType = "X"; strMsg = "X2 Axis Move To Top1 Position,start"; break;
-		case  2: sType = "B"; strMsg = "Wait for Top1 Scan,ing"; break;
-		case  3: sType = "X"; strMsg = "X2 Axis Move To Top1 Pitch,ing"; break;
-		case  4: sType = "M"; strMsg = "X2 Top1 Scan Complete,ing"; break;
-		case  5: sType = "B"; strMsg = "Wait for Top1 Angle Scan,ing"; break;
-		case  6: sType = "X"; strMsg = "X2 Axis Move To Top1 Angle Pitch,ing"; break;
-		case  7: sType = "M"; strMsg = "X2 Top1 Angle Scan Complete,ing"; break;
-		case  8: sType = "B"; strMsg = "Wait for Move Top2,ing"; break;
-		case  9: sType = "X"; strMsg = "X2 Axis Move To Top2 Position,ing"; break;
-		case 10: sType = "B"; strMsg = "Wait for Top2 Scan,ing"; break;
-		case 11: sType = "X"; strMsg = "X2 Axis Move To Top2 Pitch,ing"; break;
-		case 12: sType = "M"; strMsg = "X2 Top2 Scan Complete,ing"; break;
-		case 13: sType = "B"; strMsg = "Wait for Move Buffer,ing"; break;
-		case 14: sType = "X"; strMsg = "X2 Axis Move To Buffer Position,ing"; break;
-		case 15: sType = "B"; strMsg = "Wait for Move Unload,ing"; break;
-		case 16: sType = "X"; strMsg = "X2 Axis Move To Unload Position,ing"; break;
-		case 17: sType = "B"; strMsg = "Wait for Work Unload_Picker,ing"; break;
-		case 18: sType = "X"; strMsg = "X2 Stage Down,ing"; break;
-		case 19: sType = "X"; strMsg = "X2 Stage Out,ing"; break;
-		case 20: sType = "B"; strMsg = "Wait for Move Down-Top2,ing"; break;
-		case 21: sType = "X"; strMsg = "X2 Axis Move Back Top2 Position,ing"; break;
-		case 22: sType = "B"; strMsg = "Wait for Move Down-Top1,ing"; break;
-		case 23: sType = "X"; strMsg = "X2 Axis Move Back Top1 Position,ing"; break;
-		case 24: sType = "B"; strMsg = "Wait for Move Down-Align,ing"; break;
-		case 25: sType = "X"; strMsg = "X2 Axis Move Back Align Position,ing"; break;
-		case 26: sType = "B"; strMsg = "Wait for Stage In,ing"; break;
-		case 27: sType = "X"; strMsg = "X2 Stage In,ing"; break;
-		case 28: sType = "X"; strMsg = "X2 Stage Up,end"; break;
+		case  31: sType = "X"; strMsg = "Stage1 sylinder Down"; break;	
+		case  32: sType = "X"; strMsg = "Stage1 or 4 Y Out"; break;		
+		case  34: sType = "M"; strMsg = "Y Out Done"; break;
+		case  35: sType = "B"; strMsg = "Wait till front stage move to safe position"; break;
+		case  40: sType = "B"; strMsg = "Wait till front stage move to safe position(top1)"; break;
+		case  41: sType = "X"; strMsg = "Stage1 X move to Top2 pos"; break;
+		case  42: sType = "M"; strMsg = "Stage1 X move Done to Top2"; break;
+		case  50: sType = "B"; strMsg = "Wait till front stage move to safe position(Align)"; break;
+		case  51: sType = "X"; strMsg = "Stage1 X move to Top1 pos"; break;
+		case  52: sType = "M"; strMsg = "Stage1 X move Done to Top1"; break;
+		case  60: sType = "B"; strMsg = "Wait till front stage move to safe position(after align)"; break;
+		case  61: sType = "X"; strMsg = "Stage1 X move to Align pos"; break;
+		case  62: sType = "M"; strMsg = "Stage1 X move Done to Align"; break;
+		case  63: sType = "M"; strMsg = "Stage1 Sylinder Down check"; break;
+		case  64: sType = "B"; strMsg = "Wait Stage1 Out"; break;
+		case  70: sType = "B"; strMsg = "Wait till front stage move to safe pos(after top1)"; break;
+		case  71: sType = "X"; strMsg = "Stage Y In"; break;
+		case  72: sType = "X"; strMsg = "Stage Y In Done and Stage Sylinder Up"; break;
+		case  73: sType = "M"; strMsg = "Stage Up Done"; break;
 		}
 		break;
 	case 16:
 		strFun = "Inspect_Stage_3"; nSeqTotal = 28;
 		switch (nId) {
-		case  1: sType = "X"; strMsg = "X3 Axis Move To Top1 Position,start"; break;
-		case  2: sType = "B"; strMsg = "Wait for Top1 Scan,ing"; break;
-		case  3: sType = "X"; strMsg = "X3 Axis Move To Top1 Pitch,ing"; break;
-		case  4: sType = "M"; strMsg = "X3 Top1 Scan Complete,ing"; break;
-		case  5: sType = "B"; strMsg = "Wait for Top1 Angle Scan,ing"; break;
-		case  6: sType = "X"; strMsg = "X3 Axis Move To Top1 Angle Pitch,ing"; break;
-		case  7: sType = "M"; strMsg = "X3 Top1 Angle Scan Complete,ing"; break;
-		case  8: sType = "B"; strMsg = "Wait for Move Top2,ing"; break;
-		case  9: sType = "X"; strMsg = "X3 Axis Move To Top2 Position,ing"; break;
-		case 10: sType = "B"; strMsg = "Wait for Top2 Scan,ing"; break;
-		case 11: sType = "X"; strMsg = "X3 Axis Move To Top2 Pitch,ing"; break;
-		case 12: sType = "M"; strMsg = "X3 Top2 Scan Complete,ing"; break;
-		case 13: sType = "B"; strMsg = "Wait for Move Buffer,ing"; break;
-		case 14: sType = "X"; strMsg = "X3 Axis Move To Buffer Position,ing"; break;
-		case 15: sType = "B"; strMsg = "Wait for Move Unload,ing"; break;
-		case 16: sType = "X"; strMsg = "X3 Axis Move To Unload Position,ing"; break;
-		case 17: sType = "B"; strMsg = "Wait for Work Unload_Picker,ing"; break;
-		case 18: sType = "X"; strMsg = "X3 Stage Down,ing"; break;
-		case 19: sType = "X"; strMsg = "X3 Stage Out,ing"; break;
-		case 20: sType = "B"; strMsg = "Wait for Move Down-Top2,ing"; break;
-		case 21: sType = "X"; strMsg = "X3 Axis Move Back Top2 Position,ing"; break;
-		case 22: sType = "B"; strMsg = "Wait for Move Down-Top1,ing"; break;
-		case 23: sType = "X"; strMsg = "X3 Axis Move Back Top1 Position,ing"; break;
-		case 24: sType = "B"; strMsg = "Wait for Move Down-Align,ing"; break;
-		case 25: sType = "X"; strMsg = "X3 Axis Move Back Align Position,ing"; break;
-		case 26: sType = "B"; strMsg = "Wait for Stage In,ing"; break;
-		case 27: sType = "X"; strMsg = "X3 Stage In,ing"; break;
-		case 28: sType = "X"; strMsg = "X3 Stage Up,end"; break;
+		case  1: sType = "X"; strMsg = "Stage 1 90 Degree 0 True & Degree 90 FALSE"; break;
+		case  2: sType = "X"; strMsg = "Inspect Stage Move to Top1 or Align"; break;
+		case  3: sType = "X"; strMsg = "Top1 Z focus Move or Move to Top1"; break;
+		case  4: sType = "B"; strMsg = "Information Exchange"; break;
+		case  5: sType = "B"; strMsg = "Wait for Top1 Scan,ing"; break;
+		case  6: sType = "X"; strMsg = "Inspect Stage 1 Pitch Move"; break;
+		case  7: sType = "B"; strMsg = "Set Load Complete T1"; break;
+		case  8: sType = "M"; strMsg = "T1 Scan Complete"; break;
+		case  9: sType = "B"; strMsg = "Top1 Vision Z Move Done"; break;
+		case  10: sType = "X"; strMsg = "Inspect Stage 1 and Top1 Z move"; break;			
+		case  11: sType = "B"; strMsg = "Set Load Complete TG"; break;
+		case  12: sType = "M"; strMsg = "TG Scan Complete"; break;
+		case  13: sType = "B"; strMsg = "Wait for front stage move to Buffer Pos"; break;
+		case  14: sType = "X"; strMsg = "Stage 1 X Move to Top2 and Top2 Z focus move"; break;
+		case  15: sType = "B"; strMsg = "Information Exchange"; break;
+		case  16: sType = "X"; strMsg = "Stage 1 X Pitch Move and Top2 Z focus Move"; break;
+		case  17: sType = "B"; strMsg = "Set Load Complete T2"; break;
+		case  18: sType = "M"; strMsg = "T2 Scan Done"; break;
+		case  19: sType = "B"; strMsg = "Wait Interlock buffer Pos"; break;
+		case  20: sType = "B"; strMsg = "Wait Interlock until front stage move to unload"; break;
+		case  21: sType = "X"; strMsg = "Inspect Stage 1 Move to Unload and deg 0"; break;
+		case  22: sType = "B"; strMsg = "Information exchange"; break;
+		case  23: sType = "X"; strMsg = "Stage X1 Move to buffer pos"; break;
+		case  24: sType = "B"; strMsg = "Information exchange"; break;
+		case  25: sType = "B"; strMsg = "wait for ROS Start"; break;
+		case  26: sType = "B"; strMsg = "Wait Done ROS"; break;
+		case  31: sType = "X"; strMsg = "Stage1 sylinder Down"; break;	
+		case  32: sType = "X"; strMsg = "Stage1 or 4 Y Out"; break;		
+		case  34: sType = "M"; strMsg = "Y Out Done"; break;
+		case  35: sType = "B"; strMsg = "Wait till front stage move to safe position"; break;
+		case  40: sType = "B"; strMsg = "Wait till front stage move to safe position(top1)"; break;
+		case  41: sType = "X"; strMsg = "Stage1 X move to Top2 pos"; break;
+		case  42: sType = "M"; strMsg = "Stage1 X move Done to Top2"; break;
+		case  50: sType = "B"; strMsg = "Wait till front stage move to safe position(Align)"; break;
+		case  51: sType = "X"; strMsg = "Stage1 X move to Top1 pos"; break;
+		case  52: sType = "M"; strMsg = "Stage1 X move Done to Top1"; break;
+		case  60: sType = "B"; strMsg = "Wait till front stage move to safe position(after align)"; break;
+		case  61: sType = "X"; strMsg = "Stage1 X move to Align pos"; break;
+		case  62: sType = "M"; strMsg = "Stage1 X move Done to Align"; break;
+		case  63: sType = "M"; strMsg = "Stage1 Sylinder Down check"; break;
+		case  64: sType = "B"; strMsg = "Wait Stage1 Out"; break;
+		case  70: sType = "B"; strMsg = "Wait till front stage move to safe pos(after top1)"; break;
+		case  71: sType = "X"; strMsg = "Stage Y In"; break;
+		case  72: sType = "X"; strMsg = "Stage Y In Done and Stage Sylinder Up"; break;
+		case  73: sType = "M"; strMsg = "Stage Up Done"; break;
 		}
 		break;
 	case 17:
 		strFun = "Inspect_Stage_4"; nSeqTotal = 28;
 		switch (nId) {
-		case  1: sType = "X"; strMsg = "X4 Axis Move To Top1 Position,start"; break;
-		case  2: sType = "B"; strMsg = "Wait for Top1 Scan,ing"; break;
-		case  3: sType = "X"; strMsg = "X4 Axis Move To Top1 Pitch,ing"; break;
-		case  4: sType = "M"; strMsg = "X4 Top1 Scan Complete,ing"; break;
-		case  5: sType = "B"; strMsg = "Wait for Top1 Angle Scan,ing"; break;
-		case  6: sType = "X"; strMsg = "X4 Axis Move To Top1 Angle Pitch,ing"; break;
-		case  7: sType = "M"; strMsg = "X4 Top1 Angle Scan Complete,ing"; break;
-		case  8: sType = "B"; strMsg = "Wait for Move Top2,ing"; break;
-		case  9: sType = "X"; strMsg = "X4 Axis Move To Top2 Position,ing"; break;
-		case 10: sType = "B"; strMsg = "Wait for Top2 Scan,ing"; break;
-		case 11: sType = "X"; strMsg = "X4 Axis Move To Top2 Pitch,ing"; break;
-		case 12: sType = "M"; strMsg = "X4 Top2 Scan Complete,ing"; break;
-		case 13: sType = "B"; strMsg = "Wait for Move Buffer,ing"; break;
-		case 14: sType = "X"; strMsg = "X4 Axis Move To Buffer Position,ing"; break;
-		case 15: sType = "B"; strMsg = "Wait for Move Unload,ing"; break;
-		case 16: sType = "X"; strMsg = "X4 Axis Move To Unload Position,ing"; break;
-		case 17: sType = "B"; strMsg = "Wait for Work Unload_Picker,ing"; break;
-		case 18: sType = "X"; strMsg = "X4 Stage Down,ing"; break;
-		case 19: sType = "X"; strMsg = "X4 Stage Out,ing"; break;
-		case 20: sType = "B"; strMsg = "Wait for Move Down-Top2,ing"; break;
-		case 21: sType = "X"; strMsg = "X4 Axis Move Back Top2 Position,ing"; break;
-		case 22: sType = "B"; strMsg = "Wait for Move Down-Top1,ing"; break;
-		case 23: sType = "X"; strMsg = "X4 Axis Move Back Top1 Position,ing"; break;
-		case 24: sType = "B"; strMsg = "Wait for Move Down-Align,ing"; break;
-		case 25: sType = "X"; strMsg = "X4 Axis Move Back Align Position,ing"; break;
-		case 26: sType = "B"; strMsg = "Wait for Stage In,ing"; break;
-		case 27: sType = "X"; strMsg = "X4 Stage In,ing"; break;
-		case 28: sType = "X"; strMsg = "X4 Stage Up,end"; break;
+		case  1: sType = "X"; strMsg = "Stage 1 90 Degree 0 True & Degree 90 FALSE"; break;
+		case  2: sType = "X"; strMsg = "Inspect Stage Move to Top1 or Align"; break;
+		case  3: sType = "X"; strMsg = "Top1 Z focus Move or Move to Top1"; break;
+		case  4: sType = "B"; strMsg = "Information Exchange"; break;
+		case  5: sType = "B"; strMsg = "Wait for Top1 Scan,ing"; break;
+		case  6: sType = "X"; strMsg = "Inspect Stage 1 Pitch Move"; break;
+		case  7: sType = "B"; strMsg = "Set Load Complete T1"; break;
+		case  8: sType = "M"; strMsg = "T1 Scan Complete"; break;
+		case  9: sType = "B"; strMsg = "Top1 Vision Z Move Done"; break;
+		case  10: sType = "X"; strMsg = "Inspect Stage 1 and Top1 Z move"; break;			
+		case  11: sType = "B"; strMsg = "Set Load Complete TG"; break;
+		case  12: sType = "M"; strMsg = "TG Scan Complete"; break;
+		case  13: sType = "B"; strMsg = "Wait for front stage move to Buffer Pos"; break;
+		case  14: sType = "X"; strMsg = "Stage 1 X Move to Top2 and Top2 Z focus move"; break;
+		case  15: sType = "B"; strMsg = "Information Exchange"; break;
+		case  16: sType = "X"; strMsg = "Stage 1 X Pitch Move and Top2 Z focus Move"; break;
+		case  17: sType = "B"; strMsg = "Set Load Complete T2"; break;
+		case  18: sType = "M"; strMsg = "T2 Scan Done"; break;
+		case  19: sType = "B"; strMsg = "Wait Interlock buffer Pos"; break;
+		case  20: sType = "B"; strMsg = "Wait Interlock until front stage move to unload"; break;
+		case  21: sType = "X"; strMsg = "Inspect Stage 1 Move to Unload and deg 0"; break;
+		case  22: sType = "B"; strMsg = "Information exchange"; break;
+		case  23: sType = "X"; strMsg = "Stage X1 Move to buffer pos"; break;
+		case  24: sType = "B"; strMsg = "Information exchange"; break;
+		case  25: sType = "B"; strMsg = "wait for ROS Start"; break;
+		case  26: sType = "B"; strMsg = "Wait Done ROS"; break;
+		case  31: sType = "X"; strMsg = "Stage1 sylinder Down"; break;	
+		case  32: sType = "X"; strMsg = "Stage1 or 4 Y Out"; break;		
+		case  34: sType = "M"; strMsg = "Y Out Done"; break;
+		case  35: sType = "B"; strMsg = "Wait till front stage move to safe position"; break;
+		case  40: sType = "B"; strMsg = "Wait till front stage move to safe position(top1)"; break;
+		case  41: sType = "X"; strMsg = "Stage1 X move to Top2 pos"; break;
+		case  42: sType = "M"; strMsg = "Stage1 X move Done to Top2"; break;
+		case  50: sType = "B"; strMsg = "Wait till front stage move to safe position(Align)"; break;
+		case  51: sType = "X"; strMsg = "Stage1 X move to Top1 pos"; break;
+		case  52: sType = "M"; strMsg = "Stage1 X move Done to Top1"; break;
+		case  60: sType = "B"; strMsg = "Wait till front stage move to safe position(after align)"; break;
+		case  61: sType = "X"; strMsg = "Stage1 X move to Align pos"; break;
+		case  62: sType = "M"; strMsg = "Stage1 X move Done to Align"; break;
+		case  63: sType = "M"; strMsg = "Stage1 Sylinder Down check"; break;
+		case  64: sType = "B"; strMsg = "Wait Stage1 Out"; break;
+		case  70: sType = "B"; strMsg = "Wait till front stage move to safe pos(after top1)"; break;
+		case  71: sType = "X"; strMsg = "Stage Y In"; break;
+		case  72: sType = "X"; strMsg = "Stage Y In Done and Stage Sylinder Up"; break;
+		case  73: sType = "M"; strMsg = "Stage Up Done"; break;
 		}
 		break;
 	case 18:

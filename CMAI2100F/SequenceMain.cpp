@@ -6551,7 +6551,8 @@ BOOL CSequenceMain::Run_VisionStage1()
 	static DWORD dwV1RosTime[3];	//Top2,Buffer,Unload
 
 	n1FrontVisionCase = m_nVisionStage3Case;
-	switch (m_nVisionStage1Case) {
+	switch (m_nVisionStage1Case) 
+	{
 	case 0:	// Wait
 		m_tVisionStage1Loop.Set_LoopTime(5000);
 		return TRUE;
@@ -6957,6 +6958,7 @@ BOOL CSequenceMain::Run_VisionStage1()
 		if (n1FrontVisionCase < 19 || (n1FrontVisionCase >= 23 && gData.nTop2Cnt <= 1) || n1FrontVisionCase >= 25) 
 		{
 			m_tVisionStage1Loop.Takt_Start(14, 19);
+			m_tVisionStage1Loop.Takt_Save(14, 19);
 			m_nVisionStage1Case = 16; m_tVisionStage1Loop.Set_LoopTime(5000);
 		}
 		return TRUE;
@@ -6964,7 +6966,7 @@ BOOL CSequenceMain::Run_VisionStage1()
 	case 20:
 		if (n1FrontVisionCase < 20 || n1FrontVisionCase >= 25) 
 		{
-			m_tVisionStage1Loop.Takt_Save(14, 19); m_tVisionStage1Loop.Takt_Start(14, 20); 
+			 m_tVisionStage1Loop.Takt_Start(14, 20); 
 			m_nVisionStage1Case++; m_tVisionStage1Loop.Set_LoopTime(5000);
 		}
 		return TRUE;
@@ -7094,7 +7096,7 @@ BOOL CSequenceMain::Run_VisionStage1()
 		{
 			double dCurrent = g_objAJinAXL.Get_Position(m_nVisionStage3Case);
 			double dTarget = g_objDataManager.Get_pMoveData()->dVisionStageX3[INSPECT_STAGE3_X_AlignPos];
-			if(dTarget < dCurrent) return TRUE;
+			if(dTarget < dCurrent && !Check_ModuleEmpty()) return TRUE;
 
 			m_tVisionStage1Loop.Takt_Save(14, 34); m_tVisionStage1Loop.Takt_Start(14, 35);
 			m_tVisionStage1Loop.Takt_Save(14, 35);
@@ -7114,14 +7116,15 @@ BOOL CSequenceMain::Run_VisionStage1()
 	case 40:
 		if (n1FrontVisionCase < 40 || n1FrontVisionCase >= 60) 
 		{
-			m_tVisionStage1Loop.Takt_Start(14, 40);			
+			m_tVisionStage1Loop.Takt_Start(14, 40);
+			m_tVisionStage1Loop.Takt_Save(14, 40);
 			m_nVisionStage1Case++; m_tVisionStage1Loop.Set_LoopTime(5000);
 		}
 		return TRUE;
 	case 41:
 		if (!m_pDX07->iInspectStage1Up && m_pDX07->iInspectStage1Down) 
 		{
-			m_tVisionStage1Loop.Takt_Save(14, 40); m_tVisionStage1Loop.Takt_Start(14, 41);
+			m_tVisionStage1Loop.Takt_Start(14, 41);
 			g_objCommon.Move_Position(AX_INSPECT_STAGE_X1, INSPECT_STAGE1_X_Top2Pos);
 			m_nVisionStage1Case++; m_tVisionStage1Loop.Set_LoopTime(10000);
 		}
@@ -7135,13 +7138,15 @@ BOOL CSequenceMain::Run_VisionStage1()
 			gData.nVisionPos[0][3] = 0; gData.nVisionPos[0][2] = nS1No;
 
 			m_tVisionStage1Loop.Takt_Save(14, 41); m_tVisionStage1Loop.Takt_Start(14, 42);
+			m_tVisionStage1Loop.Takt_Save(14, 42);
 			m_nVisionStage1Case = 50; m_tVisionStage1Loop.Set_LoopTime(60000);
 		}
 		break;
 	case 50:
 		if (n1FrontVisionCase < 50 || n1FrontVisionCase >= 70)
 		{
-			m_tVisionStage1Loop.Takt_Save(14, 42); m_tVisionStage1Loop.Takt_Start(14, 50);
+			m_tVisionStage1Loop.Takt_Start(14, 50);
+			m_tVisionStage1Loop.Takt_Save(14, 50);
 			m_nVisionStage1Case++; m_tVisionStage1Loop.Set_LoopTime(5000);
 		}
 		break;
@@ -7151,7 +7156,7 @@ BOOL CSequenceMain::Run_VisionStage1()
 		{			
 			g_objCommon.Move_Position(AX_INSPECT_STAGE_X1, INSPECT_STAGE1_X_Top1Pos);
 
-			m_tVisionStage1Loop.Takt_Save(14, 50); m_tVisionStage1Loop.Takt_Start(14, 51);
+			m_tVisionStage1Loop.Takt_Start(14, 51);
 			m_nVisionStage1Case++; m_tVisionStage1Loop.Set_LoopTime(10000);
 		}
 		break;
@@ -7163,13 +7168,15 @@ BOOL CSequenceMain::Run_VisionStage1()
 			gData.nVisionPos[0][2] = 0; gData.nVisionPos[0][1] = nS1No;
 
 			m_tVisionStage1Loop.Takt_Save(14, 51); m_tVisionStage1Loop.Takt_Start(14, 52);
+			m_tVisionStage1Loop.Takt_Save(14, 52);
 			m_nVisionStage1Case = 60; m_tVisionStage1Loop.Set_LoopTime(60000);
 		}
 		break;
 	case 60:
 		if (n1FrontVisionCase >= 0 && n1FrontVisionCase < 50) 
 		{
-			m_tVisionStage1Loop.Takt_Save(14, 52); m_tVisionStage1Loop.Takt_Start(14, 60);
+			m_tVisionStage1Loop.Takt_Start(14, 60);
+			m_tVisionStage1Loop.Takt_Save(14, 60);
 			m_nVisionStage1Case++; m_tVisionStage1Loop.Set_LoopTime(5000);
 		}
 		return TRUE;
@@ -7178,7 +7185,7 @@ BOOL CSequenceMain::Run_VisionStage1()
 			
 			g_objCommon.Move_Position(AX_INSPECT_STAGE_X1, INSPECT_STAGE1_X_AlignPos);
 
-			m_tVisionStage1Loop.Takt_Save(14, 60); m_tVisionStage1Loop.Takt_Start(14, 61);
+			 m_tVisionStage1Loop.Takt_Start(14, 61);
 			m_nVisionStage1Case++; m_tVisionStage1Loop.Set_LoopTime(10000);
 		}
 		break;
@@ -7284,7 +7291,8 @@ BOOL CSequenceMain::Run_VisionStage2()
 	static DWORD dwV2RosTime[3];	//Top2,Buffer,Unload
 
 	n2FrontVisionCase = m_nVisionStage1Case;
-	switch (m_nVisionStage2Case) {
+	switch (m_nVisionStage2Case) 
+	{
 	case 0:	// Wait
 		m_tVisionStage2Loop.Set_LoopTime(5000);
 		return TRUE;
@@ -7312,6 +7320,8 @@ BOOL CSequenceMain::Run_VisionStage2()
 					dStage2PosX = m_pMoveData->dVisionStageX2[0] + ALIGN_TOP1_POS;
 					g_objAJinAXL.Move_Absolute(AX_INSPECT_STAGE_X2, dStage2PosX);
 				}
+
+				m_tVisionStage2Loop.Takt_Save(15, 1); m_tVisionStage2Loop.Takt_Start(15, 2); 
 				m_nVisionStage2Case++; m_tVisionStage2Loop.Set_LoopTime(10000);
 			}
 		}
@@ -7330,6 +7340,8 @@ BOOL CSequenceMain::Run_VisionStage2()
 						//dVision2PosZ = m_pMoveData->dTOPVisionZ1[1] + gData.dFocusOffset[nS2No-1][0];
 						dVision2PosZ = m_pMoveData->dTOPVisionZ1[1];
 						g_objAJinAXL.Move_Absolute(AX_TOP1_VISION_Z, dVision2PosZ);
+
+						m_tVisionStage2Loop.Takt_Save(15, 2); m_tVisionStage2Loop.Takt_Start(15, 3); 
 						m_nVisionStage2Case++; m_tVisionStage2Loop.Set_LoopTime(10000);
 					}
 				}
@@ -7370,31 +7382,37 @@ BOOL CSequenceMain::Run_VisionStage2()
 		if (g_objCommon.Check_Position(AX_INSPECT_STAGE_X2, 1)) {
 			if (m_pDX07->iInspectStage2Deg0) {
 				g_objCommon.Save_Motion(AX_INSPECT_STAGE_X2, 1);
-				m_tVisionStage2Loop.Takt_Save(15, 1); m_tVisionStage2Loop.Takt_Start(15, 2); 
+				
 				gData.nVisionPos[1][0] = 0; gData.nVisionPos[1][1] = nS2No;
 				gData.nTop1Cnt = gData.nScanRetry[1] = 0;
 				n2Tno1 = gData.InfoVision[nS2No-1][9];
 				n2Tno5 = gData.InfoVision[nS2No-1][9] + 4;
+
+				m_tVisionStage2Loop.Takt_Save(15, 3); m_tVisionStage2Loop.Takt_Start(15, 4);
 				m_nVisionStage2Case++; m_tVisionStage2Loop.Set_LoopTime(5000);
 			}
 		}
 		break;
 
 	case 5:
-		if (n2FrontVisionCase >= 22 || (n2FrontVisionCase >= 17 && gData.nTop1Cnt <= 1) || (n2FrontVisionCase >= 17 && gData.nTop2Cnt >= gData.nTop1Cnt)) {
+		if (n2FrontVisionCase >= 22 || (n2FrontVisionCase >= 17 && gData.nTop1Cnt <= 1) || (n2FrontVisionCase >= 17 && gData.nTop2Cnt >= gData.nTop1Cnt)) 
+		{
+			m_tVisionStage2Loop.Takt_Save(15, 4); m_tVisionStage2Loop.Takt_Start(15, 5);
 			m_nVisionStage2Case++; m_tVisionStage2Loop.Set_LoopTime(20000);
 		}
 		return TRUE;
 	case 6:
 		if (m_pDX07->iInspectStage2Up && !m_pDX07->iInspectStage2Down) {
 			if (g_objAJinAXL.Is_Done(AX_TOP1_VISION_Z)) {
-				m_tVisionStage2Loop.Takt_Save(15, 2); m_tVisionStage2Loop.Takt_Start(15, 3); 
+				
 				dStage2PosX = m_pMoveData->dVisionStageX2[1] + (m_pEquipData->dPitchTop * gData.nTop1Cnt);
 				g_objAJinAXL.Move_Absolute(AX_INSPECT_STAGE_X2, dStage2PosX);
 //				g_objCommon.Move_Position(AX_TOP1_VISION_Z, 1);
 				//dVision2PosZ = m_pMoveData->dTOPVisionZ1[1] + gData.dFocusOffset[nS2No-1][gData.nTop1Cnt];
 				dVision2PosZ = m_pMoveData->dTOPVisionZ1[1];
 				g_objAJinAXL.Move_Absolute(AX_TOP1_VISION_Z, dVision2PosZ);	nV2Retry = 0;
+
+				m_tVisionStage2Loop.Takt_Save(15, 5); m_tVisionStage2Loop.Takt_Start(15, 6);
 				m_nVisionStage2Case++; m_tVisionStage2Loop.Set_LoopTime(60000);
 			}
 		}
@@ -7412,19 +7430,21 @@ BOOL CSequenceMain::Run_VisionStage2()
 #else
 				g_objCommon.Save_Motion(AX_INSPECT_STAGE_X2, -1, dStage2PosX);	g_objCommon.Save_Motion(AX_TOP1_LIGHT_Z, 1);
 #endif
-				m_tVisionStage2Loop.Takt_Save(15, 3); m_tVisionStage2Loop.Takt_Start(15, 4); 
+				
 				gData.bTop1ScanDone = FALSE;	gData.nVsNo[0] = nS2No; gData.nVsIx[0] = gData.nTop1Cnt+1;
 				int nModule1 = n2Tno1; if (gData.InfoVision[nS2No-1][gData.nTop1Cnt] < 1)   nModule1 = -1;
 				int nModule5 = n2Tno5; if (gData.InfoVision[nS2No-1][gData.nTop1Cnt+4] < 1) nModule5 = -1;
 				g_objInspector.Set_LoadComplete(INSPECTOR_PC2, "T1", gData.sLotID_VisionStage[nS2No-1], gData.nPortNo_VisionStage[nS2No-1], gData.nTrayNo_VisionStage[nS2No-1], nModule1, gData.nTrayNo_VisionStage[nS2No-1], nModule5);
 				gAlm.sAlmLID[2] = gData.sLotID_VisionStage[nS2No-1]; gAlm.nAlmTNo[2] = gData.nTrayNo_VisionStage[nS2No-1]; gAlm.nAlmPNo[2] = nModule1;
+				
+				m_tVisionStage2Loop.Takt_Save(15, 6); m_tVisionStage2Loop.Takt_Start(15, 7);
 				m_nVisionStage2Case++; m_tVisionStage2Loop.Set_LoopTime(m_pEquipData->nTimeOver[0]);
 			}
 		}
 		break;
 	case 8:
 		if (gData.bTop1ScanDone || !m_pEquipData->bUseTop1) {
-			m_tVisionStage2Loop.Takt_Save(15, 4); m_tVisionStage2Loop.Takt_Start(15, 5); 
+			 
 			gData.nTop1Cnt++; n2Tno1++; n2Tno5++;
 			if (gData.nTop1Cnt >= 4) {
 				if (m_pEquipData->bUseTopAng) {
@@ -7438,11 +7458,21 @@ BOOL CSequenceMain::Run_VisionStage2()
 #else
 					g_objCommon.Move_Position(AX_TOP1_LIGHT_Z, 2);
 #endif
+					m_tVisionStage2Loop.Takt_Save(15, 7); m_tVisionStage2Loop.Takt_Start(15, 8); 
+					m_tVisionStage2Loop.Takt_Save(15, 8); 
 					m_nVisionStage2Case++; m_tVisionStage2Loop.Set_LoopTime(30000);
-				} else {
+				} 
+				else
+				{
+					m_tVisionStage2Loop.Takt_Save(15, 7); m_tVisionStage2Loop.Takt_Start(15, 8); 
+					m_tVisionStage2Loop.Takt_Save(15, 8); 
 					m_nVisionStage2Case = 12; m_tVisionStage2Loop.Set_LoopTime(5000);
 				}
-			} else {
+			} 
+			else 
+			{
+				m_tVisionStage2Loop.Takt_Save(15, 7); m_tVisionStage2Loop.Takt_Start(15, 8); 
+				m_tVisionStage2Loop.Takt_Save(15, 8); 
 				m_nVisionStage2Case = 5; m_tVisionStage2Loop.Set_LoopTime(5000);
 			}
 		}
@@ -7450,8 +7480,11 @@ BOOL CSequenceMain::Run_VisionStage2()
 
 	case 9:	//Top1-Angle
 #ifdef NEW_FINAL
-		if (g_objCommon.Check_Position(AX_TOP1_VISION_Z, 2)) {
+		if (g_objCommon.Check_Position(AX_TOP1_VISION_Z, 2))
+		{
 			g_objCommon.Save_Motion(AX_TOP1_VISION_Z, 2); gData.nScanRetry[1] = 0;
+
+			m_tVisionStage2Loop.Takt_Start(15, 9);		
 			m_nVisionStage2Case++; m_tVisionStage2Loop.Set_LoopTime(30000);
 		}
 #else
@@ -7465,16 +7498,19 @@ BOOL CSequenceMain::Run_VisionStage2()
 	case 10:
 		if (m_pDX07->iInspectStage2Up && !m_pDX07->iInspectStage2Down) {
 			if (g_objAJinAXL.Is_Done(AX_TOP1_VISION_Z)) {
-				m_tVisionStage2Loop.Takt_Save(15, 5); m_tVisionStage2Loop.Takt_Start(15, 6); 
+				
 				dStage2PosX = m_pMoveData->dVisionStageX2[1] + (m_pEquipData->dPitchTop * gData.nTop1Cnt);
 				g_objAJinAXL.Move_Absolute(AX_INSPECT_STAGE_X2, dStage2PosX);
 				g_objCommon.Move_Position(AX_TOP1_VISION_Z, 2);	nV2Retry = 0;
+
+				m_tVisionStage2Loop.Takt_Save(15, 9); m_tVisionStage2Loop.Takt_Start(15, 10); 
 				m_nVisionStage2Case++; m_tVisionStage2Loop.Set_LoopTime(60000);
 			}
 		}
 		break;
 	case 11:
-		if (g_objAJinAXL.Is_MoveDone(AX_INSPECT_STAGE_X2, dStage2PosX)) {
+		if (g_objAJinAXL.Is_MoveDone(AX_INSPECT_STAGE_X2, dStage2PosX)) 
+		{
 #ifdef NEW_FINAL
 			if (g_objAJinAXL.Is_Done(AX_TOP1_VISION_Z)) {
 #else
@@ -7486,19 +7522,21 @@ BOOL CSequenceMain::Run_VisionStage2()
 #else
 				g_objCommon.Save_Motion(AX_INSPECT_STAGE_X2, -1, dStage2PosX);	g_objCommon.Save_Motion(AX_TOP1_ANGLE_Y, 2);
 #endif
-				m_tVisionStage2Loop.Takt_Save(15, 6); m_tVisionStage2Loop.Takt_Start(15, 7); 
+				
 				gData.bTop1ScanDone = FALSE;	gData.nVsNo[0] = nS2No; gData.nVsIx[0] = gData.nTop1Cnt+1;
 				int nModule1 = n2Tno1; if (gData.InfoVision[nS2No-1][gData.nTop1Cnt] < 1)   nModule1 = -1;
 				int nModule5 = n2Tno5; if (gData.InfoVision[nS2No-1][gData.nTop1Cnt+4] < 1) nModule5 = -1;
 				g_objInspector.Set_LoadComplete(INSPECTOR_PC2, "TG", gData.sLotID_VisionStage[nS2No-1], gData.nPortNo_VisionStage[nS2No-1], gData.nTrayNo_VisionStage[nS2No-1], nModule1, gData.nTrayNo_VisionStage[nS2No-1], nModule5);
 				gAlm.sAlmLID[2] = gData.sLotID_VisionStage[nS2No-1]; gAlm.nAlmTNo[2] = gData.nTrayNo_VisionStage[nS2No-1]; gAlm.nAlmPNo[2] = nModule1;
+				
+				m_tVisionStage2Loop.Takt_Save(15, 10); m_tVisionStage2Loop.Takt_Start(15, 11); 
 				m_nVisionStage2Case++; m_tVisionStage2Loop.Set_LoopTime(m_pEquipData->nTimeOver[0]);
 			}
 		}
 		break;
 	case 12:
 		if (gData.bTop1ScanDone || !m_pEquipData->bUseTopAng) {
-			m_tVisionStage2Loop.Takt_Save(15, 7); m_tVisionStage2Loop.Takt_Start(15, 8); 
+			
 			gData.nTop1Cnt++; n2Tno1++; n2Tno5++;
 			if (gData.nTop1Cnt >= 4) {
 				g_objCommon.Move_Position(AX_TOP1_VISION_Z, 1);
@@ -7506,22 +7544,31 @@ BOOL CSequenceMain::Run_VisionStage2()
 #else
 				g_objCommon.Move_Position(AX_TOP1_ANGLE_Y, 1);
 #endif
+
+				m_tVisionStage2Loop.Takt_Save(15, 11); m_tVisionStage2Loop.Takt_Start(15, 12); 
+				m_tVisionStage2Loop.Takt_Save(15, 12); 
 				m_nVisionStage2Case++; m_tVisionStage2Loop.Set_LoopTime(30000);
-			} else {
+			} 
+			else 
+			{
+				m_tVisionStage2Loop.Takt_Save(15, 11); m_tVisionStage2Loop.Takt_Start(15, 12); 
+				m_tVisionStage2Loop.Takt_Save(15, 12);
 				m_nVisionStage2Case = 10; m_tVisionStage2Loop.Set_LoopTime(5000);
 			}
 		}
 		break;
 
 	case 13:
-		if (n2FrontVisionCase > 22) {
+		if (n2FrontVisionCase > 22)
+		{
+			m_tVisionStage2Loop.Takt_Start(15, 13); 
 			m_nVisionStage2Case++; m_tVisionStage2Loop.Set_LoopTime(5000);
 		}
 		return TRUE;
 
 	case 14:
 		if (m_pDX07->iInspectStage2Up && !m_pDX07->iInspectStage2Down) {
-			m_tVisionStage2Loop.Takt_Save(15, 8); m_tVisionStage2Loop.Takt_Start(15, 9); 
+			
 			m_pDY07->oInspectStage2Deg0 = FALSE; m_pDY07->oInspectStage2Deg90 = TRUE;
 			g_objAJinAXL.Write_Output(7);
 //			g_objCommon.Move_Position(AX_TOP2_VISION_Z, 1);
@@ -7529,6 +7576,8 @@ BOOL CSequenceMain::Run_VisionStage2()
 			//dVision2PosZ = m_pMoveData->dTOPVisionZ2[1] + gData.dFocusOffset[nS2No-1][4];
 			dVision2PosZ = m_pMoveData->dTOPVisionZ2[1];
 			g_objAJinAXL.Move_Absolute(AX_TOP2_VISION_Z, dVision2PosZ);
+
+			m_tVisionStage2Loop.Takt_Save(15, 13); m_tVisionStage2Loop.Takt_Start(15, 14); 
 			m_nVisionStage2Case++; m_tVisionStage2Loop.Set_LoopTime(10000);
 		}
 		break;
@@ -7538,11 +7587,13 @@ BOOL CSequenceMain::Run_VisionStage2()
 			if (g_objAJinAXL.Is_Done(AX_TOP2_VISION_Z)) {
 				if (m_pDX07->iInspectStage2Deg90) {
 					g_objCommon.Save_Motion(AX_INSPECT_STAGE_X2, 2);	g_objCommon.Save_Motion(AX_TOP2_VISION_Z, 1);
-					m_tVisionStage2Loop.Takt_Save(15, 9); m_tVisionStage2Loop.Takt_Start(15, 10); 
+					
 					gData.nVisionPos[1][1] = 0; gData.nVisionPos[1][2] = nS2No;
 					gData.nTop2Cnt = gData.nScanRetry[2] = 0;
 					n2Tno1 = gData.InfoVision[nS2No-1][9];
 					n2Tno5 = gData.InfoVision[nS2No-1][9] + 4;
+
+					m_tVisionStage2Loop.Takt_Save(15, 14); m_tVisionStage2Loop.Takt_Start(15, 15); 
 					m_nVisionStage2Case++; m_tVisionStage2Loop.Set_LoopTime(20000);
 				}
 			}
@@ -7551,13 +7602,15 @@ BOOL CSequenceMain::Run_VisionStage2()
 	case 16:
 		if (m_pDX07->iInspectStage2Up && !m_pDX07->iInspectStage2Down) {
 			if (g_objAJinAXL.Is_Done(AX_TOP2_VISION_Z)) {
-				m_tVisionStage2Loop.Takt_Save(15, 10); m_tVisionStage2Loop.Takt_Start(15, 11); 
+				
 				dStage2PosX = m_pMoveData->dVisionStageX2[2] + (m_pEquipData->dPitchTop * gData.nTop2Cnt);
 				g_objAJinAXL.Move_Absolute(AX_INSPECT_STAGE_X2, dStage2PosX);
 //				g_objCommon.Move_Position(AX_TOP2_VISION_Z, 1);
 				//dVision2PosZ = m_pMoveData->dTOPVisionZ2[1] + gData.dFocusOffset[nS2No-1][4+gData.nTop2Cnt];
 				dVision2PosZ = m_pMoveData->dTOPVisionZ2[1];
 				g_objAJinAXL.Move_Absolute(AX_TOP2_VISION_Z, dVision2PosZ);	nV2Retry = 0;
+
+				m_tVisionStage2Loop.Takt_Save(15, 15); m_tVisionStage2Loop.Takt_Start(15, 16); 
 				m_nVisionStage2Case++; m_tVisionStage2Loop.Set_LoopTime(60000);
 			}
 		}
@@ -7567,81 +7620,110 @@ BOOL CSequenceMain::Run_VisionStage2()
 			if (g_objAJinAXL.Is_Done(AX_TOP2_VISION_Z)) {
 				if (!m_tVisionStage2Loop.Waiting_Time(m_pEquipData->nDelayTime[9])) break;
 				g_objCommon.Save_Motion(AX_INSPECT_STAGE_X2, -1, dStage2PosX);
-				m_tVisionStage2Loop.Takt_Save(15, 11); m_tVisionStage2Loop.Takt_Start(15, 12); 
+				
 				gData.bTop2ScanDone = FALSE;	gData.nVsNo[1] = nS2No; gData.nVsIx[1] = gData.nTop2Cnt+1;
 				int nModule1 = n2Tno1; if (gData.InfoVision[nS2No-1][gData.nTop2Cnt] < 1)   nModule1 = -1;
 				int nModule5 = n2Tno5; if (gData.InfoVision[nS2No-1][gData.nTop2Cnt+4] < 1) nModule5 = -1;
 				g_objInspector.Set_LoadComplete(INSPECTOR_PC3, "T2", gData.sLotID_VisionStage[nS2No-1], gData.nPortNo_VisionStage[nS2No-1], gData.nTrayNo_VisionStage[nS2No-1], nModule1, gData.nTrayNo_VisionStage[nS2No-1], nModule5);
 				gAlm.sAlmLID[3] = gData.sLotID_VisionStage[nS2No-1]; gAlm.nAlmTNo[3] = gData.nTrayNo_VisionStage[nS2No-1]; gAlm.nAlmPNo[3] = nModule1;
+				
+				m_tVisionStage2Loop.Takt_Save(15, 16); m_tVisionStage2Loop.Takt_Start(15, 17); 
 				m_nVisionStage2Case++; m_tVisionStage2Loop.Set_LoopTime(m_pEquipData->nTimeOver[0]);
 			}
 		}
 		break;
 	case 18:
 		if (gData.bTop2ScanDone || !m_pEquipData->bUseTop2) {
-			m_tVisionStage2Loop.Takt_Save(15, 12); m_tVisionStage2Loop.Takt_Start(15, 13); 
+			
 			gData.nTop2Cnt++; n2Tno1++; n2Tno5++;
-			if (gData.nTop2Cnt >= 4) {
+			if (gData.nTop2Cnt >= 4) 
+			{
 				dwV2RosTime[0] = GetTickCount();
+
+				m_tVisionStage2Loop.Takt_Save(15, 17); m_tVisionStage2Loop.Takt_Start(15, 18); 
+				m_tVisionStage2Loop.Takt_Save(15, 18);
 				m_nVisionStage2Case = 20; m_tVisionStage2Loop.Set_LoopTime(5000);
-			} else {
+			} 
+			else 
+			{
+				m_tVisionStage2Loop.Takt_Save(15, 17); m_tVisionStage2Loop.Takt_Start(15, 18); 
+				m_tVisionStage2Loop.Takt_Save(15, 18);
 				m_nVisionStage2Case++; m_tVisionStage2Loop.Set_LoopTime(5000);
 			}
 		}
 		break;
 	case 19:
-		if (n2FrontVisionCase < 19 || (n2FrontVisionCase >= 23 && gData.nTop2Cnt <= 1) || n2FrontVisionCase >= 25) {
+		if (n2FrontVisionCase < 19 || (n2FrontVisionCase >= 23 && gData.nTop2Cnt <= 1) || n2FrontVisionCase >= 25)
+		{
+			m_tVisionStage2Loop.Takt_Start(15, 19);
+			m_tVisionStage2Loop.Takt_Save(15, 19);
 			m_nVisionStage2Case = 16; m_tVisionStage2Loop.Set_LoopTime(5000);
 		}
 		return TRUE;
 
 	case 20:
-		if (n2FrontVisionCase < 20 || n2FrontVisionCase >= 25) {
+		if (n2FrontVisionCase < 20 || n2FrontVisionCase >= 25)
+		{
+			 m_tVisionStage2Loop.Takt_Start(15, 20); 
 			m_nVisionStage2Case++; m_tVisionStage2Loop.Set_LoopTime(5000);
 		}
 		return TRUE;
 
 	case 21:
-		if (m_pDX07->iInspectStage2Up && !m_pDX07->iInspectStage2Down) {
-			if (g_objAJinAXL.Is_MoveDone(AX_INSPECT_STAGE_X2, dStage2PosX)) {
-				m_tVisionStage2Loop.Takt_Save(15, 13); m_tVisionStage2Loop.Takt_Start(15, 14); 
+		if (m_pDX07->iInspectStage2Up && !m_pDX07->iInspectStage2Down)
+		{
+			if (g_objAJinAXL.Is_MoveDone(AX_INSPECT_STAGE_X2, dStage2PosX)) 
+			{				
 				g_objCommon.Move_Position(AX_INSPECT_STAGE_X2, 4);
 				m_pDY07->oInspectStage2Deg0 = TRUE; m_pDY07->oInspectStage2Deg90 = FALSE;
 				g_objAJinAXL.Write_Output(7);
+
+				m_tVisionStage2Loop.Takt_Save(15, 20); m_tVisionStage2Loop.Takt_Start(15, 21); 
 				m_nVisionStage2Case++; m_tVisionStage2Loop.Set_LoopTime(10000);
 			}
 		}
 		break;
 	case 22:
-		if (g_objCommon.Check_Position(AX_INSPECT_STAGE_X2, 4)) {
+		if (g_objCommon.Check_Position(AX_INSPECT_STAGE_X2, 4)) 
+		{
 			g_objCommon.Save_Motion(AX_INSPECT_STAGE_X2, 4);
-			m_tVisionStage2Loop.Takt_Save(15, 14); m_tVisionStage2Loop.Takt_Start(15, 15); 
+			
 			dwV2RosTime[1] = dwV2RosTime[0];
 			gData.nVisionPos[1][2] = 0; gData.nVisionPos[1][4] = nS2No;
+
+			m_tVisionStage2Loop.Takt_Save(15, 21); m_tVisionStage2Loop.Takt_Start(15, 22); 
 			m_nVisionStage2Case++; m_tVisionStage2Loop.Set_LoopTime(10000);
 		}
 		break;
 	case 23:
 		if (n2FrontVisionCase < 22 || n2FrontVisionCase > 34) {
-			m_tVisionStage2Loop.Takt_Save(15, 15); m_tVisionStage2Loop.Takt_Start(15, 16); 
+			
 			g_objCommon.Move_Position(AX_INSPECT_STAGE_X2, 3);
+
+			m_tVisionStage2Loop.Takt_Save(15, 22); m_tVisionStage2Loop.Takt_Start(15, 23);
 			m_nVisionStage2Case++; m_tVisionStage2Loop.Set_LoopTime(10000);
 		}
 		return TRUE;
 	case 24:
 		if (g_objCommon.Check_Position(AX_INSPECT_STAGE_X2, 3)) {
 			g_objCommon.Save_Motion(AX_INSPECT_STAGE_X2, 3);
-			m_tVisionStage2Loop.Takt_Save(15, 16); m_tVisionStage2Loop.Takt_Start(15, 17); 
+			
 			dwV2RosTime[2] = dwV2RosTime[1];
 			gData.nVisionPos[1][4] = 0; gData.nVisionPos[1][3] = nS2No;
+
+			m_tVisionStage2Loop.Takt_Save(15, 23); m_tVisionStage2Loop.Takt_Start(15, 24);
 			m_nVisionStage2Case++; m_tVisionStage2Loop.Set_LoopTime(30000);
 		}
 		break;
 	case 25:
+			m_tVisionStage2Loop.Takt_Save(15, 24); m_tVisionStage2Loop.Takt_Start(15, 25);
 			m_nVisionStage2Case = 30; m_tVisionStage2Loop.Set_LoopTime(30000);
 		break;
 	case 26:	//RosTime 6초대기
-		if (GetTickCount() - dwV2RosTime[2] >= 6000) {
+		if (GetTickCount() - dwV2RosTime[2] >= 6000) 
+		{
+			m_tVisionStage2Loop.Takt_Save(15, 25); m_tVisionStage2Loop.Takt_Start(15, 26);
+			m_tVisionStage2Loop.Takt_Save(15, 26);
 			m_nVisionStage2Case = 30; m_tVisionStage2Loop.Set_LoopTime(5000);
 		}
 		break;
@@ -7661,6 +7743,8 @@ BOOL CSequenceMain::Run_VisionStage2()
 
 				m_pDY07->oInspectStage2Up = FALSE; m_pDY07->oInspectStage2Down = TRUE;
 				g_objAJinAXL.Write_Output(7);
+
+				m_tVisionStage2Loop.Takt_Start(15, 31);
 				m_nVisionStage2Case++; m_tVisionStage2Loop.Set_LoopTime(5000);
 			}
 		}
@@ -7668,7 +7752,7 @@ BOOL CSequenceMain::Run_VisionStage2()
 	case 32:
 		if (!m_pDX07->iInspectStage2Up && m_pDX07->iInspectStage2Down) 
 		{
-			m_tVisionStage2Loop.Takt_Save(15, 18); m_tVisionStage2Loop.Takt_Start(15, 19); 
+			
 			gData.nVisionPos[1][3] = 0; gData.nVisionPos[0][3] = nS2No;
 //			if (nS2No == 1) {
 //				m_pDY07->oInspectStage2Yin = FALSE; m_pDY07->oInspectStage2YOut = TRUE;
@@ -7678,14 +7762,17 @@ BOOL CSequenceMain::Run_VisionStage2()
 //				m_pDY08->oInspectStage4Yin = FALSE; m_pDY08->oInspectStage4YOut = TRUE;
 //				g_objAJinAXL.Write_Output(8);
 //			}
+			m_tVisionStage2Loop.Takt_Save(15, 31); m_tVisionStage2Loop.Takt_Start(15, 32);
 			m_nVisionStage2Case = 34; m_tVisionStage2Loop.Set_LoopTime(5000);
 		}
 		break;
 	case 34:
 		if (
 			(nS2No == 2) || (nS2No == 3) ||
-			(nS2No == 4 && !m_pDX08->iInspectStage4Yin && m_pDX08->iInspectStage4YOut) ) {
-			m_tVisionStage2Loop.Takt_Save(15, 19); m_tVisionStage2Loop.Takt_Start(15, 20); 
+			(nS2No == 4 && !m_pDX08->iInspectStage4Yin && m_pDX08->iInspectStage4YOut) ) 
+		{
+
+			m_tVisionStage2Loop.Takt_Save(15, 32); m_tVisionStage2Loop.Takt_Start(15, 34);
 			m_nVisionStage2Case = 35; m_tVisionStage2Loop.Set_LoopTime(5000);
 		}
 		break;
@@ -7693,6 +7780,8 @@ BOOL CSequenceMain::Run_VisionStage2()
 	case 35:
 		if (n2FrontVisionCase >= 0 && n2FrontVisionCase < 31) 
 		{
+			m_tVisionStage2Loop.Takt_Save(15, 34); m_tVisionStage2Loop.Takt_Start(15, 35);
+			m_tVisionStage2Loop.Takt_Save(15, 35);
 			m_nVisionStage2Case = 61; m_tVisionStage2Loop.Set_LoopTime(5000);
 		}
 		else if (n2FrontVisionCase < 50 || n2FrontVisionCase >= 70) 
@@ -7700,13 +7789,19 @@ BOOL CSequenceMain::Run_VisionStage2()
 			double dCurrent = g_objAJinAXL.Get_Position(m_nVisionStage1Case);
 			double dTarget = g_objDataManager.Get_pMoveData()->dVisionStageX1[INSPECT_STAGE1_X_AlignPos];
 			if(dTarget < dCurrent && !Check_ModuleEmpty() ) return TRUE;
+
+			m_tVisionStage2Loop.Takt_Save(15, 34); m_tVisionStage2Loop.Takt_Start(15, 35);
+			m_tVisionStage2Loop.Takt_Save(15, 35);
 			m_nVisionStage2Case = 51; m_tVisionStage2Loop.Set_LoopTime(5000);
 		}
 		else if (n2FrontVisionCase < 40 || n2FrontVisionCase >= 60)
 		{
 			double dCurrent = g_objAJinAXL.Get_Position(m_nVisionStage1Case);
 			double dTarget = g_objDataManager.Get_pMoveData()->dVisionStageX1[INSPECT_STAGE1_X_Top1Pos];
-			if(dTarget < dCurrent) return TRUE;
+			if(dTarget < dCurrent && !Check_ModuleEmpty()) return TRUE;
+
+			m_tVisionStage2Loop.Takt_Save(15, 34); m_tVisionStage2Loop.Takt_Start(15, 35);
+			m_tVisionStage2Loop.Takt_Save(15, 35);
 			m_nVisionStage2Case = 41; m_tVisionStage2Loop.Set_LoopTime(5000);
 		}
 		return TRUE;
@@ -7714,24 +7809,28 @@ BOOL CSequenceMain::Run_VisionStage2()
 	case 40:
 		if (n2FrontVisionCase < 40 || n2FrontVisionCase >= 60)
 		{
-			
-
+			m_tVisionStage2Loop.Takt_Start(15, 40);	
+			m_tVisionStage2Loop.Takt_Save(15, 40);
 			m_nVisionStage2Case++; m_tVisionStage2Loop.Set_LoopTime(5000);
 		}
 		return TRUE;
 	case 41:
 		if (!m_pDX07->iInspectStage2Up && m_pDX07->iInspectStage2Down) 
 		{
-			m_tVisionStage2Loop.Takt_Save(15, 20); m_tVisionStage2Loop.Takt_Start(15, 21); 
+			 m_tVisionStage2Loop.Takt_Start(15, 41);
 			g_objCommon.Move_Position(AX_INSPECT_STAGE_X2, 2);
 			m_nVisionStage2Case++; m_tVisionStage2Loop.Set_LoopTime(10000);
 		}
 		break;
 	case 42:
-		if (g_objCommon.Check_Position(AX_INSPECT_STAGE_X2, 2)) {
+		if (g_objCommon.Check_Position(AX_INSPECT_STAGE_X2, 2)) 
+		{
 			g_objCommon.Save_Motion(AX_INSPECT_STAGE_X2, 2);
-			m_tVisionStage2Loop.Takt_Save(15, 21); m_tVisionStage2Loop.Takt_Start(15, 22); 
+			
 			gData.nVisionPos[0][3] = 0; gData.nVisionPos[0][2] = nS2No;
+
+			m_tVisionStage2Loop.Takt_Save(15, 41); m_tVisionStage2Loop.Takt_Start(15, 42);
+			m_tVisionStage2Loop.Takt_Save(15, 42); 
 			m_nVisionStage2Case = 50; m_tVisionStage2Loop.Set_LoopTime(60000);
 			m_nVisionStage2Case = 35; m_tVisionStage2Loop.Set_LoopTime(5000);
 		}
@@ -7742,7 +7841,8 @@ BOOL CSequenceMain::Run_VisionStage2()
 		if (n2FrontVisionCase < 50 || n2FrontVisionCase >= 70) 
 		{			
 			
-
+			m_tVisionStage2Loop.Takt_Start(15, 50);
+			m_tVisionStage2Loop.Takt_Save(15, 50);
 			m_nVisionStage2Case++; m_tVisionStage2Loop.Set_LoopTime(5000);
 		}
 		return TRUE;
@@ -7750,8 +7850,10 @@ BOOL CSequenceMain::Run_VisionStage2()
 	case 51:
 		if (!m_pDX07->iInspectStage2Up && m_pDX07->iInspectStage2Down) 
 		{
-			m_tVisionStage2Loop.Takt_Save(15, 22); m_tVisionStage2Loop.Takt_Start(15, 23); 
+			
 			g_objCommon.Move_Position(AX_INSPECT_STAGE_X2, INSPECT_STAGE2_X_Top1Pos);
+
+			m_tVisionStage2Loop.Takt_Start(15, 51);
 			m_nVisionStage2Case++; m_tVisionStage2Loop.Set_LoopTime(10000);
 		}
 		break;
@@ -7759,35 +7861,48 @@ BOOL CSequenceMain::Run_VisionStage2()
 		if (g_objCommon.Check_Position(AX_INSPECT_STAGE_X2, INSPECT_STAGE2_X_Top1Pos)) 
 		{
 			g_objCommon.Save_Motion(AX_INSPECT_STAGE_X2, INSPECT_STAGE2_X_Top1Pos);
-			m_tVisionStage2Loop.Takt_Save(15, 23); m_tVisionStage2Loop.Takt_Start(15, 24); 
+			
 			gData.nVisionPos[0][2] = 0; gData.nVisionPos[0][1] = nS2No;
+
+			m_tVisionStage2Loop.Takt_Save(15, 51); m_tVisionStage2Loop.Takt_Start(15, 52);
+			m_tVisionStage2Loop.Takt_Save(15, 52);
 			m_nVisionStage2Case = 60; m_tVisionStage2Loop.Set_LoopTime(60000);
 		}
 		break;
 	case 60:
 		if (n2FrontVisionCase >= 0 && n2FrontVisionCase < 50)
 		{
+			 
+			m_tVisionStage2Loop.Takt_Start(15, 60);
+			m_tVisionStage2Loop.Takt_Save(15, 60);
 			m_nVisionStage2Case++; m_tVisionStage2Loop.Set_LoopTime(5000);
 		}
 		return TRUE;
 	case 61:
 		if (!m_pDX07->iInspectStage2Up && m_pDX07->iInspectStage2Down) 
 		{
-			m_tVisionStage2Loop.Takt_Save(15, 24); m_tVisionStage2Loop.Takt_Start(15, 25); 
+			
 			g_objCommon.Move_Position(AX_INSPECT_STAGE_X2, 0);
+
+			m_tVisionStage2Loop.Takt_Start(15, 61);
 			m_nVisionStage2Case++; m_tVisionStage2Loop.Set_LoopTime(10000);
 		}
 		break;
 	case 62:
-		if (g_objCommon.Check_Position(AX_INSPECT_STAGE_X2, 0)) {
+		if (g_objCommon.Check_Position(AX_INSPECT_STAGE_X2, 0)) 
+		{
 			g_objCommon.Save_Motion(AX_INSPECT_STAGE_X2, 0);
-			m_tVisionStage2Loop.Takt_Save(15, 25); m_tVisionStage2Loop.Takt_Start(15, 26); 
+			
 			gData.nVisionPos[0][1] = 0; gData.nVisionPos[0][0] = nS2No;
+
+			m_tVisionStage2Loop.Takt_Save(15, 61); m_tVisionStage2Loop.Takt_Start(15, 62);
 			m_nVisionStage2Case++; m_tVisionStage2Loop.Set_LoopTime(10000);
 		}
 		break;
 	case 63:
-		if (!m_pDX07->iInspectStage2Up && m_pDX07->iInspectStage2Down) {
+		if (!m_pDX07->iInspectStage2Up && m_pDX07->iInspectStage2Down) 
+		{
+			m_tVisionStage2Loop.Takt_Save(15, 62); m_tVisionStage2Loop.Takt_Start(15, 63);
 			m_nVisionStage2Case++; m_tVisionStage2Loop.Set_LoopTime(5000);
 		}
 		break;
@@ -7795,27 +7910,34 @@ BOOL CSequenceMain::Run_VisionStage2()
 //		if (
 //			(nS2No == 2) || (nS2No == 3) ||
 //			(nS2No == 4 && m_pDX08->iInspectStage4Yin && !m_pDX08->iInspectStage4YOut) ) {
+			m_tVisionStage2Loop.Takt_Save(15, 63); m_tVisionStage2Loop.Takt_Start(15, 64);
 			m_nVisionStage2Case = 70; m_tVisionStage2Loop.Set_LoopTime(5000);
 //		}
 		break;
 
 	case 70:
-		if (n2FrontVisionCase > 4 && n2FrontVisionCase < 60) {
+		if (n2FrontVisionCase > 4 && n2FrontVisionCase < 60) 
+		{
+			m_tVisionStage2Loop.Takt_Save(14, 64); m_tVisionStage2Loop.Takt_Start(14, 70);
 			m_nVisionStage2Case++; m_tVisionStage2Loop.Set_LoopTime(5000);
 		}
 		return TRUE;
 	case 71:
 		if (!m_pDX07->iInspectStage2Up && m_pDX07->iInspectStage2Down) {
-			m_tVisionStage2Loop.Takt_Save(15, 26); m_tVisionStage2Loop.Takt_Start(15, 27); 
+			
 			m_pDY07->oInspectStage2Up = TRUE; m_pDY07->oInspectStage2Down = FALSE;
 			g_objAJinAXL.Write_Output(7);
+
+			m_tVisionStage2Loop.Takt_Save(14, 70); m_tVisionStage2Loop.Takt_Start(14, 71);
 			m_nVisionStage2Case++; m_tVisionStage2Loop.Set_LoopTime(5000);
 		}
 		break;
 	case 72:
 		if (m_pDX07->iInspectStage2Up && !m_pDX07->iInspectStage2Down) {
-			m_tVisionStage2Loop.Takt_Save(15, 27, TRUE);
+			
 			gData.nVisionPos[0][0] = 0; gData.nVisionPos[1][0] = nS2No;
+
+			m_tVisionStage2Loop.Takt_Save(14, 71, TRUE); 
 			m_nVisionStage2Case = 0; m_tVisionStage2Loop.Set_LoopTime(5000);
 		}
 		break;
@@ -7852,7 +7974,8 @@ BOOL CSequenceMain::Run_VisionStage3()
 
 	case 1:
 		if (( m_pEquipData->bUseTopAng && n3FrontVisionCase > 14) ||
-			(!m_pEquipData->bUseTopAng && n3FrontVisionCase > 4)) {
+			(!m_pEquipData->bUseTopAng && n3FrontVisionCase > 4)) 
+		{
 			m_sLog.Format("[Inspection Stage3: Start] Inspection Stage4 Case(%d)", n3FrontVisionCase);
 			g_objLogFile.Save_HandlerLog(m_sLog);
 
@@ -7873,6 +7996,8 @@ BOOL CSequenceMain::Run_VisionStage3()
 					dStage3PosX = m_pMoveData->dVisionStageX3[0] + ALIGN_TOP1_POS;
 					g_objAJinAXL.Move_Absolute(AX_INSPECT_STAGE_X3, dStage3PosX);
 				}
+
+				m_tVisionStage3Loop.Takt_Save(16, 1); m_tVisionStage1Loop.Takt_Start(16, 2); 
 				m_nVisionStage3Case++; m_tVisionStage3Loop.Set_LoopTime(10000);
 			}
 		}
@@ -7884,13 +8009,19 @@ BOOL CSequenceMain::Run_VisionStage3()
 					//dVision3PosZ = m_pMoveData->dTOPVisionZ1[1] + gData.dFocusOffset[nS3No-1][0];
 					dVision3PosZ = m_pMoveData->dTOPVisionZ1[1];
 					g_objAJinAXL.Move_Absolute(AX_TOP1_VISION_Z, dVision3PosZ);
+
+					m_tVisionStage3Loop.Takt_Save(16, 2); m_tVisionStage3Loop.Takt_Start(16, 3); 
 					m_nVisionStage3Case++; m_tVisionStage3Loop.Set_LoopTime(10000);
-				} else {
+				} 
+				else 
+				{
 					if (g_objAJinAXL.Is_Done(AX_INSPECT_STAGE_X3)) {
 						g_objCommon.Move_Position(AX_INSPECT_STAGE_X3, 1);	//Top1
 						//dVision3PosZ = m_pMoveData->dTOPVisionZ1[1] + gData.dFocusOffset[nS3No-1][0];
 						dVision3PosZ = m_pMoveData->dTOPVisionZ1[1];
 						g_objAJinAXL.Move_Absolute(AX_TOP1_VISION_Z, dVision3PosZ);
+
+						m_tVisionStage3Loop.Takt_Save(16, 2); m_tVisionStage3Loop.Takt_Start(16, 3); 
 						m_nVisionStage3Case++; m_tVisionStage3Loop.Set_LoopTime(10000);
 					}
 				}
@@ -7914,9 +8045,13 @@ BOOL CSequenceMain::Run_VisionStage3()
 				}
 			}
 #endif
-		} else {
-			if (g_objAJinAXL.Is_Done(AX_INSPECT_STAGE_X3)) {
-				if (n3FrontVisionCase > 6 && gData.nTop1Cnt > 0) {
+		} 
+		else
+		{
+			if (g_objAJinAXL.Is_Done(AX_INSPECT_STAGE_X3))
+			{
+				if (n3FrontVisionCase > 6 && gData.nTop1Cnt > 0)
+				{
 					if (gData.nTop1Cnt > 3) gData.nTop1Cnt = 3;
 					dStage3PosX = m_pMoveData->dVisionStageX3[0] + ALIGN_TOP1_POS + (m_pEquipData->dPitchTop * gData.nTop1Cnt);
 					double dStagePos = g_objAJinAXL.Get_Position(AX_INSPECT_STAGE_X3);
@@ -7928,14 +8063,18 @@ BOOL CSequenceMain::Run_VisionStage3()
 		return TRUE;
 
 	case 4:
-		if (g_objCommon.Check_Position(AX_INSPECT_STAGE_X3, 1)) {
-			if (m_pDX08->iInspectStage3Deg0) {
+		if (g_objCommon.Check_Position(AX_INSPECT_STAGE_X3, 1))
+		{
+			if (m_pDX08->iInspectStage3Deg0)
+			{
 				g_objCommon.Save_Motion(AX_INSPECT_STAGE_X3, 1);
-				m_tVisionStage3Loop.Takt_Save(16, 1); m_tVisionStage3Loop.Takt_Start(16, 2); 
+				
 				gData.nVisionPos[1][0] = 0; gData.nVisionPos[1][1] = nS3No;
 				gData.nTop1Cnt = gData.nScanRetry[1] = 0;
 				n3Tno1 = gData.InfoVision[nS3No-1][9];
 				n3Tno5 = gData.InfoVision[nS3No-1][9] + 4;
+
+				m_tVisionStage3Loop.Takt_Save(16, 3); m_tVisionStage3Loop.Takt_Start(16, 4); 
 				m_nVisionStage3Case++; m_tVisionStage3Loop.Set_LoopTime(5000);
 			}
 		}
@@ -7943,25 +8082,31 @@ BOOL CSequenceMain::Run_VisionStage3()
 
 	case 5:
 		if (n3FrontVisionCase >= 22 || (n3FrontVisionCase >= 17 && gData.nTop1Cnt <= 1) || (n3FrontVisionCase >= 17 && gData.nTop2Cnt >= gData.nTop1Cnt)) {
+			
+			m_tVisionStage3Loop.Takt_Save(16, 4); m_tVisionStage3Loop.Takt_Start(16, 5);
 			m_nVisionStage3Case++; m_tVisionStage3Loop.Set_LoopTime(20000);
 		}
 		return TRUE;
 	case 6:
 		if (m_pDX08->iInspectStage3Up && !m_pDX08->iInspectStage3Down) {
-			if (g_objAJinAXL.Is_Done(AX_TOP1_VISION_Z)) {
-				m_tVisionStage3Loop.Takt_Save(16, 2); m_tVisionStage3Loop.Takt_Start(16, 3); 
+			if (g_objAJinAXL.Is_Done(AX_TOP1_VISION_Z)) 
+			{
+				
 				dStage3PosX = m_pMoveData->dVisionStageX3[1] + (m_pEquipData->dPitchTop * gData.nTop1Cnt);
 				g_objAJinAXL.Move_Absolute(AX_INSPECT_STAGE_X3, dStage3PosX);
 //				g_objCommon.Move_Position(AX_TOP1_VISION_Z, 1);
 				//dVision3PosZ = m_pMoveData->dTOPVisionZ1[1] + gData.dFocusOffset[nS3No-1][gData.nTop1Cnt];
 				dVision3PosZ = m_pMoveData->dTOPVisionZ1[1];
 				g_objAJinAXL.Move_Absolute(AX_TOP1_VISION_Z, dVision3PosZ);	nV3Retry = 0;
+
+				m_tVisionStage3Loop.Takt_Save(16, 5); m_tVisionStage3Loop.Takt_Start(16, 6);
 				m_nVisionStage3Case++; m_tVisionStage3Loop.Set_LoopTime(60000);
 			}
 		}
 		break;
 	case 7:
-		if (g_objAJinAXL.Is_MoveDone(AX_INSPECT_STAGE_X3, dStage3PosX)) {
+		if (g_objAJinAXL.Is_MoveDone(AX_INSPECT_STAGE_X3, dStage3PosX))
+		{
 #ifdef NEW_FINAL
 			if (g_objAJinAXL.Is_Done(AX_TOP1_VISION_Z)) {
 #else
@@ -7973,19 +8118,21 @@ BOOL CSequenceMain::Run_VisionStage3()
 #else
 				g_objCommon.Save_Motion(AX_INSPECT_STAGE_X3, -1, dStage3PosX);	g_objCommon.Save_Motion(AX_TOP1_LIGHT_Z, 1);
 #endif
-				m_tVisionStage3Loop.Takt_Save(16, 3); m_tVisionStage3Loop.Takt_Start(16, 4); 
+				
 				gData.bTop1ScanDone = FALSE;	gData.nVsNo[0] = nS3No; gData.nVsIx[0] = gData.nTop1Cnt+1;
 				int nModule1 = n3Tno1; if (gData.InfoVision[nS3No-1][gData.nTop1Cnt] < 1)   nModule1 = -1;
 				int nModule5 = n3Tno5; if (gData.InfoVision[nS3No-1][gData.nTop1Cnt+4] < 1) nModule5 = -1;
 				g_objInspector.Set_LoadComplete(INSPECTOR_PC2, "T1", gData.sLotID_VisionStage[nS3No-1], gData.nPortNo_VisionStage[nS3No-1], gData.nTrayNo_VisionStage[nS3No-1], nModule1, gData.nTrayNo_VisionStage[nS3No-1], nModule5);
 				gAlm.sAlmLID[2] = gData.sLotID_VisionStage[nS3No-1]; gAlm.nAlmTNo[2] = gData.nTrayNo_VisionStage[nS3No-1]; gAlm.nAlmPNo[2] = nModule1;
+				
+				m_tVisionStage3Loop.Takt_Save(16, 6); m_tVisionStage3Loop.Takt_Start(16, 7);
 				m_nVisionStage3Case++; m_tVisionStage3Loop.Set_LoopTime(m_pEquipData->nTimeOver[0]);
 			}
 		}
 		break;
 	case 8:
-		if (gData.bTop1ScanDone || !m_pEquipData->bUseTop1) {
-			m_tVisionStage3Loop.Takt_Save(16, 4); m_tVisionStage3Loop.Takt_Start(16, 5); 
+		if (gData.bTop1ScanDone || !m_pEquipData->bUseTop1) 
+		{			
 			gData.nTop1Cnt++; n3Tno1++; n3Tno5++;
 			if (gData.nTop1Cnt >= 4) {
 				if (m_pEquipData->bUseTopAng) {
@@ -7999,11 +8146,21 @@ BOOL CSequenceMain::Run_VisionStage3()
 #else
 					g_objCommon.Move_Position(AX_TOP1_LIGHT_Z, 2);
 #endif
+					m_tVisionStage3Loop.Takt_Save(16, 7); m_tVisionStage3Loop.Takt_Start(16, 8);
+					m_tVisionStage3Loop.Takt_Save(16, 8);
 					m_nVisionStage3Case++; m_tVisionStage3Loop.Set_LoopTime(30000);
-				} else {
+				} 
+				else 
+				{
+					m_tVisionStage3Loop.Takt_Save(16, 7); m_tVisionStage3Loop.Takt_Start(16, 8);
+					m_tVisionStage3Loop.Takt_Save(16, 8);
 					m_nVisionStage3Case = 12; m_tVisionStage3Loop.Set_LoopTime(5000);
 				}
-			} else {
+			} 
+			else 
+			{
+				m_tVisionStage3Loop.Takt_Save(16, 7); m_tVisionStage3Loop.Takt_Start(16, 8);
+				m_tVisionStage3Loop.Takt_Save(16, 8);
 				m_nVisionStage3Case = 5; m_tVisionStage3Loop.Set_LoopTime(5000);
 			}
 		}
@@ -8011,8 +8168,11 @@ BOOL CSequenceMain::Run_VisionStage3()
 
 	case 9:	//Top1-Angle
 #ifdef NEW_FINAL
-		if (g_objCommon.Check_Position(AX_TOP1_VISION_Z, 2)) {
+		if (g_objCommon.Check_Position(AX_TOP1_VISION_Z, 2)) 
+		{
 			g_objCommon.Save_Motion(AX_TOP1_VISION_Z, 2); gData.nScanRetry[1] = 0;
+			
+			m_tVisionStage3Loop.Takt_Start(16, 9);
 			m_nVisionStage3Case++; m_tVisionStage3Loop.Set_LoopTime(30000);
 		}
 #else
@@ -8025,11 +8185,14 @@ BOOL CSequenceMain::Run_VisionStage3()
 		break;
 	case 10:
 		if (m_pDX08->iInspectStage3Up && !m_pDX08->iInspectStage3Down) {
-			if (g_objAJinAXL.Is_Done(AX_TOP1_VISION_Z)) {
-				m_tVisionStage3Loop.Takt_Save(16, 5); m_tVisionStage3Loop.Takt_Start(16, 6); 
+			if (g_objAJinAXL.Is_Done(AX_TOP1_VISION_Z)) 
+			{
+				
 				dStage3PosX = m_pMoveData->dVisionStageX3[1] + (m_pEquipData->dPitchTop * gData.nTop1Cnt);
 				g_objAJinAXL.Move_Absolute(AX_INSPECT_STAGE_X3, dStage3PosX);
 				g_objCommon.Move_Position(AX_TOP1_VISION_Z, 2);	nV3Retry = 0;
+
+				m_tVisionStage3Loop.Takt_Save(16, 9); m_tVisionStage3Loop.Takt_Start(16, 10);
 				m_nVisionStage3Case++; m_tVisionStage3Loop.Set_LoopTime(60000);
 			}
 		}
@@ -8047,42 +8210,53 @@ BOOL CSequenceMain::Run_VisionStage3()
 #else
 				g_objCommon.Save_Motion(AX_INSPECT_STAGE_X3, -1, dStage3PosX);	g_objCommon.Save_Motion(AX_TOP1_ANGLE_Y, 2);
 #endif
-				m_tVisionStage3Loop.Takt_Save(16, 6); m_tVisionStage3Loop.Takt_Start(16, 7); 
+				
 				gData.bTop1ScanDone = FALSE;	gData.nVsNo[0] = nS3No; gData.nVsIx[0] = gData.nTop1Cnt+1;
 				int nModule1 = n3Tno1; if (gData.InfoVision[nS3No-1][gData.nTop1Cnt] < 1)   nModule1 = -1;
 				int nModule5 = n3Tno5; if (gData.InfoVision[nS3No-1][gData.nTop1Cnt+4] < 1) nModule5 = -1;
 				g_objInspector.Set_LoadComplete(INSPECTOR_PC2, "TG", gData.sLotID_VisionStage[nS3No-1], gData.nPortNo_VisionStage[nS3No-1], gData.nTrayNo_VisionStage[nS3No-1], nModule1, gData.nTrayNo_VisionStage[nS3No-1], nModule5);
 				gAlm.sAlmLID[2] = gData.sLotID_VisionStage[nS3No-1]; gAlm.nAlmTNo[2] = gData.nTrayNo_VisionStage[nS3No-1]; gAlm.nAlmPNo[2] = nModule1;
+				
+				m_tVisionStage3Loop.Takt_Save(16, 10); m_tVisionStage3Loop.Takt_Start(16, 11);
 				m_nVisionStage3Case++; m_tVisionStage3Loop.Set_LoopTime(m_pEquipData->nTimeOver[0]);
 			}
 		}
 		break;
 	case 12:
-		if (gData.bTop1ScanDone || !m_pEquipData->bUseTopAng) {
-			m_tVisionStage3Loop.Takt_Save(16, 7); m_tVisionStage3Loop.Takt_Start(16, 8); 
+		if (gData.bTop1ScanDone || !m_pEquipData->bUseTopAng) 
+		{
+			
 			gData.nTop1Cnt++; n3Tno1++; n3Tno5++;
-			if (gData.nTop1Cnt >= 4) {
+			if (gData.nTop1Cnt >= 4) 
+			{
 				g_objCommon.Move_Position(AX_TOP1_VISION_Z, 1);
 #ifdef NEW_FINAL
 #else
 				g_objCommon.Move_Position(AX_TOP1_ANGLE_Y, 1);
 #endif
+				m_tVisionStage3Loop.Takt_Save(16, 11); m_tVisionStage3Loop.Takt_Start(16, 12);
 				m_nVisionStage3Case++; m_tVisionStage3Loop.Set_LoopTime(30000);
-			} else {
+			}
+			else
+			{
+				m_tVisionStage3Loop.Takt_Save(16, 11); m_tVisionStage3Loop.Takt_Start(16, 12);
 				m_nVisionStage3Case = 10; m_tVisionStage3Loop.Set_LoopTime(5000);
 			}
 		}
 		break;
 
 	case 13:
-		if (n3FrontVisionCase > 22) {
+		if (n3FrontVisionCase > 22) 
+		{
+			m_tVisionStage3Loop.Takt_Save(16, 12); m_tVisionStage3Loop.Takt_Start(16, 13);
 			m_nVisionStage3Case++; m_tVisionStage3Loop.Set_LoopTime(5000);
 		}
 		return TRUE;
 
 	case 14:
-		if (m_pDX08->iInspectStage3Up && !m_pDX08->iInspectStage3Down) {
-			m_tVisionStage3Loop.Takt_Save(16, 8); m_tVisionStage3Loop.Takt_Start(16, 9); 
+		if (m_pDX08->iInspectStage3Up && !m_pDX08->iInspectStage3Down) 
+		{
+			
 			m_pDY08->oInspectStage3Deg0 = FALSE; m_pDY08->oInspectStage3Deg90 = TRUE;
 			g_objAJinAXL.Write_Output(8);
 //			g_objCommon.Move_Position(AX_TOP2_VISION_Z, 1);
@@ -8090,6 +8264,8 @@ BOOL CSequenceMain::Run_VisionStage3()
 			//dVision3PosZ = m_pMoveData->dTOPVisionZ2[1] + gData.dFocusOffset[nS3No-1][4];
 			dVision3PosZ = m_pMoveData->dTOPVisionZ2[1];
 			g_objAJinAXL.Move_Absolute(AX_TOP2_VISION_Z, dVision3PosZ);
+
+			m_tVisionStage3Loop.Takt_Save(16, 13); m_tVisionStage3Loop.Takt_Start(16, 14);
 			m_nVisionStage3Case++; m_tVisionStage3Loop.Set_LoopTime(10000);
 		}
 		break;
@@ -8099,11 +8275,13 @@ BOOL CSequenceMain::Run_VisionStage3()
 			if (g_objAJinAXL.Is_Done(AX_TOP2_VISION_Z)) {
 				if (m_pDX08->iInspectStage3Deg90) {
 					g_objCommon.Save_Motion(AX_INSPECT_STAGE_X3, 2);	g_objCommon.Save_Motion(AX_TOP2_VISION_Z, 1);
-					m_tVisionStage3Loop.Takt_Save(16, 9); m_tVisionStage3Loop.Takt_Start(16, 10); 
+					
 					gData.nVisionPos[1][1] = 0; gData.nVisionPos[1][2] = nS3No;
 					gData.nTop2Cnt = gData.nScanRetry[2] = 0;
 					n3Tno1 = gData.InfoVision[nS3No-1][9];
 					n3Tno5 = gData.InfoVision[nS3No-1][9] + 4;
+
+					m_tVisionStage3Loop.Takt_Save(16, 14); m_tVisionStage3Loop.Takt_Start(16, 15);
 					m_nVisionStage3Case++; m_tVisionStage3Loop.Set_LoopTime(20000);
 				}
 			}
@@ -8111,14 +8289,17 @@ BOOL CSequenceMain::Run_VisionStage3()
 		break;
 	case 16:
 		if (m_pDX08->iInspectStage3Up && !m_pDX08->iInspectStage3Down) {
-			if (g_objAJinAXL.Is_Done(AX_TOP2_VISION_Z)) {
-				m_tVisionStage3Loop.Takt_Save(16, 10); m_tVisionStage3Loop.Takt_Start(16, 11); 
+			if (g_objAJinAXL.Is_Done(AX_TOP2_VISION_Z)) 
+			{
+				
 				dStage3PosX = m_pMoveData->dVisionStageX3[2] + (m_pEquipData->dPitchTop * gData.nTop2Cnt);
 				g_objAJinAXL.Move_Absolute(AX_INSPECT_STAGE_X3, dStage3PosX);
 //				g_objCommon.Move_Position(AX_TOP2_VISION_Z, 1);
 				//dVision3PosZ = m_pMoveData->dTOPVisionZ2[1] + gData.dFocusOffset[nS3No-1][4+gData.nTop2Cnt];
 				dVision3PosZ = m_pMoveData->dTOPVisionZ2[1];
 				g_objAJinAXL.Move_Absolute(AX_TOP2_VISION_Z, dVision3PosZ);	nV3Retry = 0;
+
+				m_tVisionStage3Loop.Takt_Save(16, 15); m_tVisionStage3Loop.Takt_Start(16, 16);
 				m_nVisionStage3Case++; m_tVisionStage3Loop.Set_LoopTime(60000);
 			}
 		}
@@ -8128,86 +8309,117 @@ BOOL CSequenceMain::Run_VisionStage3()
 			if (g_objAJinAXL.Is_Done(AX_TOP2_VISION_Z)) {
 				if (!m_tVisionStage3Loop.Waiting_Time(m_pEquipData->nDelayTime[9])) break;
 				g_objCommon.Save_Motion(AX_INSPECT_STAGE_X3, -1, dStage3PosX);
-				m_tVisionStage3Loop.Takt_Save(16, 11); m_tVisionStage3Loop.Takt_Start(16, 12); 
+				
 				gData.bTop2ScanDone = FALSE;	gData.nVsNo[1] = nS3No; gData.nVsIx[1] = gData.nTop2Cnt+1;
 				int nModule1 = n3Tno1; if (gData.InfoVision[nS3No-1][gData.nTop2Cnt] < 1)   nModule1 = -1;
 				int nModule5 = n3Tno5; if (gData.InfoVision[nS3No-1][gData.nTop2Cnt+4] < 1) nModule5 = -1;
 				g_objInspector.Set_LoadComplete(INSPECTOR_PC3, "T2", gData.sLotID_VisionStage[nS3No-1], gData.nPortNo_VisionStage[nS3No-1], gData.nTrayNo_VisionStage[nS3No-1], nModule1, gData.nTrayNo_VisionStage[nS3No-1], nModule5);
 				gAlm.sAlmLID[3] = gData.sLotID_VisionStage[nS3No-1]; gAlm.nAlmTNo[3] = gData.nTrayNo_VisionStage[nS3No-1]; gAlm.nAlmPNo[3] = nModule1;
+				
+				m_tVisionStage3Loop.Takt_Save(16, 16); m_tVisionStage3Loop.Takt_Start(16, 17);
 				m_nVisionStage3Case++; m_tVisionStage3Loop.Set_LoopTime(m_pEquipData->nTimeOver[0]);
 			}
 		}
 		break;
 	case 18:
 		if (gData.bTop2ScanDone || !m_pEquipData->bUseTop2) {
-			m_tVisionStage3Loop.Takt_Save(16, 12); m_tVisionStage3Loop.Takt_Start(16, 13); 
+			
 			gData.nTop2Cnt++; n3Tno1++; n3Tno5++;
-			if (gData.nTop2Cnt >= 4) {
+			if (gData.nTop2Cnt >= 4) 
+			{
 				dwV3RosTime[0] = GetTickCount();
+
+				m_tVisionStage3Loop.Takt_Save(16, 17); m_tVisionStage3Loop.Takt_Start(16, 18);
+				m_tVisionStage3Loop.Takt_Save(16, 18);
 				m_nVisionStage3Case = 20; m_tVisionStage3Loop.Set_LoopTime(5000);
-			} else {
+			}
+			else
+			{
+				m_tVisionStage3Loop.Takt_Save(16, 17); m_tVisionStage3Loop.Takt_Start(16, 18);
+				m_tVisionStage3Loop.Takt_Save(16, 18);
 				m_nVisionStage3Case++; m_tVisionStage3Loop.Set_LoopTime(5000);
 			}
 		}
 		break;
 	case 19:
-		if (n3FrontVisionCase < 19 || (n3FrontVisionCase >= 23 && gData.nTop2Cnt <= 1) || n3FrontVisionCase >= 25) {
+		if (n3FrontVisionCase < 19 || (n3FrontVisionCase >= 23 && gData.nTop2Cnt <= 1) || n3FrontVisionCase >= 25) 
+		{
+			m_tVisionStage3Loop.Takt_Start(16, 19);	
+			m_tVisionStage3Loop.Takt_Save(16, 19);
 			m_nVisionStage3Case = 16; m_tVisionStage3Loop.Set_LoopTime(5000);
 		}
 		return TRUE;
 
 	case 20:
-		if (n3FrontVisionCase < 20 || n3FrontVisionCase >= 25) {
+		if (n3FrontVisionCase < 20 || n3FrontVisionCase >= 25) 
+		{
+			m_tVisionStage3Loop.Takt_Start(16, 20);
 			m_nVisionStage3Case++; m_tVisionStage3Loop.Set_LoopTime(5000);
 		}
 		return TRUE;
 
 	case 21:
-		if (m_pDX08->iInspectStage3Up && !m_pDX08->iInspectStage3Down) {
-			if (g_objAJinAXL.Is_MoveDone(AX_INSPECT_STAGE_X3, dStage3PosX)) {
-				m_tVisionStage3Loop.Takt_Save(16, 13); m_tVisionStage3Loop.Takt_Start(16, 14); 
+		if (m_pDX08->iInspectStage3Up && !m_pDX08->iInspectStage3Down) 
+		{
+			if (g_objAJinAXL.Is_MoveDone(AX_INSPECT_STAGE_X3, dStage3PosX)) 
+			{
+				
 				g_objCommon.Move_Position(AX_INSPECT_STAGE_X3, 4);
 				m_pDY08->oInspectStage3Deg0 = TRUE; m_pDY08->oInspectStage3Deg90 = FALSE;
 				g_objAJinAXL.Write_Output(8);
+
+				m_tVisionStage3Loop.Takt_Save(16, 20); m_tVisionStage3Loop.Takt_Start(16, 21);
 				m_nVisionStage3Case++; m_tVisionStage3Loop.Set_LoopTime(10000);
 			}
 		}
 		break;
 	case 22:
-		if (g_objCommon.Check_Position(AX_INSPECT_STAGE_X3, 4)) {
+		if (g_objCommon.Check_Position(AX_INSPECT_STAGE_X3, 4)) 
+		{
 			g_objCommon.Save_Motion(AX_INSPECT_STAGE_X3, 4);
-			m_tVisionStage3Loop.Takt_Save(16, 14); m_tVisionStage3Loop.Takt_Start(16, 15); 
+			
 			dwV3RosTime[1] = dwV3RosTime[0];
 			gData.nVisionPos[1][2] = 0; gData.nVisionPos[1][4] = nS3No;
+
+			m_tVisionStage3Loop.Takt_Save(16, 21); m_tVisionStage3Loop.Takt_Start(16, 22);
 			m_nVisionStage3Case++; m_tVisionStage3Loop.Set_LoopTime(10000);
 		}
 		break;
 	case 23:
-		if (n3FrontVisionCase < 22 || n3FrontVisionCase > 34) {
-			m_tVisionStage3Loop.Takt_Save(16, 15); m_tVisionStage3Loop.Takt_Start(16, 16); 
+		if (n3FrontVisionCase < 22 || n3FrontVisionCase > 34) 
+		{			
 			g_objCommon.Move_Position(AX_INSPECT_STAGE_X3, 3);
+
+			m_tVisionStage3Loop.Takt_Save(16, 22); m_tVisionStage3Loop.Takt_Start(16, 23);
 			m_nVisionStage3Case++; m_tVisionStage3Loop.Set_LoopTime(10000);
 		}
 		return TRUE;
 	case 24:
-		if (g_objCommon.Check_Position(AX_INSPECT_STAGE_X3, 3)) {
+		if (g_objCommon.Check_Position(AX_INSPECT_STAGE_X3, 3)) 
+		{
 			g_objCommon.Save_Motion(AX_INSPECT_STAGE_X3, 3);
-			m_tVisionStage3Loop.Takt_Save(16, 16); m_tVisionStage3Loop.Takt_Start(16, 17); 
+			
 			dwV3RosTime[2] = dwV3RosTime[1];
 			gData.nVisionPos[1][4] = 0; gData.nVisionPos[1][3] = nS3No;
+
+			m_tVisionStage3Loop.Takt_Save(16, 23); m_tVisionStage3Loop.Takt_Start(16, 24);
 			m_nVisionStage3Case++; m_tVisionStage3Loop.Set_LoopTime(30000);
 		}
 		break;
 	case 25:
+			m_tVisionStage3Loop.Takt_Save(16, 24); m_tVisionStage3Loop.Takt_Start(16, 25);
 			m_nVisionStage3Case = 30; m_tVisionStage3Loop.Set_LoopTime(30000);
 		break;
 	case 26:	//RosTime 6초대기
-		if (GetTickCount() - dwV3RosTime[2] >= 6000) {
+		if (GetTickCount() - dwV3RosTime[2] >= 6000)
+		{
+			m_tVisionStage3Loop.Takt_Save(16, 25); m_tVisionStage3Loop.Takt_Start(16, 26);
 			m_nVisionStage3Case = 30; m_tVisionStage3Loop.Set_LoopTime(5000);
 		}
 		break;
 
 	case 30:	//Unload Picker wait
+		
 		m_tVisionStage3Loop.Set_LoopTime(5000);
 		return TRUE;
 
@@ -8222,6 +8434,8 @@ BOOL CSequenceMain::Run_VisionStage3()
 
 				m_pDY08->oInspectStage3Up = FALSE; m_pDY08->oInspectStage3Down = TRUE;
 				g_objAJinAXL.Write_Output(8);
+
+				m_tVisionStage3Loop.Takt_Start(16, 31);
 				m_nVisionStage3Case++; m_tVisionStage3Loop.Set_LoopTime(5000);
 			}
 		}
@@ -8229,9 +8443,10 @@ BOOL CSequenceMain::Run_VisionStage3()
 	
 	case 32:
 		if (!m_pDX08->iInspectStage3Up && m_pDX08->iInspectStage3Down) 
-		{
-			m_tVisionStage3Loop.Takt_Save(16, 18); m_tVisionStage3Loop.Takt_Start(16, 19); 
+		{			
 			gData.nVisionPos[1][3] = 0; gData.nVisionPos[0][3] = nS3No;
+
+			m_tVisionStage3Loop.Takt_Save(16, 31); m_tVisionStage3Loop.Takt_Start(16, 32);
 			m_nVisionStage3Case = 34; m_tVisionStage3Loop.Set_LoopTime(5000);
 		}
 		break;
@@ -8239,7 +8454,7 @@ BOOL CSequenceMain::Run_VisionStage3()
 		if ((nS3No == 2) || (nS3No == 3) ||
 			(nS3No == 4 && !m_pDX08->iInspectStage4Yin && m_pDX08->iInspectStage4YOut) ) 
 		{
-			m_tVisionStage3Loop.Takt_Save(16, 19); m_tVisionStage3Loop.Takt_Start(16, 20); 
+			m_tVisionStage3Loop.Takt_Save(16, 32); m_tVisionStage3Loop.Takt_Start(16, 34);
 			m_nVisionStage3Case = 35; m_tVisionStage3Loop.Set_LoopTime(5000);
 		}
 		break;
@@ -8247,6 +8462,8 @@ BOOL CSequenceMain::Run_VisionStage3()
 	case 35:
 		if (n3FrontVisionCase >= 0 && n3FrontVisionCase < 31) 
 		{
+			m_tVisionStage3Loop.Takt_Save(16, 34); m_tVisionStage3Loop.Takt_Start(16, 35);
+			m_tVisionStage3Loop.Takt_Save(16, 35); 
 			m_nVisionStage3Case = 61; m_tVisionStage3Loop.Set_LoopTime(5000);
 		}
 		else if ( n3FrontVisionCase < 50 || n3FrontVisionCase >= 70) 
@@ -8254,28 +8471,36 @@ BOOL CSequenceMain::Run_VisionStage3()
 			double dCurrent = g_objAJinAXL.Get_Position(m_nVisionStage4Case);
 			double dTarget = g_objDataManager.Get_pMoveData()->dVisionStageX4[INSPECT_STAGE4_X_AlignPos];
 			if(dTarget < dCurrent && !Check_ModuleEmpty()) return TRUE;
+
+			m_tVisionStage3Loop.Takt_Save(16, 34); m_tVisionStage3Loop.Takt_Start(16, 35);
+			m_tVisionStage3Loop.Takt_Save(16, 35); 
 			m_nVisionStage3Case = 51; m_tVisionStage3Loop.Set_LoopTime(5000);
 		}
 		else if (n3FrontVisionCase < 40 || n3FrontVisionCase >= 60) 
 		{
 			double dCurrent = g_objAJinAXL.Get_Position(m_nVisionStage4Case);
 			double dTarget = g_objDataManager.Get_pMoveData()->dVisionStageX4[INSPECT_STAGE4_X_Top1Pos];
-			if(dTarget < dCurrent || !Check_ModuleEmpty() ) return TRUE;
+			if(dTarget < dCurrent && !Check_ModuleEmpty() ) return TRUE;
+			
+			m_tVisionStage3Loop.Takt_Save(16, 34); m_tVisionStage3Loop.Takt_Start(16, 35);
+			m_tVisionStage3Loop.Takt_Save(16, 35); 
 			m_nVisionStage3Case = 41; m_tVisionStage3Loop.Set_LoopTime(5000);
 		}
 		return TRUE;
 	case 40:
 		if (n3FrontVisionCase < 40 || n3FrontVisionCase >= 60) 
 		{
-			
+			m_tVisionStage3Loop.Takt_Start(16, 40);
+			m_tVisionStage3Loop.Takt_Save(16, 40);
 			m_nVisionStage3Case++; m_tVisionStage3Loop.Set_LoopTime(5000);
 		}
 		return TRUE;
 	case 41:
 		if (!m_pDX08->iInspectStage3Up && m_pDX08->iInspectStage3Down) 
-		{
-			m_tVisionStage3Loop.Takt_Save(16, 20); m_tVisionStage3Loop.Takt_Start(16, 21); 
+		{			
 			g_objCommon.Move_Position(AX_INSPECT_STAGE_X3, 2);
+
+			m_tVisionStage3Loop.Takt_Start(16, 41);
 			m_nVisionStage3Case++; m_tVisionStage3Loop.Set_LoopTime(10000);
 		}
 		break;
@@ -8283,58 +8508,75 @@ BOOL CSequenceMain::Run_VisionStage3()
 		if (g_objCommon.Check_Position(AX_INSPECT_STAGE_X3, 2)) 
 		{
 			g_objCommon.Save_Motion(AX_INSPECT_STAGE_X3, 2);
-			m_tVisionStage3Loop.Takt_Save(16, 21); m_tVisionStage3Loop.Takt_Start(16, 22); 
+			
 			gData.nVisionPos[0][3] = 0; gData.nVisionPos[0][2] = nS3No;
+
+			m_tVisionStage3Loop.Takt_Save(16, 41); m_tVisionStage3Loop.Takt_Start(16, 42);
+			m_tVisionStage3Loop.Takt_Save(16, 42);
 			m_nVisionStage3Case = 50; m_tVisionStage3Loop.Set_LoopTime(60000);
 		}
 		break;
 	case 50:
 		if (n3FrontVisionCase < 50 || n3FrontVisionCase >= 70) 
 		{
-			
+			m_tVisionStage3Loop.Takt_Start(16, 50);
+			m_tVisionStage3Loop.Takt_Save(16, 50);
 			m_nVisionStage3Case++; m_tVisionStage3Loop.Set_LoopTime(5000);
 		}
 		return TRUE;
 
 	case 51:
 		if (!m_pDX08->iInspectStage3Up && m_pDX08->iInspectStage3Down) {
-			m_tVisionStage3Loop.Takt_Save(16, 22); m_tVisionStage3Loop.Takt_Start(16, 23); 
+			
 			g_objCommon.Move_Position(AX_INSPECT_STAGE_X3, 1);
+
+			 m_tVisionStage3Loop.Takt_Start(16, 51);
 			m_nVisionStage3Case++; m_tVisionStage3Loop.Set_LoopTime(10000);
 		}
 		break;
 	case 52:
-		if (g_objCommon.Check_Position(AX_INSPECT_STAGE_X3, 1)) {
+		if (g_objCommon.Check_Position(AX_INSPECT_STAGE_X3, 1)) 
+		{
 			g_objCommon.Save_Motion(AX_INSPECT_STAGE_X3, 1);
-			m_tVisionStage3Loop.Takt_Save(16, 23); m_tVisionStage3Loop.Takt_Start(16, 24); 
+			
 			gData.nVisionPos[0][2] = 0; gData.nVisionPos[0][1] = nS3No;
+
+			m_tVisionStage3Loop.Takt_Save(16, 51); m_tVisionStage3Loop.Takt_Start(16, 52);
 			m_nVisionStage3Case = 60; m_tVisionStage3Loop.Set_LoopTime(60000);
 		}
 		break;
 	case 60:
 		if (n3FrontVisionCase >= 0 && n3FrontVisionCase < 50) 
 		{
+			m_tVisionStage3Loop.Takt_Start(16, 60);
+			m_tVisionStage3Loop.Takt_Save(16, 60); 
 			m_nVisionStage3Case++; m_tVisionStage3Loop.Set_LoopTime(5000);
 		}
 		return TRUE;
 
 	case 61:
 		if (!m_pDX08->iInspectStage3Up && m_pDX08->iInspectStage3Down) {
-			m_tVisionStage3Loop.Takt_Save(16, 24); m_tVisionStage3Loop.Takt_Start(16, 25); 
+			
 			g_objCommon.Move_Position(AX_INSPECT_STAGE_X3, 0);
+
+			m_tVisionStage3Loop.Takt_Start(16, 61);
 			m_nVisionStage3Case++; m_tVisionStage3Loop.Set_LoopTime(10000);
 		}
 		break;
 	case 62:
 		if (g_objCommon.Check_Position(AX_INSPECT_STAGE_X3, 0)) {
 			g_objCommon.Save_Motion(AX_INSPECT_STAGE_X3, 0);
-			m_tVisionStage3Loop.Takt_Save(16, 25); m_tVisionStage3Loop.Takt_Start(16, 26); 
+			
 			gData.nVisionPos[0][1] = 0; gData.nVisionPos[0][0] = nS3No;
+
+			m_tVisionStage3Loop.Takt_Save(16, 61); m_tVisionStage3Loop.Takt_Start(16, 62);
 			m_nVisionStage3Case++; m_tVisionStage3Loop.Set_LoopTime(10000);
 		}
 		break;
 	case 63:
-		if (!m_pDX08->iInspectStage3Up && m_pDX08->iInspectStage3Down) {
+		if (!m_pDX08->iInspectStage3Up && m_pDX08->iInspectStage3Down) 
+		{
+			m_tVisionStage3Loop.Takt_Save(16, 62); m_tVisionStage3Loop.Takt_Start(16, 63);
 			m_nVisionStage3Case++; m_tVisionStage3Loop.Set_LoopTime(5000);
 		}
 		break;
@@ -8342,31 +8584,36 @@ BOOL CSequenceMain::Run_VisionStage3()
 ///		if (
 //			(nS3No == 2) || (nS3No == 3) ||
 //			(nS3No == 4 && m_pDX08->iInspectStage4Yin && !m_pDX08->iInspectStage4YOut) ) {
+			m_tVisionStage3Loop.Takt_Save(16, 63); m_tVisionStage3Loop.Takt_Start(16, 64);
 			m_nVisionStage3Case = 70; m_tVisionStage3Loop.Set_LoopTime(5000);
 //		}
 		break;
 
 	case 70:
-		if (n3FrontVisionCase > 4 && n3FrontVisionCase < 60) {
+		if (n3FrontVisionCase > 4 && n3FrontVisionCase < 60) 
+		{
+			m_tVisionStage3Loop.Takt_Save(16, 64); m_tVisionStage3Loop.Takt_Start(16, 70);
 			m_nVisionStage3Case++; m_tVisionStage3Loop.Set_LoopTime(5000);
 		}
 		return TRUE;
 	case 71:
 		if (!m_pDX08->iInspectStage3Up && m_pDX08->iInspectStage3Down) {
-			m_tVisionStage3Loop.Takt_Save(16, 26); m_tVisionStage3Loop.Takt_Start(16, 27); 
+			
 			m_pDY08->oInspectStage3Up = TRUE; m_pDY08->oInspectStage3Down = FALSE;
 			g_objAJinAXL.Write_Output(8);
+
+			m_tVisionStage3Loop.Takt_Save(16, 70); m_tVisionStage3Loop.Takt_Start(16, 71);
 			m_nVisionStage3Case++; m_tVisionStage3Loop.Set_LoopTime(5000);
 		}
 		break;
 	case 72:
-		if (m_pDX08->iInspectStage3Up && !m_pDX08->iInspectStage3Down) {
-			m_tVisionStage3Loop.Takt_Save(16, 27, TRUE);
+		if (m_pDX08->iInspectStage3Up && !m_pDX08->iInspectStage3Down)
+		{			
 			gData.nVisionPos[0][0] = 0; gData.nVisionPos[1][0] = nS3No;
+			m_tVisionStage3Loop.Takt_Save(16, 71, TRUE); 
 			m_nVisionStage3Case = 0; m_tVisionStage3Loop.Set_LoopTime(5000);
 		}
 		break;
-
 	}
 
 	// 16. (Error : 6400)
@@ -8407,6 +8654,7 @@ BOOL CSequenceMain::Run_VisionStage4()
 			m_pDY08->oInspectStage4Deg0 = TRUE; m_pDY08->oInspectStage4Deg90 = FALSE;
 			g_objAJinAXL.Write_Output(8);
 
+			m_tVisionStage4Loop.Takt_Start(17, 1);
 			m_nVisionStage4Case++; m_tVisionStage4Loop.Set_LoopTime(5000);
 		}
 		return TRUE;
@@ -8417,10 +8665,14 @@ BOOL CSequenceMain::Run_VisionStage4()
 				if (m_pDX08->iInspectStage4Yin && !m_pDX08->iInspectStage4YOut) {
 					if (n4FrontVisionCase > 14) {
 						g_objCommon.Move_Position(AX_INSPECT_STAGE_X4, 1);
-					} else {
+					} 
+					else 
+					{
 						dStage4PosX = m_pMoveData->dVisionStageX4[0] + ALIGN_TOP1_POS;
 						g_objAJinAXL.Move_Absolute(AX_INSPECT_STAGE_X4, dStage4PosX);
 					}
+
+					m_tVisionStage4Loop.Takt_Save(17, 1); m_tVisionStage4Loop.Takt_Start(17, 2);
 					m_nVisionStage4Case++; m_tVisionStage4Loop.Set_LoopTime(10000);
 				}
 			}
@@ -8429,17 +8681,27 @@ BOOL CSequenceMain::Run_VisionStage4()
 	case 3:
 		if (n4FrontVisionCase > 14) {
 #ifdef NEW_FINAL
-				if (m_pEquipData->bUseTopAng) {
+				if (m_pEquipData->bUseTopAng) 
+				{
 					//dVision4PosZ = m_pMoveData->dTOPVisionZ1[1] + gData.dFocusOffset[nS4No-1][0];
 					dVision4PosZ = m_pMoveData->dTOPVisionZ1[1];
 					g_objAJinAXL.Move_Absolute(AX_TOP1_VISION_Z, dVision4PosZ);
+
+					m_tVisionStage4Loop.Takt_Save(17, 2); m_tVisionStage4Loop.Takt_Start(17, 3);
+					m_tVisionStage4Loop.Takt_Save(17, 3);
 					m_nVisionStage4Case++; m_tVisionStage4Loop.Set_LoopTime(10000);
-				} else {
-					if (g_objAJinAXL.Is_Done(AX_INSPECT_STAGE_X4)) {
+				} 
+				else
+				{
+					if (g_objAJinAXL.Is_Done(AX_INSPECT_STAGE_X4)) 
+					{
 						g_objCommon.Move_Position(AX_INSPECT_STAGE_X4, 1);	//Top1
 						//dVision4PosZ = m_pMoveData->dTOPVisionZ1[1] + gData.dFocusOffset[nS4No-1][0];
 						dVision4PosZ = m_pMoveData->dTOPVisionZ1[1];
 						g_objAJinAXL.Move_Absolute(AX_TOP1_VISION_Z, dVision4PosZ);
+
+						m_tVisionStage4Loop.Takt_Save(17, 2); m_tVisionStage4Loop.Takt_Start(17, 3);
+						m_tVisionStage4Loop.Takt_Save(17, 3);
 						m_nVisionStage4Case++; m_tVisionStage4Loop.Set_LoopTime(10000);
 					}
 				}
@@ -8452,6 +8714,9 @@ BOOL CSequenceMain::Run_VisionStage4()
 					//dVision4PosZ = m_pMoveData->dTOPVisionZ1[1] + gData.dFocusOffset[nS4No-1][0];
 					dVision4PosZ = m_pMoveData->dTOPVisionZ1[1];
 					g_objAJinAXL.Move_Absolute(AX_TOP1_VISION_Z, dVision4PosZ);
+
+					m_tVisionStage4Loop.Takt_Save(17, 2); m_tVisionStage4Loop.Takt_Start(17, 3);
+					m_tVisionStage4Loop.Takt_Save(17, 3);
 					m_nVisionStage4Case++; m_tVisionStage4Loop.Set_LoopTime(10000);
 				} else {
 					if (g_objAJinAXL.Is_Done(AX_INSPECT_STAGE_X4)) {
@@ -8460,6 +8725,9 @@ BOOL CSequenceMain::Run_VisionStage4()
 						//dVision4PosZ = m_pMoveData->dTOPVisionZ1[1] + gData.dFocusOffset[nS4No-1][0];
 						dVision4PosZ = m_pMoveData->dTOPVisionZ1[1];
 						g_objAJinAXL.Move_Absolute(AX_TOP1_VISION_Z, dVision4PosZ);
+
+						m_tVisionStage4Loop.Takt_Save(17, 2); m_tVisionStage4Loop.Takt_Start(17, 3);
+						m_tVisionStage4Loop.Takt_Save(17, 3);
 						m_nVisionStage4Case++; m_tVisionStage4Loop.Set_LoopTime(10000);
 					}
 				}
@@ -8486,37 +8754,47 @@ BOOL CSequenceMain::Run_VisionStage4()
 		if (g_objCommon.Check_Position(AX_INSPECT_STAGE_X4, 1)) {
 			if (m_pDX08->iInspectStage4Deg0) {
 				g_objCommon.Save_Motion(AX_INSPECT_STAGE_X4, 1);
-				m_tVisionStage4Loop.Takt_Save(17, 1); m_tVisionStage4Loop.Takt_Start(17, 2); 
+				
 				gData.nVisionPos[1][0] = 0; gData.nVisionPos[1][1] = nS4No;
 				gData.nTop1Cnt = gData.nScanRetry[1] = 0;
 				n4Tno1 = gData.InfoVision[nS4No-1][9];
 				n4Tno5 = gData.InfoVision[nS4No-1][9] + 4;
+
+				m_tVisionStage4Loop.Takt_Save(17, 3); m_tVisionStage4Loop.Takt_Start(17, 4);
 				m_nVisionStage4Case++; m_tVisionStage4Loop.Set_LoopTime(5000);
 			}
 		}
 		break;
 
 	case 5:
-		if (n4FrontVisionCase >= 22 || (n4FrontVisionCase >= 17 && gData.nTop1Cnt <= 1) || (n4FrontVisionCase >= 17 && gData.nTop2Cnt >= gData.nTop1Cnt)) {
+		if (n4FrontVisionCase >= 22 || (n4FrontVisionCase >= 17 && gData.nTop1Cnt <= 1) 
+			|| (n4FrontVisionCase >= 17 && gData.nTop2Cnt >= gData.nTop1Cnt))
+		{
+			m_tVisionStage4Loop.Takt_Save(17, 4); m_tVisionStage4Loop.Takt_Start(17, 5);
 			m_nVisionStage4Case++; m_tVisionStage4Loop.Set_LoopTime(20000);
 		}
 		return TRUE;
 	case 6:
-		if (m_pDX08->iInspectStage4Up && !m_pDX08->iInspectStage4Down) {
-			if (g_objAJinAXL.Is_Done(AX_TOP1_VISION_Z)) {
-				m_tVisionStage4Loop.Takt_Save(17, 2); m_tVisionStage4Loop.Takt_Start(17, 3); 
+		if (m_pDX08->iInspectStage4Up && !m_pDX08->iInspectStage4Down) 
+		{
+			if (g_objAJinAXL.Is_Done(AX_TOP1_VISION_Z)) 
+			{
+				
 				dStage4PosX = m_pMoveData->dVisionStageX4[1] + (m_pEquipData->dPitchTop * gData.nTop1Cnt);
 				g_objAJinAXL.Move_Absolute(AX_INSPECT_STAGE_X4, dStage4PosX);
 //				g_objCommon.Move_Position(AX_TOP1_VISION_Z, 1);
 				//dVision4PosZ = m_pMoveData->dTOPVisionZ1[1] + gData.dFocusOffset[nS4No-1][gData.nTop1Cnt];
 				dVision4PosZ = m_pMoveData->dTOPVisionZ1[1];
 				g_objAJinAXL.Move_Absolute(AX_TOP1_VISION_Z, dVision4PosZ);	nV4Retry = 0;
+
+				m_tVisionStage4Loop.Takt_Save(17, 5); m_tVisionStage4Loop.Takt_Start(17, 6);
 				m_nVisionStage4Case++; m_tVisionStage4Loop.Set_LoopTime(60000);
 			}
 		}
 		break;
 	case 7:
-		if (g_objAJinAXL.Is_MoveDone(AX_INSPECT_STAGE_X4, dStage4PosX)) {
+		if (g_objAJinAXL.Is_MoveDone(AX_INSPECT_STAGE_X4, dStage4PosX)) 
+		{
 #ifdef NEW_FINAL
 			if (g_objAJinAXL.Is_Done(AX_TOP1_VISION_Z)) {
 #else
@@ -8528,19 +8806,21 @@ BOOL CSequenceMain::Run_VisionStage4()
 #else
 				g_objCommon.Save_Motion(AX_INSPECT_STAGE_X4, -1, dStage4PosX);	g_objCommon.Save_Motion(AX_TOP1_LIGHT_Z, 1);
 #endif
-				m_tVisionStage4Loop.Takt_Save(17, 3); m_tVisionStage4Loop.Takt_Start(17, 4); 
+				
 				gData.bTop1ScanDone = FALSE;	gData.nVsNo[0] = nS4No; gData.nVsIx[0] = gData.nTop1Cnt+1;
 				int nModule1 = n4Tno1; if (gData.InfoVision[nS4No-1][gData.nTop1Cnt] < 1)   nModule1 = -1;
 				int nModule5 = n4Tno5; if (gData.InfoVision[nS4No-1][gData.nTop1Cnt+4] < 1) nModule5 = -1;
 				g_objInspector.Set_LoadComplete(INSPECTOR_PC2, "T1", gData.sLotID_VisionStage[nS4No-1], gData.nPortNo_VisionStage[nS4No-1], gData.nTrayNo_VisionStage[nS4No-1], nModule1, gData.nTrayNo_VisionStage[nS4No-1], nModule5);
 				gAlm.sAlmLID[2] = gData.sLotID_VisionStage[nS4No-1]; gAlm.nAlmTNo[2] = gData.nTrayNo_VisionStage[nS4No-1]; gAlm.nAlmPNo[2] = nModule1;
+				
+				m_tVisionStage4Loop.Takt_Save(17, 6); m_tVisionStage4Loop.Takt_Start(17, 7);
 				m_nVisionStage4Case++; m_tVisionStage4Loop.Set_LoopTime(m_pEquipData->nTimeOver[0]);
 			}
 		}
 		break;
 	case 8:
 		if (gData.bTop1ScanDone || !m_pEquipData->bUseTop1) {
-			m_tVisionStage4Loop.Takt_Save(17, 4); m_tVisionStage4Loop.Takt_Start(17, 5); 
+			
 			gData.nTop1Cnt++; n4Tno1++; n4Tno5++;
 			if (gData.nTop1Cnt >= 4) {
 				if (m_pEquipData->bUseTopAng) {
@@ -8554,11 +8834,21 @@ BOOL CSequenceMain::Run_VisionStage4()
 #else
 					g_objCommon.Move_Position(AX_TOP1_LIGHT_Z, 2);
 #endif
+					m_tVisionStage4Loop.Takt_Save(17, 7); m_tVisionStage4Loop.Takt_Start(17, 8);
+					m_tVisionStage4Loop.Takt_Save(17, 8);
 					m_nVisionStage4Case++; m_tVisionStage4Loop.Set_LoopTime(30000);
-				} else {
+				} 
+				else
+				{
+					m_tVisionStage4Loop.Takt_Save(17, 7); m_tVisionStage4Loop.Takt_Start(17, 8);
+					m_tVisionStage4Loop.Takt_Save(17, 8);
 					m_nVisionStage4Case = 12; m_tVisionStage4Loop.Set_LoopTime(5000);
 				}
-			} else {
+			}
+			else 
+			{
+				m_tVisionStage4Loop.Takt_Save(17, 7); m_tVisionStage4Loop.Takt_Start(17, 8);
+				m_tVisionStage4Loop.Takt_Save(17, 8);
 				m_nVisionStage4Case = 5; m_tVisionStage4Loop.Set_LoopTime(5000);
 			}
 		}
@@ -8566,8 +8856,11 @@ BOOL CSequenceMain::Run_VisionStage4()
 
 	case 9:	//Top1-Angle
 #ifdef NEW_FINAL
-		if (g_objCommon.Check_Position(AX_TOP1_VISION_Z, 2)) {
+		if (g_objCommon.Check_Position(AX_TOP1_VISION_Z, 2))
+		{
 			g_objCommon.Save_Motion(AX_TOP1_VISION_Z, 2); gData.nScanRetry[1] = 0;
+
+			m_tVisionStage4Loop.Takt_Save(17, 8); m_tVisionStage4Loop.Takt_Start(17, 9);
 			m_nVisionStage4Case++; m_tVisionStage4Loop.Set_LoopTime(30000);
 		}
 #else
@@ -8579,20 +8872,25 @@ BOOL CSequenceMain::Run_VisionStage4()
 #endif
 		break;
 	case 10:
-		if (m_pDX08->iInspectStage4Up && !m_pDX08->iInspectStage4Down) {
-			if (g_objAJinAXL.Is_Done(AX_TOP1_VISION_Z)) {
-				m_tVisionStage4Loop.Takt_Save(17, 5); m_tVisionStage4Loop.Takt_Start(17, 6); 
+		if (m_pDX08->iInspectStage4Up && !m_pDX08->iInspectStage4Down) 
+		{
+			if (g_objAJinAXL.Is_Done(AX_TOP1_VISION_Z))
+			{				
 				dStage4PosX = m_pMoveData->dVisionStageX4[1] + (m_pEquipData->dPitchTop * gData.nTop1Cnt);
 				g_objAJinAXL.Move_Absolute(AX_INSPECT_STAGE_X4, dStage4PosX);
 				g_objCommon.Move_Position(AX_TOP1_VISION_Z, 2);	nV4Retry = 0;
+
+				m_tVisionStage4Loop.Takt_Save(17, 9); m_tVisionStage4Loop.Takt_Start(17, 10);
 				m_nVisionStage4Case++; m_tVisionStage4Loop.Set_LoopTime(60000);
 			}
 		}
 		break;
 	case 11:
-		if (g_objAJinAXL.Is_MoveDone(AX_INSPECT_STAGE_X4, dStage4PosX)) {
+		if (g_objAJinAXL.Is_MoveDone(AX_INSPECT_STAGE_X4, dStage4PosX)) 
+		{
 #ifdef NEW_FINAL
-			if (g_objAJinAXL.Is_Done(AX_TOP1_VISION_Z)) {
+			if (g_objAJinAXL.Is_Done(AX_TOP1_VISION_Z))
+			{
 #else
 			if (g_objCommon.Check_Position(AX_TOP1_ANGLE_Y, 2) && g_objAJinAXL.Is_Done(AX_TOP1_VISION_Z)) {
 #endif
@@ -8602,43 +8900,55 @@ BOOL CSequenceMain::Run_VisionStage4()
 #else
 				g_objCommon.Save_Motion(AX_INSPECT_STAGE_X4, -1, dStage4PosX);	g_objCommon.Save_Motion(AX_TOP1_ANGLE_Y, 2);
 #endif
-				m_tVisionStage4Loop.Takt_Save(17, 6); m_tVisionStage4Loop.Takt_Start(17, 7); 
+				
 				gData.bTop1ScanDone = FALSE;	gData.nVsNo[0] = nS4No; gData.nVsIx[0] = gData.nTop1Cnt+1;
 				int nModule1 = n4Tno1; if (gData.InfoVision[nS4No-1][gData.nTop1Cnt] < 1)   nModule1 = -1;
 				int nModule5 = n4Tno5; if (gData.InfoVision[nS4No-1][gData.nTop1Cnt+4] < 1) nModule5 = -1;
 				g_objInspector.Set_LoadComplete(INSPECTOR_PC2, "TG", gData.sLotID_VisionStage[nS4No-1], gData.nPortNo_VisionStage[nS4No-1], gData.nTrayNo_VisionStage[nS4No-1], nModule1, gData.nTrayNo_VisionStage[nS4No-1], nModule5);
 				gAlm.sAlmLID[2] = gData.sLotID_VisionStage[nS4No-1]; gAlm.nAlmTNo[2] = gData.nTrayNo_VisionStage[nS4No-1]; gAlm.nAlmPNo[2] = nModule1;
+				
+				m_tVisionStage4Loop.Takt_Save(17, 10); m_tVisionStage4Loop.Takt_Start(17, 11);
 				m_nVisionStage4Case++; m_tVisionStage4Loop.Set_LoopTime(m_pEquipData->nTimeOver[0]);
 			}
 		}
 		break;
 	case 12:
 		if (gData.bTop1ScanDone || !m_pEquipData->bUseTopAng) {
-			m_tVisionStage4Loop.Takt_Save(17, 7); m_tVisionStage4Loop.Takt_Start(17, 8); 
+			 
 			gData.nTop1Cnt++; n4Tno1++; n4Tno5++;
-			if (gData.nTop1Cnt >= 4) {
+			if (gData.nTop1Cnt >= 4) 
+			{
 				g_objCommon.Move_Position(AX_TOP1_VISION_Z, 1);
 #ifdef NEW_FINAL
 #else
 				g_objCommon.Move_Position(AX_TOP1_ANGLE_Y, 1);
 #endif
+				m_tVisionStage4Loop.Takt_Save(17, 11); m_tVisionStage4Loop.Takt_Start(17, 12);
+				m_tVisionStage4Loop.Takt_Save(17, 12); 
 				m_nVisionStage4Case++; m_tVisionStage4Loop.Set_LoopTime(30000);
-			} else {
+			} 
+			else
+			{
+				m_tVisionStage4Loop.Takt_Save(17, 11); m_tVisionStage4Loop.Takt_Start(17, 12);
+				m_tVisionStage4Loop.Takt_Save(17, 12); 
 				m_nVisionStage4Case = 10; m_tVisionStage4Loop.Set_LoopTime(5000);
 			}
 		}
 		break;
 
 	case 13:
-		if (n4FrontVisionCase > 22) {
+		if (n4FrontVisionCase > 22) 
+		{
+			m_tVisionStage4Loop.Takt_Start(17, 13);
 			m_nVisionStage4Case++; m_tVisionStage4Loop.Set_LoopTime(5000);
 		}
 		return TRUE;
 
 	case 14:
-		if (m_pDX08->iInspectStage4Up && !m_pDX08->iInspectStage4Down) {
-			if (m_pDX08->iInspectStage4Yin && !m_pDX08->iInspectStage4YOut) {
-				m_tVisionStage4Loop.Takt_Save(17, 8); m_tVisionStage4Loop.Takt_Start(17, 9); 
+		if (m_pDX08->iInspectStage4Up && !m_pDX08->iInspectStage4Down) 
+		{
+			if (m_pDX08->iInspectStage4Yin && !m_pDX08->iInspectStage4YOut) 
+			{				
 				m_pDY08->oInspectStage4Deg0 = FALSE; m_pDY08->oInspectStage4Deg90 = TRUE;
 				g_objAJinAXL.Write_Output(8);
 //				g_objCommon.Move_Position(AX_TOP2_VISION_Z, 1);
@@ -8646,6 +8956,8 @@ BOOL CSequenceMain::Run_VisionStage4()
 				//dVision4PosZ = m_pMoveData->dTOPVisionZ2[1] + gData.dFocusOffset[nS4No-1][4];
 				dVision4PosZ = m_pMoveData->dTOPVisionZ2[1];
 				g_objAJinAXL.Move_Absolute(AX_TOP2_VISION_Z, dVision4PosZ);
+
+				m_tVisionStage4Loop.Takt_Save(17, 13); m_tVisionStage4Loop.Takt_Start(17, 14);
 				m_nVisionStage4Case++; m_tVisionStage4Loop.Set_LoopTime(10000);
 			}
 		}
@@ -8656,26 +8968,32 @@ BOOL CSequenceMain::Run_VisionStage4()
 			if (g_objAJinAXL.Is_Done(AX_TOP2_VISION_Z)) {
 				if (m_pDX08->iInspectStage4Deg90) {
 					g_objCommon.Save_Motion(AX_INSPECT_STAGE_X4, 2);	g_objCommon.Save_Motion(AX_TOP2_VISION_Z, 1);
-					m_tVisionStage4Loop.Takt_Save(17, 9); m_tVisionStage4Loop.Takt_Start(17, 10); 
+					
 					gData.nVisionPos[1][1] = 0; gData.nVisionPos[1][2] = nS4No;
 					gData.nTop2Cnt = gData.nScanRetry[2] = 0;
 					n4Tno1 = gData.InfoVision[nS4No-1][9];
 					n4Tno5 = gData.InfoVision[nS4No-1][9] + 4;
+
+					m_tVisionStage4Loop.Takt_Save(17, 14); m_tVisionStage4Loop.Takt_Start(17, 15);
 					m_nVisionStage4Case++; m_tVisionStage4Loop.Set_LoopTime(20000);
 				}
 			}
 		}
 		break;
 	case 16:
-		if (m_pDX08->iInspectStage4Up && !m_pDX08->iInspectStage4Down) {
-			if (g_objAJinAXL.Is_Done(AX_TOP2_VISION_Z)) {
-				m_tVisionStage4Loop.Takt_Save(17, 10); m_tVisionStage4Loop.Takt_Start(17, 11); 
+		if (m_pDX08->iInspectStage4Up && !m_pDX08->iInspectStage4Down) 
+		{
+			if (g_objAJinAXL.Is_Done(AX_TOP2_VISION_Z)) 
+			{
+				
 				dStage4PosX = m_pMoveData->dVisionStageX4[2] + (m_pEquipData->dPitchTop * gData.nTop2Cnt);
 				g_objAJinAXL.Move_Absolute(AX_INSPECT_STAGE_X4, dStage4PosX);
 //				g_objCommon.Move_Position(AX_TOP2_VISION_Z, 1);
 				//dVision4PosZ = m_pMoveData->dTOPVisionZ2[1] + gData.dFocusOffset[nS4No-1][4+gData.nTop2Cnt];
 				dVision4PosZ = m_pMoveData->dTOPVisionZ2[1];
 				g_objAJinAXL.Move_Absolute(AX_TOP2_VISION_Z, dVision4PosZ);	nV4Retry = 0;
+
+				m_tVisionStage4Loop.Takt_Save(17, 15); m_tVisionStage4Loop.Takt_Start(17, 16);
 				m_nVisionStage4Case++; m_tVisionStage4Loop.Set_LoopTime(60000);
 			}
 		}
@@ -8685,83 +9003,112 @@ BOOL CSequenceMain::Run_VisionStage4()
 			if (g_objAJinAXL.Is_Done(AX_TOP2_VISION_Z)) {
 				if (!m_tVisionStage4Loop.Waiting_Time(m_pEquipData->nDelayTime[9])) break;
 				g_objCommon.Save_Motion(AX_INSPECT_STAGE_X4, -1, dStage4PosX);
-				m_tVisionStage4Loop.Takt_Save(17, 11); m_tVisionStage4Loop.Takt_Start(17, 12); 
+				
 				gData.bTop2ScanDone = FALSE;	gData.nVsNo[1] = nS4No; gData.nVsIx[1] = gData.nTop2Cnt+1;
 				int nModule1 = n4Tno1; if (gData.InfoVision[nS4No-1][gData.nTop2Cnt] < 1)   nModule1 = -1;
 				int nModule5 = n4Tno5; if (gData.InfoVision[nS4No-1][gData.nTop2Cnt+4] < 1) nModule5 = -1;
 				g_objInspector.Set_LoadComplete(INSPECTOR_PC3, "T2", gData.sLotID_VisionStage[nS4No-1], gData.nPortNo_VisionStage[nS4No-1], gData.nTrayNo_VisionStage[nS4No-1], nModule1, gData.nTrayNo_VisionStage[nS4No-1], nModule5);
 				gAlm.sAlmLID[3] = gData.sLotID_VisionStage[nS4No-1]; gAlm.nAlmTNo[3] = gData.nTrayNo_VisionStage[nS4No-1]; gAlm.nAlmPNo[3] = nModule1;
+				
+				m_tVisionStage4Loop.Takt_Save(17, 16); m_tVisionStage4Loop.Takt_Start(17, 17);
 				m_nVisionStage4Case++; m_tVisionStage4Loop.Set_LoopTime(m_pEquipData->nTimeOver[0]);
 			}
 		}
 		break;
 	case 18:
 		if (gData.bTop2ScanDone || !m_pEquipData->bUseTop2) {
-			m_tVisionStage4Loop.Takt_Save(17, 12); m_tVisionStage4Loop.Takt_Start(17, 13); 
+			
 			gData.nTop2Cnt++; n4Tno1++; n4Tno5++;
 			if (gData.nTop2Cnt >= 4) {
 				dwV4RosTime[0] = GetTickCount();
+
+				m_tVisionStage4Loop.Takt_Save(17, 17); m_tVisionStage4Loop.Takt_Start(17, 18);
+				m_tVisionStage4Loop.Takt_Save(17, 18);
 				m_nVisionStage4Case = 20; m_tVisionStage4Loop.Set_LoopTime(5000);
-			} else {
+			}
+			else
+			{
+				m_tVisionStage4Loop.Takt_Save(17, 17); m_tVisionStage4Loop.Takt_Start(17, 18);
+				m_tVisionStage4Loop.Takt_Save(17, 18);
 				m_nVisionStage4Case++; m_tVisionStage4Loop.Set_LoopTime(5000);
 			}
 		}
 		break;
 	case 19:
-		if (n4FrontVisionCase < 19 || (n4FrontVisionCase >= 23 && gData.nTop2Cnt <= 1) || n4FrontVisionCase >= 25) {
+		if (n4FrontVisionCase < 19 || (n4FrontVisionCase >= 23 && gData.nTop2Cnt <= 1) || n4FrontVisionCase >= 25)
+		{
+			m_tVisionStage4Loop.Takt_Start(17, 19);
+			m_tVisionStage4Loop.Takt_Save(17, 19);
 			m_nVisionStage4Case = 16; m_tVisionStage4Loop.Set_LoopTime(5000);
 		}
 		return TRUE;
 
 	case 20:
-		if (n4FrontVisionCase < 20 || n4FrontVisionCase >= 25) {
+		if (n4FrontVisionCase < 20 || n4FrontVisionCase >= 25) 
+		{
+			m_tVisionStage4Loop.Takt_Start(17, 20);
 			m_nVisionStage4Case++; m_tVisionStage4Loop.Set_LoopTime(5000);
 		}
 		return TRUE;
 
 	case 21:
-		if (m_pDX08->iInspectStage4Up && !m_pDX08->iInspectStage4Down) {
-			if (m_pDX08->iInspectStage4Yin && !m_pDX08->iInspectStage4YOut) {
-				if (g_objAJinAXL.Is_MoveDone(AX_INSPECT_STAGE_X4, dStage4PosX)) {
-					m_tVisionStage4Loop.Takt_Save(17, 13); m_tVisionStage4Loop.Takt_Start(17, 14); 
+		if (m_pDX08->iInspectStage4Up && !m_pDX08->iInspectStage4Down) 
+		{
+			if (m_pDX08->iInspectStage4Yin && !m_pDX08->iInspectStage4YOut)
+			{
+				if (g_objAJinAXL.Is_MoveDone(AX_INSPECT_STAGE_X4, dStage4PosX)) 
+				{
+					
 					g_objCommon.Move_Position(AX_INSPECT_STAGE_X4, 4);
 					m_pDY08->oInspectStage4Deg0 = TRUE; m_pDY08->oInspectStage4Deg90 = FALSE;
 					g_objAJinAXL.Write_Output(8);
+
+					m_tVisionStage4Loop.Takt_Save(17, 20); m_tVisionStage4Loop.Takt_Start(17, 21);
 					m_nVisionStage4Case++; m_tVisionStage4Loop.Set_LoopTime(10000);
 				}
 			}
 		}
 		break;
 	case 22:
-		if (g_objCommon.Check_Position(AX_INSPECT_STAGE_X4, 4)) {
+		if (g_objCommon.Check_Position(AX_INSPECT_STAGE_X4, 4)) 
+		{
 			g_objCommon.Save_Motion(AX_INSPECT_STAGE_X4, 4);
-			m_tVisionStage4Loop.Takt_Save(17, 14); m_tVisionStage4Loop.Takt_Start(17, 15); 
+
 			dwV4RosTime[1] = dwV4RosTime[0];
 			gData.nVisionPos[1][2] = 0; gData.nVisionPos[1][4] = nS4No;
+			
+			m_tVisionStage4Loop.Takt_Save(17, 21); m_tVisionStage4Loop.Takt_Start(17, 22);
 			m_nVisionStage4Case++; m_tVisionStage4Loop.Set_LoopTime(10000);
 		}
 		break;
 	case 23:
-		if (n4FrontVisionCase < 22 || n4FrontVisionCase > 34) {
-			m_tVisionStage4Loop.Takt_Save(17, 15); m_tVisionStage4Loop.Takt_Start(17, 16); 
+		if (n4FrontVisionCase < 22 || n4FrontVisionCase > 34)
+		{			
 			g_objCommon.Move_Position(AX_INSPECT_STAGE_X4, 3);
+			
+			m_tVisionStage4Loop.Takt_Save(17, 22); m_tVisionStage4Loop.Takt_Start(17, 23);
 			m_nVisionStage4Case++; m_tVisionStage4Loop.Set_LoopTime(10000);
 		}
 		return TRUE;
 	case 24:
 		if (g_objCommon.Check_Position(AX_INSPECT_STAGE_X4, 3)) {
 			g_objCommon.Save_Motion(AX_INSPECT_STAGE_X4, 3);
-			m_tVisionStage4Loop.Takt_Save(17, 16); m_tVisionStage4Loop.Takt_Start(17, 17); 
+			
 			dwV4RosTime[2] = dwV4RosTime[1];
 			gData.nVisionPos[1][4] = 0; gData.nVisionPos[1][3] = nS4No;
+
+			m_tVisionStage4Loop.Takt_Save(17, 23); m_tVisionStage4Loop.Takt_Start(17, 24);
 			m_nVisionStage4Case++; m_tVisionStage4Loop.Set_LoopTime(30000);
 		}
 		break;
 	case 25:
+		m_tVisionStage4Loop.Takt_Save(17, 24); m_tVisionStage4Loop.Takt_Start(17, 25);
 			m_nVisionStage4Case = 30; m_tVisionStage4Loop.Set_LoopTime(30000);
 		break;
 	case 26:	//RosTime 6초대기
-		if (GetTickCount() - dwV4RosTime[2] >= 6000) {
+		if (GetTickCount() - dwV4RosTime[2] >= 6000) 
+		{
+			m_tVisionStage4Loop.Takt_Save(17, 25); m_tVisionStage4Loop.Takt_Start(17, 26);
 			m_nVisionStage4Case = 30; m_tVisionStage4Loop.Set_LoopTime(5000);
 		}
 		break;
@@ -8783,6 +9130,8 @@ BOOL CSequenceMain::Run_VisionStage4()
 										
 					m_pDY08->oInspectStage4Up = FALSE; m_pDY08->oInspectStage4Down = TRUE;
 					g_objAJinAXL.Write_Output(8);
+
+					m_tVisionStage4Loop.Takt_Start(17, 31);
 					m_nVisionStage4Case++; m_tVisionStage4Loop.Set_LoopTime(10000);
 				}
 						
@@ -8791,8 +9140,7 @@ BOOL CSequenceMain::Run_VisionStage4()
 		return TRUE;		
 	case 32:
 		if (!m_pDX08->iInspectStage4Up && m_pDX08->iInspectStage4Down) 
-		{
-			m_tVisionStage4Loop.Takt_Save(17, 18); m_tVisionStage4Loop.Takt_Start(17, 19); 
+		{			
 			gData.nVisionPos[1][3] = 0; gData.nVisionPos[0][3] = nS4No;
 			if (nS4No == 1)
 			{
@@ -8804,6 +9152,8 @@ BOOL CSequenceMain::Run_VisionStage4()
 				m_pDY08->oInspectStage4Yin = FALSE; m_pDY08->oInspectStage4YOut = TRUE;
 				g_objAJinAXL.Write_Output(8);
 			}
+
+			m_tVisionStage4Loop.Takt_Save(17, 31); m_tVisionStage4Loop.Takt_Start(17, 32);
 			m_nVisionStage4Case = 34; m_tVisionStage4Loop.Set_LoopTime(5000);
 		}
 		break;
@@ -8812,7 +9162,7 @@ BOOL CSequenceMain::Run_VisionStage4()
 			(nS4No == 2) || (nS4No == 3) ||
 			(nS4No == 4 && !m_pDX08->iInspectStage4Yin && m_pDX08->iInspectStage4YOut) ) 
 		{
-			m_tVisionStage4Loop.Takt_Save(17, 19); m_tVisionStage4Loop.Takt_Start(17, 20); 
+			m_tVisionStage4Loop.Takt_Save(17, 32); m_tVisionStage4Loop.Takt_Start(17, 34);
 			m_nVisionStage4Case = 35; m_tVisionStage4Loop.Set_LoopTime(5000);
 		}
 		break;
@@ -8820,14 +9170,18 @@ BOOL CSequenceMain::Run_VisionStage4()
 	case 35:
 		if (n4FrontVisionCase >= 0 && n4FrontVisionCase < 31) 
 		{
+			m_tVisionStage4Loop.Takt_Save(17, 34); m_tVisionStage4Loop.Takt_Start(17, 35);
+			m_tVisionStage4Loop.Takt_Save(17, 35);
 			m_nVisionStage4Case = 61; m_tVisionStage4Loop.Set_LoopTime(5000);
 		}
 		else if (n4FrontVisionCase < 50 || n4FrontVisionCase >= 70) 
 		{
 			double dCurrent = g_objAJinAXL.Get_Position(m_nVisionStage2Case);
 			double dTarget = g_objDataManager.Get_pMoveData()->dVisionStageX2[INSPECT_STAGE2_X_AlignPos];
-			if(dTarget < dCurrent) return TRUE;
+			if(dTarget < dCurrent && !Check_ModuleEmpty()) return TRUE;
 
+			m_tVisionStage4Loop.Takt_Save(17, 34); m_tVisionStage4Loop.Takt_Start(17, 35);
+			m_tVisionStage4Loop.Takt_Save(17, 35);
 			m_nVisionStage4Case = 51; m_tVisionStage4Loop.Set_LoopTime(5000);
 		} 
 		else if (n4FrontVisionCase < 40 || n4FrontVisionCase >= 60) 
@@ -8836,75 +9190,100 @@ BOOL CSequenceMain::Run_VisionStage4()
 			double dTarget = g_objDataManager.Get_pMoveData()->dVisionStageX2[INSPECT_STAGE2_X_Top1Pos];
 			if(dTarget < dCurrent && !Check_ModuleEmpty() ) return TRUE;
 
+			m_tVisionStage4Loop.Takt_Save(17, 34); m_tVisionStage4Loop.Takt_Start(17, 35);
+			m_tVisionStage4Loop.Takt_Save(17, 35);
 			m_nVisionStage4Case = 41; m_tVisionStage4Loop.Set_LoopTime(5000);
 		}
 		return TRUE;
 	case 40:
 		if (n4FrontVisionCase < 40 || n4FrontVisionCase >= 60) 
 		{
+			m_tVisionStage4Loop.Takt_Start(17, 40);
+			m_tVisionStage4Loop.Takt_Save(17, 40);
 			m_nVisionStage4Case++; m_tVisionStage4Loop.Set_LoopTime(5000);
 		}
 		return TRUE;
 	case 41:
 		if (!m_pDX08->iInspectStage4Up && m_pDX08->iInspectStage4Down) {
-			m_tVisionStage4Loop.Takt_Save(17, 20); m_tVisionStage4Loop.Takt_Start(17, 21); 
+			
 			g_objCommon.Move_Position(AX_INSPECT_STAGE_X4, 2);
+
+			m_tVisionStage4Loop.Takt_Start(17, 41);
 			m_nVisionStage4Case++; m_tVisionStage4Loop.Set_LoopTime(10000);
 		}
 		break;
 	case 42:
-		if (g_objCommon.Check_Position(AX_INSPECT_STAGE_X4, 2)) {
+		if (g_objCommon.Check_Position(AX_INSPECT_STAGE_X4, 2)) 
+		{
 			g_objCommon.Save_Motion(AX_INSPECT_STAGE_X4, 2);
-			m_tVisionStage4Loop.Takt_Save(17, 21); m_tVisionStage4Loop.Takt_Start(17, 22); 
+			
 			gData.nVisionPos[0][3] = 0; gData.nVisionPos[0][2] = nS4No;
+
+			m_tVisionStage4Loop.Takt_Save(17, 41); m_tVisionStage4Loop.Takt_Start(17, 42);
+			m_tVisionStage4Loop.Takt_Save(17, 42);
 			m_nVisionStage4Case = 50; m_tVisionStage4Loop.Set_LoopTime(60000);
 		}
 		break;
 	case 50:
 		if (n4FrontVisionCase < 50 || n4FrontVisionCase >= 70) 
 		{			
+			m_tVisionStage4Loop.Takt_Start(17, 50);
+			m_tVisionStage4Loop.Takt_Save(17, 50); 
 			m_nVisionStage4Case++; m_tVisionStage4Loop.Set_LoopTime(5000);
 		}
 		return TRUE;
 	case 51:
 		if (!m_pDX08->iInspectStage4Up && m_pDX08->iInspectStage4Down) 
-		{
-			m_tVisionStage4Loop.Takt_Save(17, 22); m_tVisionStage4Loop.Takt_Start(17, 23); 
+		{			
 			g_objCommon.Move_Position(AX_INSPECT_STAGE_X4, INSPECT_STAGE4_X_Top1Pos);
+
+			m_tVisionStage4Loop.Takt_Start(17, 51);
 			m_nVisionStage4Case++; m_tVisionStage4Loop.Set_LoopTime(10000);
 		}
 		break;
 	case 52:
-		if (g_objCommon.Check_Position(AX_INSPECT_STAGE_X4, INSPECT_STAGE4_X_Top1Pos)) {
+		if (g_objCommon.Check_Position(AX_INSPECT_STAGE_X4, INSPECT_STAGE4_X_Top1Pos)) 
+		{
 			g_objCommon.Save_Motion(AX_INSPECT_STAGE_X4, INSPECT_STAGE4_X_Top1Pos);
-			m_tVisionStage4Loop.Takt_Save(17, 23); m_tVisionStage4Loop.Takt_Start(17, 24); 
+			
 			gData.nVisionPos[0][2] = 0; gData.nVisionPos[0][1] = nS4No;
+
+			m_tVisionStage4Loop.Takt_Save(17, 51); m_tVisionStage4Loop.Takt_Start(17, 52);
+			m_tVisionStage4Loop.Takt_Save(17, 52);
 			m_nVisionStage4Case = 61; m_tVisionStage4Loop.Set_LoopTime(60000);
 		}
 		break;
 	case 60:
 		if (n4FrontVisionCase >= 0 && n4FrontVisionCase < 50) 
 		{
+			m_tVisionStage4Loop.Takt_Start(17, 60);
+			m_tVisionStage4Loop.Takt_Save(17, 60);
 			m_nVisionStage4Case++; m_tVisionStage4Loop.Set_LoopTime(5000);
 		}
 		return TRUE;
 	case 61:
-		if (!m_pDX08->iInspectStage4Up && m_pDX08->iInspectStage4Down) {
-			m_tVisionStage4Loop.Takt_Save(17, 24); m_tVisionStage4Loop.Takt_Start(17, 25); 
+		if (!m_pDX08->iInspectStage4Up && m_pDX08->iInspectStage4Down)
+		{			
 			g_objCommon.Move_Position(AX_INSPECT_STAGE_X4, INSPECT_STAGE4_X_AlignPos);
+
+			m_tVisionStage4Loop.Takt_Save(17, 60); m_tVisionStage4Loop.Takt_Start(17, 61);
 			m_nVisionStage4Case++; m_tVisionStage4Loop.Set_LoopTime(10000);
 		}
 		break;
 	case 62:
-		if (g_objCommon.Check_Position(AX_INSPECT_STAGE_X4, INSPECT_STAGE4_X_AlignPos)) {
+		if (g_objCommon.Check_Position(AX_INSPECT_STAGE_X4, INSPECT_STAGE4_X_AlignPos))
+		{
 			g_objCommon.Save_Motion(AX_INSPECT_STAGE_X4, INSPECT_STAGE4_X_AlignPos);
-			m_tVisionStage4Loop.Takt_Save(17, 25); m_tVisionStage4Loop.Takt_Start(17, 26); 
+			 
 			gData.nVisionPos[0][1] = 0; gData.nVisionPos[0][0] = nS4No;
+
+			m_tVisionStage4Loop.Takt_Save(17, 61); m_tVisionStage4Loop.Takt_Start(17, 62);
 			m_nVisionStage4Case++; m_tVisionStage4Loop.Set_LoopTime(10000);
 		}
 		break;
 	case 63:
-		if (!m_pDX08->iInspectStage4Up && m_pDX08->iInspectStage4Down) {
+		if (!m_pDX08->iInspectStage4Up && m_pDX08->iInspectStage4Down) 
+		{
 /*			if (nS4No == 1) {
 				m_pDY08->oInspectStage4Yin = TRUE; m_pDY08->oInspectStage4YOut = FALSE;
 				g_objAJinAXL.Write_Output(8);
@@ -8913,6 +9292,7 @@ BOOL CSequenceMain::Run_VisionStage4()
 				m_pDY08->oInspectStage4Yin = TRUE; m_pDY08->oInspectStage4YOut = FALSE;
 				g_objAJinAXL.Write_Output(8);
 			}*/
+			m_tVisionStage4Loop.Takt_Save(17, 62); m_tVisionStage4Loop.Takt_Start(17, 63);
 			m_nVisionStage4Case++; m_tVisionStage4Loop.Set_LoopTime(5000);
 		}
 		break;
@@ -8920,35 +9300,46 @@ BOOL CSequenceMain::Run_VisionStage4()
 //		if ((nS4No == 1 && m_pDX08->iInspectStage4Yin && !m_pDX08->iInspectStage4YOut) ||
 //			(nS4No == 2) || (nS4No == 3) ||
 //			(nS4No == 4 && m_pDX08->iInspectStage4Yin && !m_pDX08->iInspectStage4YOut) ) {
+
+			m_tVisionStage4Loop.Takt_Save(17, 63); m_tVisionStage4Loop.Takt_Start(17, 64);
 			m_nVisionStage4Case = 70; m_tVisionStage4Loop.Set_LoopTime(5000);
 //		}
 		break;
 
 	case 70:
-		if (n4FrontVisionCase > 4 && n4FrontVisionCase < 60) {
+		if (n4FrontVisionCase > 4 && n4FrontVisionCase < 60) 
+		{
+			m_tVisionStage4Loop.Takt_Save(17, 64); m_tVisionStage4Loop.Takt_Start(17, 70);
 			m_nVisionStage4Case++; m_tVisionStage4Loop.Set_LoopTime(5000);
 		}
 		return TRUE;
 	case 71:
-		if (!m_pDX08->iInspectStage4Up && m_pDX08->iInspectStage4Down) {
-			m_tVisionStage4Loop.Takt_Save(17, 26); m_tVisionStage4Loop.Takt_Start(17, 27); 
+		if (!m_pDX08->iInspectStage4Up && m_pDX08->iInspectStage4Down) 
+		{			
 			m_pDY08->oInspectStage4Yin = TRUE; m_pDY08->oInspectStage4YOut = FALSE;
 			g_objAJinAXL.Write_Output(8);
+
+			m_tVisionStage4Loop.Takt_Save(17, 70); m_tVisionStage4Loop.Takt_Start(17, 71);
 			m_nVisionStage4Case++; m_tVisionStage4Loop.Set_LoopTime(5000);
 		}
 		break;	
 	case 72:
-		if (m_pDX08->iInspectStage4Yin && !m_pDX08->iInspectStage4YOut) {
-			m_tVisionStage4Loop.Takt_Save(17, 27); m_tVisionStage4Loop.Takt_Start(17, 28); 
+		if (m_pDX08->iInspectStage4Yin && !m_pDX08->iInspectStage4YOut) 
+		{			 
 			m_pDY08->oInspectStage4Up = TRUE; m_pDY08->oInspectStage4Down = FALSE;
 			g_objAJinAXL.Write_Output(8);
+
+			m_tVisionStage4Loop.Takt_Save(17, 71); m_tVisionStage4Loop.Takt_Start(17, 72);
 			m_nVisionStage4Case++; m_tVisionStage4Loop.Set_LoopTime(5000);
 		}
 		break;
 	case 73:
-		if (m_pDX08->iInspectStage4Up && !m_pDX08->iInspectStage4Down) {
-			m_tVisionStage4Loop.Takt_Save(17, 28, TRUE);
+		if (m_pDX08->iInspectStage4Up && !m_pDX08->iInspectStage4Down) 
+		{
+			
 			gData.nVisionPos[0][0] = 0; gData.nVisionPos[1][0] = nS4No;
+
+			m_tVisionStage4Loop.Takt_Save(17, 72, TRUE);
 			m_nVisionStage4Case = 0; m_tVisionStage4Loop.Set_LoopTime(5000);
 		}
 		break;
