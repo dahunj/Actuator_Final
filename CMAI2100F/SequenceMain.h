@@ -174,6 +174,8 @@ private:
 	BOOL Search_Module(CString sLotID, CString sModuleID);
 	int  Get_NGCmCount(int nStageNo);
 
+	BOOL Check_Collision(double center1, double center2);
+
 	void Set_NextLot(CString sLotID, DWORD dwTime);
 	void Set_AlignData(int nPortNo);
 	void Set_AlignToStage(int nPortNo);

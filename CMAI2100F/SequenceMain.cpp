@@ -11619,6 +11619,7 @@ BOOL CSequenceMain::Run_Simulation()
 #ifdef AJIN_BOARD_USE
 	return TRUE;
 #endif
+	
 
 	if (m_nElevator3Case == 10) { Sleep(SIM_WAITTIMES); m_pDX01->iElevator3Height1 = TRUE; }
 	if (m_nElevator3Case == 12) { Sleep(SIM_WAITTIMES); m_pDX01->iElevator3Height1 = FALSE; }
@@ -11683,4 +11684,18 @@ BOOL CSequenceMain::Run_Simulation()
 	if (m_nVisionStage1Case == 18 || m_nVisionStage2Case == 18 || m_nVisionStage3Case == 18 || m_nVisionStage4Case == 18) gData.bTop2ScanDone = TRUE;
 
 	return TRUE;
+}
+
+BOOL CSequenceMain::Check_Collision(double center1, double center2)
+{
+	double left1  = center1 - 150.0;
+	double right1 = center1 + 150.0;
+
+	double left2  = center2 - 150.0;
+	double right2 = center2 + 150.0;
+
+	if (right1 >= left2 && right2 >= left1)
+		return TRUE;
+
+	return FALSE;
 }
