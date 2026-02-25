@@ -11620,6 +11620,34 @@ BOOL CSequenceMain::Run_Simulation()
 	return TRUE;
 #endif
 	
+	if((m_pDX08->iInspectStage3Down && m_pDX08->iInspectStage4Down) || (m_pDX08->iInspectStage3Up && m_pDX08->iInspectStage4Up) )
+	{
+		double dInsStg4XPos = g_objAJinAXL.Get_Position(AX_INSPECT_STAGE_X4);
+		double dInsStg3XPos = g_objAJinAXL.Get_Position(AX_INSPECT_STAGE_X3);
+		if(Check_Collision(dInsStg4XPos, dInsStg3XPos)) g_objCommon.Show_Error(10000);
+	}
+
+	if((m_pDX08->iInspectStage4Down && m_pDX07->iInspectStage2Down) || (m_pDX08->iInspectStage4Up && m_pDX07->iInspectStage2Up) )
+	{
+		double dInsStg2XPos = g_objAJinAXL.Get_Position(AX_INSPECT_STAGE_X2);
+		double dInsStg4XPos = g_objAJinAXL.Get_Position(AX_INSPECT_STAGE_X4);
+		if(Check_Collision(dInsStg2XPos, dInsStg4XPos)) g_objCommon.Show_Error(10000);
+	}
+
+	if((m_pDX07->iInspectStage1Down && m_pDX07->iInspectStage2Down) || (m_pDX07->iInspectStage1Up && m_pDX07->iInspectStage2Up) )
+	{
+		double dInsStg1XPos = g_objAJinAXL.Get_Position(AX_INSPECT_STAGE_X1);
+		double dInsStg2XPos = g_objAJinAXL.Get_Position(AX_INSPECT_STAGE_X2);
+		if(Check_Collision(dInsStg1XPos, dInsStg2XPos)) g_objCommon.Show_Error(10000);
+	}
+
+	if((m_pDX08->iInspectStage3Down && m_pDX07->iInspectStage1Down) || (m_pDX08->iInspectStage3Up && m_pDX07->iInspectStage1Up) )
+	{
+		double dInsStg3XPos = g_objAJinAXL.Get_Position(AX_INSPECT_STAGE_X3);
+		double dInsStg1XPos = g_objAJinAXL.Get_Position(AX_INSPECT_STAGE_X1);
+		if(Check_Collision(dInsStg3XPos, dInsStg1XPos)) g_objCommon.Show_Error(10000);
+	}
+
 
 	if (m_nElevator3Case == 10) { Sleep(SIM_WAITTIMES); m_pDX01->iElevator3Height1 = TRUE; }
 	if (m_nElevator3Case == 12) { Sleep(SIM_WAITTIMES); m_pDX01->iElevator3Height1 = FALSE; }
