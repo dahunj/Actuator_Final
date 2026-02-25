@@ -5,6 +5,9 @@
 #include "CMAI2100.h"
 #include <math.h>
 
+#include "Common.h"
+#include "FifoTaskProcessor.h"
+
 // AJin Board Library
 #include "AXL.h"
 #include "AXM.h"
@@ -29,6 +32,8 @@ CAJinAXL::CAJinAXL(void)
 	m_bThreadAJin = FALSE;
 
 	m_bReadVelocity = FALSE;
+
+	m_runningCount = 0;
 }
 
 CAJinAXL::~CAJinAXL(void)
@@ -97,6 +102,15 @@ BOOL CAJinAXL::Initialize()
 
 	m_bThreadAJin = TRUE;
 	m_pThreadAJin = AfxBeginThread(Thread_AJin, NULL);
+
+#ifndef AJIN_BOARD_USE
+	if (!proc.Start())
+	{        
+		return FALSE;
+	}
+#endif
+
+
 
 	return TRUE;
 }
@@ -679,11 +693,189 @@ DXY_DATA *CAJinAXL::Get_pDY(int nIndex)
 ///////////////////////////////////////////////////////////////////////////////
 
 void CAJinAXL::Sim_SetMotion(int nNo, int nAxis, double dPos)
+{    
+	Task t;
+	t.nType = nNo;
+	t.nAxis = nAxis;
+	t.dPos = dPos;
+	t.id = 0;
+
+	proc.Enqueue(t);
+	::Sleep(SIM_WAITTIMEM);        
+}
+
+
+
+
+
+ThreadIdManager::ThreadIdManager()
+	: m_nextId(1)
 {
-	Sleep(SIM_WAITTIMEM);
-	if		(nNo == 1)	g_objAJinAXL.m_Status[nAxis].dPos = dPos;
-	else if (nNo == 2)	g_objAJinAXL.m_Status[nAxis].dPos = g_objAJinAXL.m_Status[nAxis].dPos + dPos;
-	else if (nNo == 3)	g_objAJinAXL.m_Status[nAxis].dPos = dPos;
+}
+
+int ThreadIdManager::AllocateId()
+{
+	CSingleLock lock(&m_cs, TRUE);
+	if (!m_freeIds.empty())
+	{
+		std::set<int>::iterator it = m_freeIds.begin();
+		int id = *it;
+		m_freeIds.erase(it);
+		return id;
+	}
+	return m_nextId++;
+}
+
+void ThreadIdManager::ReleaseId(int id)
+{
+	CSingleLock lock(&m_cs, TRUE);
+	m_freeIds.insert(id);
+}
+
+
+int CAJinAXL::StartThread(int nType, int nAxis, double dPos)
+{
+	// 1) ID ????
+	int id = m_idMgr.AllocateId();
+	if (id <= 0) return 0;
+
+	// 2) ???? ???
+	ThreadArgs* pArgs    = new ThreadArgs;
+	pArgs->pRunner        = this;
+	pArgs->id            = id;
+	pArgs->nAxisNo        = nAxis;
+	pArgs->type            = nType;
+	pArgs->dPosTarget    = dPos;
+
+	// 3) ?????? ????
+	CWinThread* pThread = AfxBeginThread(&CAJinAXL::WorkerProc, pArgs);
+	if (!pThread)
+	{
+		m_idMgr.ReleaseId(id);
+		delete pArgs;
+		return 0;
+	}
+
+	// ???? ?? ???? ????
+	{
+		CSingleLock lock(&m_csRunning, TRUE);
+		++m_runningCount;
+	}
+
+	return id;
+}
+
+
+// ???? ??ии ?????? ???
+UINT __cdecl CAJinAXL::WorkerProc(LPVOID pParam)
+{
+	ThreadArgs* pArgs = reinterpret_cast<ThreadArgs*>(pParam);
+	if (!pArgs) return 0;
+
+	CAJinAXL* pRunner = pArgs->pRunner;
+	const int id = pArgs->id;
+
+	const int nType = pArgs->type;
+	const int nAxis = pArgs->nAxisNo;
+	double dSpeed = g_objAJinAXL.Get_pParam(nAxis)->dSpeedM;
+
+	double dPos = pArgs->dPosTarget;
+	double dPosCur = g_objAJinAXL.m_Status[nAxis].dPos;
+
+
+	g_objAJinAXL.Get_pStatus(nAxis)->bRun = TRUE;
+
+	if(nType == 1 || nType == 3)
+	{    
+		while(TRUE)
+		{    
+			::Sleep(SIM_WAITTIMEM);
+
+			if(dPos >= dPosCur)
+			{
+				g_objAJinAXL.m_Status[nAxis].dPos += (dSpeed/1000)*VELOCITY_WEIGHT;
+				if(g_objAJinAXL.m_Status[nAxis].dPos > dPos) break;
+			}
+			else if(dPos < dPosCur)
+			{
+				g_objAJinAXL.m_Status[nAxis].dPos -= (dSpeed/1000)*VELOCITY_WEIGHT;
+				if(g_objAJinAXL.m_Status[nAxis].dPos < dPos) break;
+			}
+
+		}
+
+		g_objAJinAXL.Get_pStatus(nAxis)->bRun = FALSE;
+		g_objAJinAXL.m_Status[nAxis].dPos = dPos;                
+	}
+	else if(nType == 2)
+	{
+		double target = g_objAJinAXL.m_Status[nAxis].dPos + dPos;
+
+		while(TRUE)
+		{
+			::Sleep(SIM_WAITTIMEM);
+
+			if(dPos >= dPosCur)
+			{
+				g_objAJinAXL.m_Status[nAxis].dPos += (dSpeed/1000)*VELOCITY_WEIGHT;
+				if(g_objAJinAXL.m_Status[nAxis].dPos > target) break;
+			}
+			else if(dPos < dPosCur)
+			{
+				g_objAJinAXL.m_Status[nAxis].dPos -= (dSpeed/1000)*VELOCITY_WEIGHT;
+				if(g_objAJinAXL.m_Status[nAxis].dPos < target) break;
+			}            
+
+		}
+
+		g_objAJinAXL.Get_pStatus(nAxis)->bRun = FALSE;
+		g_objAJinAXL.m_Status[nAxis].dPos = target;    
+
+	}
+
+
+
+	if (pRunner)
+		pRunner->NotifyDone(id);
+
+	delete pArgs;
+	return 0;
+}
+
+
+
+
+void CAJinAXL::GetCompletedIds(std::vector<int>& outCompleted)
+{
+	outCompleted.clear();
+	CSingleLock lock(&m_csCompleted, TRUE);
+	if (!m_completedIds.empty())
+	{
+		outCompleted.swap(m_completedIds); // ????? ????
+	}
+}
+
+int CAJinAXL::RunningCount() const
+{
+	CSingleLock lock(const_cast<CCriticalSection*>(&m_csRunning), TRUE);
+	return m_runningCount;
+}
+
+
+void CAJinAXL::NotifyDone(int id)
+{
+
+	m_idMgr.ReleaseId(id);
+	
+	{
+		CSingleLock lock(&m_csCompleted, TRUE);
+		m_completedIds.push_back(id);
+	}
+	
+	{
+		CSingleLock lock(&m_csRunning, TRUE);
+		if (m_runningCount > 0) --m_runningCount;
+	}
 }
 
 void CAJinAXL::Sim_SetOutToIn(int nNo)

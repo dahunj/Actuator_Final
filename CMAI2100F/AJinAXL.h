@@ -10,6 +10,38 @@
 
 #include "AJinDefine.h"
 
+#include <afxwin.h>
+#include <afxmt.h>
+#include <set>
+#include <vector>
+#include <algorithm>
+
+// ???? ???? ?????(??????)
+static CCriticalSection s_csCounter;
+
+
+// =======================
+// ThreadIdManager (????)
+// =======================
+class ThreadIdManager
+{
+public:
+	ThreadIdManager();
+
+	int  AllocateId();
+	void ReleaseId(int id);
+
+private:
+	CCriticalSection m_cs;
+	std::set<int>    m_freeIds;  // ???? ?????? ID
+	int              m_nextId;   // ???? ?? ???? ?? ?? ID ?????
+};
+
+
+
+
+
+
 class CAJinAXL
 {
 public:
@@ -161,6 +193,36 @@ public:
 	BOOL   Get_EndLimitNeg(int nAxis) { return m_Status[nAxis].bELN; }
 	BOOL   Get_HomeDone(int nAxis) { return m_Status[nAxis].bHom; }
 	BOOL   Get_MotorRun(int nAxis) { return m_Status[nAxis].bRun; }
+
+public:
+		int        StartThread(int nType, int nAxis, double dPos);                    
+		void    GetCompletedIds(std::vector<int>& outCompleted);    
+		int        RunningCount() const;                               
+
+private:
+
+	struct ThreadArgs   
+	{
+		CAJinAXL*        pRunner;
+		int                id;
+		int                type;
+		int                nAxisNo;
+		double            dPosTarget;        
+	};
+
+	static UINT __cdecl WorkerProc(LPVOID pParam);      
+	void NotifyDone(int id);                      
+	bool TryDequeue(int nAxis, int& out);
+
+private:	
+	CCriticalSection    m_csCompleted;
+	std::vector<int>    m_completedIds;
+		
+	mutable CCriticalSection m_csRunning;
+	int m_runningCount;
+		
+	ThreadIdManager m_idMgr;
+
 };
 
 extern CAJinAXL g_objAJinAXL;

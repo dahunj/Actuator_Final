@@ -106,6 +106,9 @@
 #define LOAD_STAGE 0
 #define GOOD_STAGE 1
 #define NG_STAGE   2
+
+
+#define    VELOCITY_WEIGHT     8
 //****************************************************************************
 //#define RESULT_TEST		// 비전 FOB 모드에서 전체 양품 처리가 안되어 추가함.
 //#define ALIGN_TEST		// Align 반복 Test.

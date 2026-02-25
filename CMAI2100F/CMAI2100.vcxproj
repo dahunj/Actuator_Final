@@ -158,6 +158,7 @@
     <ClInclude Include="DataManager.h" />
     <ClInclude Include="Dispatcher.h" />
     <ClInclude Include="ErrorDlg.h" />
+    <ClInclude Include="FifoTaskProcessor.h" />
     <ClInclude Include="IdleReportDlg.h" />
     <ClInclude Include="InitialDlg.h" />
     <ClInclude Include="InitialMotionDlg.h" />
@@ -216,6 +217,7 @@
     <ClCompile Include="DataManager.cpp" />
     <ClCompile Include="Dispatcher.cpp" />
     <ClCompile Include="ErrorDlg.cpp" />
+    <ClCompile Include="FifoTaskProcessor.cpp" />
     <ClCompile Include="IdleReportDlg.cpp" />
     <ClCompile Include="InitialDlg.cpp" />
     <ClCompile Include="InitialMotionDlg.cpp" />

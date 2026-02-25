@@ -7149,7 +7149,7 @@ BOOL CSequenceMain::Run_VisionStage1()
 			m_tVisionStage1Loop.Takt_Save(14, 50);
 			m_nVisionStage1Case++; m_tVisionStage1Loop.Set_LoopTime(5000);
 		}
-		break;
+		return TRUE;
 
 	case 51:
 		if (!m_pDX07->iInspectStage1Up && m_pDX07->iInspectStage1Down)
@@ -7832,11 +7832,9 @@ BOOL CSequenceMain::Run_VisionStage2()
 			m_tVisionStage2Loop.Takt_Save(15, 41); m_tVisionStage2Loop.Takt_Start(15, 42);
 			m_tVisionStage2Loop.Takt_Save(15, 42); 
 			m_nVisionStage2Case = 50; m_tVisionStage2Loop.Set_LoopTime(60000);
-			m_nVisionStage2Case = 35; m_tVisionStage2Loop.Set_LoopTime(5000);
+			
 		}
 		break;
-
-
 	case 50:
 		if (n2FrontVisionCase < 50 || n2FrontVisionCase >= 70) 
 		{			
@@ -9250,7 +9248,7 @@ BOOL CSequenceMain::Run_VisionStage4()
 
 			m_tVisionStage4Loop.Takt_Save(17, 51); m_tVisionStage4Loop.Takt_Start(17, 52);
 			m_tVisionStage4Loop.Takt_Save(17, 52);
-			m_nVisionStage4Case = 61; m_tVisionStage4Loop.Set_LoopTime(60000);
+			m_nVisionStage4Case = 60; m_tVisionStage4Loop.Set_LoopTime(60000);
 		}
 		break;
 	case 60:
@@ -11624,28 +11622,45 @@ BOOL CSequenceMain::Run_Simulation()
 	{
 		double dInsStg4XPos = g_objAJinAXL.Get_Position(AX_INSPECT_STAGE_X4);
 		double dInsStg3XPos = g_objAJinAXL.Get_Position(AX_INSPECT_STAGE_X3);
-		if(Check_Collision(dInsStg4XPos, dInsStg3XPos)) g_objCommon.Show_Error(10000);
+		if(Check_Collision(dInsStg4XPos, dInsStg3XPos)) 
+		{
+			g_objCommon.Show_MsgBox(1, "4 and 3");
+			return FALSE;
+		}
+		
 	}
 
 	if((m_pDX08->iInspectStage4Down && m_pDX07->iInspectStage2Down) || (m_pDX08->iInspectStage4Up && m_pDX07->iInspectStage2Up) )
 	{
 		double dInsStg2XPos = g_objAJinAXL.Get_Position(AX_INSPECT_STAGE_X2);
 		double dInsStg4XPos = g_objAJinAXL.Get_Position(AX_INSPECT_STAGE_X4);
-		if(Check_Collision(dInsStg2XPos, dInsStg4XPos)) g_objCommon.Show_Error(10000);
+		if(Check_Collision(dInsStg2XPos, dInsStg4XPos)) 
+		{
+			g_objCommon.Show_MsgBox(1, "2 and 4");
+			return FALSE;
+		}
 	}
 
 	if((m_pDX07->iInspectStage1Down && m_pDX07->iInspectStage2Down) || (m_pDX07->iInspectStage1Up && m_pDX07->iInspectStage2Up) )
 	{
 		double dInsStg1XPos = g_objAJinAXL.Get_Position(AX_INSPECT_STAGE_X1);
 		double dInsStg2XPos = g_objAJinAXL.Get_Position(AX_INSPECT_STAGE_X2);
-		if(Check_Collision(dInsStg1XPos, dInsStg2XPos)) g_objCommon.Show_Error(10000);
+		if(Check_Collision(dInsStg1XPos, dInsStg2XPos)) 
+		{		
+			g_objCommon.Show_MsgBox(1, "1 and 2");
+			return FALSE;			
+		}
 	}
 
 	if((m_pDX08->iInspectStage3Down && m_pDX07->iInspectStage1Down) || (m_pDX08->iInspectStage3Up && m_pDX07->iInspectStage1Up) )
 	{
 		double dInsStg3XPos = g_objAJinAXL.Get_Position(AX_INSPECT_STAGE_X3);
 		double dInsStg1XPos = g_objAJinAXL.Get_Position(AX_INSPECT_STAGE_X1);
-		if(Check_Collision(dInsStg3XPos, dInsStg1XPos)) g_objCommon.Show_Error(10000);
+		if(Check_Collision(dInsStg3XPos, dInsStg1XPos)) 
+		{		
+			g_objCommon.Show_MsgBox(1, "3 and 1");
+			return FALSE;			
+		}
 	}
 
 
@@ -11716,11 +11731,11 @@ BOOL CSequenceMain::Run_Simulation()
 
 BOOL CSequenceMain::Check_Collision(double center1, double center2)
 {
-	double left1  = center1 - 150.0;
-	double right1 = center1 + 150.0;
+	double left1  = center1 - 130.0;
+	double right1 = center1 + 130.0;
 
-	double left2  = center2 - 150.0;
-	double right2 = center2 + 150.0;
+	double left2  = center2 - 130.0;
+	double right2 = center2 + 130.0;
 
 	if (right1 >= left2 && right2 >= left1)
 		return TRUE;
