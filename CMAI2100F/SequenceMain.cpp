@@ -5101,9 +5101,8 @@ BOOL CSequenceMain::Run_LoadPicker1()
 			m_sLog.Format("[LoadPicker1: Start] Empty - Seq(%d-%d)", m_nLoadStage1Case, m_nLoadStage2Case);
 			g_objLogFile.Save_HandlerLog(m_sLog);
 		}
-		if (m_nLoadStage1Case == 30 || m_nLoadStage2Case == 30) {
-			if (m_nLoadStage1Case == 30) nLPStage1No = 1;
-			if (m_nLoadStage2Case == 30) nLPStage1No = 2;
+		if(m_nLoadStage1Case == 30 || m_nLoadStage2Case ==30)
+		{
 			g_objCommon.Set_LoadPickerUp(n1No);	gData.nLPCount1 = 0;
 			g_objCommon.Move_Position(AX_LOAD_PICKER_Z1, 0);
 			m_nLoadPicker1Case++; m_tLoadPicker1Loop.Set_LoopTime(5000);
@@ -5112,21 +5111,27 @@ BOOL CSequenceMain::Run_LoadPicker1()
 			g_objLogFile.Save_HandlerLog(m_sLog);
 		}
 		return TRUE;
-
 	case 1:
 		if (g_objCommon.Check_Position(AX_LOAD_PICKER_Z1, 0)) 
 		{
 			if (g_objCommon.Get_LoadPickerUp(n1No)) 
 			{
-				g_objCommon.Move_Position(AX_LOAD_PICKER_X1, nLPStage1No);
-				g_objCommon.Move_Position(AX_LOAD_PICKER_Y1, nLPStage1No);
+				g_objCommon.Move_Position(AX_LOAD_PICKER_X1, 1);				
 				m_nLoadPicker1Case++; m_tLoadPicker1Loop.Set_LoopTime(10000);
 			}
 		}
 		break;
 	case 2:
-		if (g_objCommon.Check_Position(AX_LOAD_PICKER_X1, nLPStage1No) && g_objCommon.Check_Position(AX_LOAD_PICKER_Y1, nLPStage1No)) {
-			g_objCommon.Save_Motion(AX_LOAD_PICKER_X1, nLPStage1No);	g_objCommon.Save_Motion(AX_LOAD_PICKER_Y1, nLPStage1No);
+		if (g_objCommon.Check_Position(AX_LOAD_PICKER_X1, 1) ) 
+		{
+			if (m_nLoadStage1Case != 30 && m_nLoadStage2Case != 30) return TRUE;
+			if (m_nLoadStage1Case != 30 && m_nLoadStage2Case != 30) return TRUE;
+			if (m_nLoadStage1Case == 30) nLPStage1No = 1;
+			if (m_nLoadStage2Case == 30) nLPStage1No = 2;
+			g_objCommon.Save_Motion(AX_LOAD_PICKER_X1, 1);
+			g_objCommon.Move_Position(AX_LOAD_PICKER_X1, nLPStage1No);	
+			g_objCommon.Move_Position(AX_LOAD_PICKER_Y1, nLPStage1No);
+			
 			g_objCommon.Set_LoadPickerOpen(n1No);	nLoad1PosY = 0;
 			m_nLoadPicker1Case++; m_tLoadPicker1Loop.Set_LoopTime(10000);
 		}
@@ -5156,6 +5161,8 @@ BOOL CSequenceMain::Run_LoadPicker1()
 		}
 		break;
 	case 4:
+		if(!g_objCommon.Check_Position(AX_LOAD_PICKER_Y1, nLPStage1No) || !g_objCommon.Check_Position(AX_LOAD_PICKER_X1, nLPStage1No)) break;
+		g_objCommon.Save_Motion(AX_LOAD_PICKER_Y1, nLPStage1No);
 		if ((nLPStage1No == 1 && g_objAJinAXL.Is_MoveDone(AX_LOAD_STAGE_Y1, dLPStage1PosY)) ||
 			(nLPStage1No == 2 && g_objAJinAXL.Is_MoveDone(AX_LOAD_STAGE_Y2, dLPStage1PosY)) ) {
 			if (nLPStage1No == 1) g_objCommon.Save_Motion(AX_LOAD_STAGE_Y1, -1, dLPStage1PosY);
@@ -5828,40 +5835,45 @@ BOOL CSequenceMain::Run_LoadPicker2()
 			m_sLog.Format("[LoadPicker2: Start] Empty - Seq(%d-%d)", m_nLoadStage1Case, m_nLoadStage2Case);
 			g_objLogFile.Save_HandlerLog(m_sLog);
 		}
-		if (m_nLoadStage1Case == 30 || m_nLoadStage2Case == 30) {
-			if (m_nLoadStage1Case == 30) nLPStage2No = 1;
-			if (m_nLoadStage2Case == 30) nLPStage2No = 2;
+		if(m_nLoadStage1Case == 30 || m_nLoadStage2Case ==30)
+		{
 			g_objCommon.Set_LoadPickerUp(n2No);	gData.nLPCount2 = 0;
 			g_objCommon.Move_Position(AX_LOAD_PICKER_Z2, 0);
 			m_nLoadPicker2Case++; m_tLoadPicker2Loop.Set_LoopTime(5000);
-
 			m_sLog.Format("[LoadPicker2: Start] StageNo(%d)", nLPStage2No);
-			g_objLogFile.Save_HandlerLog(m_sLog);
-		}
+			g_objLogFile.Save_HandlerLog(m_sLog);	
+		}			
 		return TRUE;
 
 	case 1:
 		if (g_objCommon.Check_Position(AX_LOAD_PICKER_Z2, 0)) 
 		{
 			if (g_objCommon.Get_LoadPickerUp(n2No)) 
-			{
-				if (m_nLoadPicker1Case <= 21 || m_nLoadPicker1Case >= 70) return TRUE;
-
-				g_objCommon.Move_Position(AX_LOAD_PICKER_X2, nLPStage2No);
-				g_objCommon.Move_Position(AX_LOAD_PICKER_Y2, nLPStage2No);
+			{				
+				g_objCommon.Move_Position(AX_LOAD_PICKER_X2, 1);
 				m_nLoadPicker2Case++; m_tLoadPicker2Loop.Set_LoopTime(10000);
 			}
 		}
 		break;
-	case 2:
-		if (g_objCommon.Check_Position(AX_LOAD_PICKER_X2, nLPStage2No) && g_objCommon.Check_Position(AX_LOAD_PICKER_Y2, nLPStage2No)) {
-			g_objCommon.Save_Motion(AX_LOAD_PICKER_X2, nLPStage2No);	g_objCommon.Save_Motion(AX_LOAD_PICKER_Y2, nLPStage2No);
+	case 2:		
+		if (g_objCommon.Check_Position(AX_LOAD_PICKER_X2, 1) )
+		{
+			if (m_nLoadStage1Case != 30 && m_nLoadStage2Case != 30) return TRUE;
+			if (m_nLoadStage1Case != 30 && m_nLoadStage2Case != 30) return TRUE;
+			if (m_nLoadStage1Case == 30) nLPStage2No = 1;
+			if (m_nLoadStage2Case == 30) nLPStage2No = 2;
+
+			g_objCommon.Save_Motion(AX_LOAD_PICKER_X2, 1);
+			g_objCommon.Move_Position(AX_LOAD_PICKER_X2, nLPStage2No);
+			g_objCommon.Move_Position(AX_LOAD_PICKER_Y2, nLPStage2No);
+						
 			g_objCommon.Set_LoadPickerOpen(n2No);	nLoad2PosY = 0;
 			m_nLoadPicker2Case++; m_tLoadPicker2Loop.Set_LoopTime(10000);
 		}
 		break;
-	case 3:
-		if (Check_LoadModule(nLoad2PosY)) {
+	case 3:		
+		if (Check_LoadModule(nLoad2PosY) )
+		{
 			m_tLoadPicker2Loop.Takt_Start(13, 1, TRUE);
 			if (nLPStage2No == 1) {
 				dLPStage2PosY = m_pMoveData->dLoadStageY1[2] + (m_pEquipData->dTrayPitchY * (nLoad2PosY - 1));
@@ -5872,7 +5884,9 @@ BOOL CSequenceMain::Run_LoadPicker2()
 				g_objAJinAXL.Move_Absolute(AX_LOAD_STAGE_Y2, dLPStage2PosY);
 			}
 			m_nLoadPicker2Case++; m_tLoadPicker2Loop.Set_LoopTime(30000);
-		} else {
+		} 
+		else 
+		{
 			gData.sLotID_LoadStage[nLPStage2No-1]  = "";
 			gData.nTrayNo_LoadStage[nLPStage2No-1] = gData.nPortNo_LoadStage[nLPStage2No-1] = 0;
 
@@ -5882,6 +5896,8 @@ BOOL CSequenceMain::Run_LoadPicker2()
 		}
 		break;
 	case 4:
+		if(! g_objCommon.Check_Position(AX_LOAD_PICKER_Y2, nLPStage2No) || !g_objCommon.Check_Position(AX_LOAD_PICKER_X2, nLPStage2No)) break;
+		g_objCommon.Save_Motion(AX_LOAD_PICKER_Y2, nLPStage2No);
 		if ((nLPStage2No == 1 && g_objAJinAXL.Is_MoveDone(AX_LOAD_STAGE_Y1, dLPStage2PosY)) ||
 			(nLPStage2No == 2 && g_objAJinAXL.Is_MoveDone(AX_LOAD_STAGE_Y2, dLPStage2PosY)) ) {
 			if (nLPStage2No == 1) g_objCommon.Save_Motion(AX_LOAD_STAGE_Y1, -1, dLPStage2PosY);
