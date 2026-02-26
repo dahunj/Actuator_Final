@@ -78,12 +78,12 @@
 //****************************************************************************
 #define NEW_FINAL		//Final_New(Final2호기부터적용)
 //****************************************************************************
-//#define AJIN_BOARD_USE
+#define AJIN_BOARD_USE
 
 #ifdef NEW_FINAL
-	#define MAIN_VERSION	"Vf2 3.0.4"
+	#define MAIN_VERSION	"Vf2 3.0.7"
 #else
-	#define MAIN_VERSION	"Vf1 3.0.4"
+	#define MAIN_VERSION	"Vf1 3.0.7"
 #endif
 #define MES_WAITTIME	30000//5000	//10초
 #define MAX_CM			640
