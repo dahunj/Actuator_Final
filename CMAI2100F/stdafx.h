@@ -463,7 +463,7 @@ extern  GLOVAL_INTERLOCKDATA	gIt;
 #define UNLOAD_PICKER2_X_NG_STAGE1_1_1 7
 #define UNLOAD_PICKER2_X_NG_STAGE2_1_1 8
 
-<<<<<<< HEAD
+
 #define UNLOAD_PICKER2_X_GOOD_STAGE1_4_1 9
 #define UNLOAD_PICKER2_X_GOOD_STAGE1_4_10 10
 #define UNLOAD_PICKER2_X_GOOD_STAGE2_4_1 11
@@ -488,7 +488,7 @@ extern  GLOVAL_INTERLOCKDATA	gIt;
 #define UNLOAD_PICKER2_X_VISION_STG2 2
 #define UNLOAD_PICKER2_X_VISION_STG3 3
 #define UNLOAD_PICKER2_X_VISION_STG4 4
-=======
+
 
 const int UNLOADPICKER1_X_Ready = 0;
 const int UNLOADPICKER1_X_InspectionStage1 = 1;
@@ -574,4 +574,4 @@ const int UNLOADPICKER2_Z_GoodStage2 = 8;
 const int UNLOADPICKER2_P_InspectionStage = 0;
 const int UNLOADPICKER2_P_NGStage = 1;
 const int UNLOADPICKER2_P_GoodStage = 2;
->>>>>>> develop/Vf3.0.6_UPHItem2
+
