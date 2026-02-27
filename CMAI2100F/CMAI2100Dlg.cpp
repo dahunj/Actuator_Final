@@ -780,9 +780,9 @@ void CCMAI2100Dlg::Exit_System(int nExitNo)
 	pDY04->oTOPSuctionOn = FALSE;
 	g_objAJinAXL.Write_Output(4);
 
-	DY_DATA_12 *pDY12 = g_objAJinAXL.Get_pDY12();
-	pDY12->oGoodIonizerOn = FALSE;
-	g_objAJinAXL.Write_Output(12);
+	/*DY_DATA_11 *pDY11 = g_objAJinAXL.Get_pDY11();
+	pDY11->oGoodIonizerOn = FALSE;
+	g_objAJinAXL.Write_Output(12);*/  //NG랑 바뀌었는데... 이거 이야기는 해야함 
 
 	DY_DATA_14 *pDY14 = g_objAJinAXL.Get_pDY14();
 	pDY14->oInsideLight = FALSE;

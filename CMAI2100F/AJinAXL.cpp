@@ -64,7 +64,7 @@ BOOL CAJinAXL::Initialize()
 	m_DY14.oSafetyReset = TRUE;  Write_Output(14); theApp.uSleep(500);
 	m_DY14.oSafetyReset = FALSE; Write_Output(14); theApp.uSleep(500);
 	m_DY04.oLoadIonizerOn = TRUE; Write_Output(4);
-	m_DY12.oGoodIonizerOn = TRUE; Write_Output(12);
+//	m_DY12.oGoodIonizerOn = TRUE; Write_Output(12); // NG랑 바뀌었는데... 이거 이야기는 해야함 
 /*
 	// 네트워크 통신 에러 추가
 	if (!g_objAJinAXL.Device_Check()) {
@@ -1155,32 +1155,32 @@ void CAJinAXL::Sim_SetOutToIn(int nNo)
 		if (m_DX10.iUnloadPicker2Open8) m_DX10.iUnloadPicker2Exist8 = FALSE; else m_DX10.iUnloadPicker2Exist8 = TRUE;
 	}
 	if (nNo==11) {
-		m_DX11.iNGStage1Up			= m_DY11.oNGStage1Up;
-		m_DX11.iNGStage1Down		= m_DY11.oNGStage1Down;
-		m_DX11.iNGStage1MasterOut	= m_DY11.oNGStage1MasterOut;
-		m_DX11.iNGStage1MasterIn	= m_DY11.oNGStage1MasterIn;
-		m_DX11.iNGStage1SlaveOut	= m_DY11.oNGStage1SlaveOut;
-		m_DX11.iNGStage1SlaveIn		= m_DY11.oNGStage1SlaveIn;
-		m_DX11.iNGStage2Up			= m_DY11.oNGStage2Up;
-		m_DX11.iNGStage2Down		= m_DY11.oNGStage2Down;
-		m_DX11.iNGStage2MasterOut	= m_DY11.oNGStage2MasterOut;
-		m_DX11.iNGStage2MasterIn	= m_DY11.oNGStage2MasterIn;
-		m_DX11.iNGStage2SlaveOut	= m_DY11.oNGStage2SlaveOut;
-		m_DX11.iNGStage2SlaveIn		= m_DY11.oNGStage2SlaveIn;
+		m_DX12.iNGStage1Up			= m_DY12.oNGStage1Up;
+		m_DX12.iNGStage1Down		= m_DY12.oNGStage1Down;
+		m_DX12.iNGStage1MasterOut	= m_DY12.oNGStage1MasterOut;
+		m_DX12.iNGStage1MasterIn	= m_DY12.oNGStage1MasterIn;
+		m_DX12.iNGStage1SlaveOut	= m_DY12.oNGStage1SlaveOut;
+		m_DX12.iNGStage1SlaveIn		= m_DY12.oNGStage1SlaveIn;
+		m_DX12.iNGStage2Up			= m_DY12.oNGStage2Up;
+		m_DX12.iNGStage2Down		= m_DY12.oNGStage2Down;
+		m_DX12.iNGStage2MasterOut	= m_DY12.oNGStage2MasterOut;
+		m_DX12.iNGStage2MasterIn	= m_DY12.oNGStage2MasterIn;
+		m_DX12.iNGStage2SlaveOut	= m_DY12.oNGStage2SlaveOut;
+		m_DX12.iNGStage2SlaveIn		= m_DY12.oNGStage2SlaveIn;
 	}
 	if (nNo==12) {
-		m_DX12.iGoodStage1Up		= m_DY12.oGoodStage1Up;
-		m_DX12.iGoodStage1Down		= m_DY12.oGoodStage1Down;
-		m_DX12.iGoodStage1MasterOut	= m_DY12.oGoodStage1MasterOut;
-		m_DX12.iGoodStage1MasterIn	= m_DY12.oGoodStage1MasterIn;
-		m_DX12.iGoodStage1SlaveOut	= m_DY12.oGoodStage1SlaveOut;
-		m_DX12.iGoodStage1SlaveIn	= m_DY12.oGoodStage1SlaveIn;
-		m_DX12.iGoodStage2Up		= m_DY12.oGoodStage2Up;	
-		m_DX12.iGoodStage2Down		= m_DY12.oGoodStage2Down;
-		m_DX12.iGoodStage2MasterOut	= m_DY12.oGoodStage2MasterOut;
-		m_DX12.iGoodStage2MasterIn	= m_DY12.oGoodStage2MasterIn;
-		m_DX12.iGoodStage2SlaveOut	= m_DY12.oGoodStage2SlaveOut;
-		m_DX12.iGoodStage2SlaveIn	= m_DY12.oGoodStage2SlaveIn;
+		m_DX11.iGoodStage1Up		= m_DY11.oGoodStage1Up;
+		m_DX11.iGoodStage1Down		= m_DY11.oGoodStage1Down;
+		m_DX11.iGoodStage1MasterOut	= m_DY11.oGoodStage1MasterOut;
+		m_DX11.iGoodStage1MasterIn	= m_DY11.oGoodStage1MasterIn;
+		m_DX11.iGoodStage1SlaveOut	= m_DY11.oGoodStage1SlaveOut;
+		m_DX11.iGoodStage1SlaveIn	= m_DY11.oGoodStage1SlaveIn;
+		m_DX11.iGoodStage2Up		= m_DY11.oGoodStage2Up;	
+		m_DX11.iGoodStage2Down		= m_DY11.oGoodStage2Down;
+		m_DX11.iGoodStage2MasterOut	= m_DY11.oGoodStage2MasterOut;
+		m_DX11.iGoodStage2MasterIn	= m_DY11.oGoodStage2MasterIn;
+		m_DX11.iGoodStage2SlaveOut	= m_DY11.oGoodStage2SlaveOut;
+		m_DX11.iGoodStage2SlaveIn	= m_DY11.oGoodStage2SlaveIn;
 	}
 	if (nNo==13) {
 		m_DX13.iEmgSw1		 = bF;
@@ -1233,15 +1233,15 @@ void CAJinAXL::Sim_SetOutToIn(int nNo)
 		m_DX04.iLoadStage2Up		= m_DY04.oLoadStage2Up		= bF;	
 		m_DX04.iLoadStage2Down		= m_DY04.oLoadStage2Down	= bT;
 
-		m_DX11.iNGStage1Up			= m_DY11.oNGStage1Up		= bT;
-		m_DX11.iNGStage1Down		= m_DY11.oNGStage1Down		= bF;
-		m_DX11.iNGStage2Up			= m_DY11.oNGStage2Up		= bF;
-		m_DX11.iNGStage2Down		= m_DY11.oNGStage2Down		= bT;
+		m_DX12.iNGStage1Up			= m_DY12.oNGStage1Up		= bT;
+		m_DX12.iNGStage1Down		= m_DY12.oNGStage1Down		= bF;
+		m_DX12.iNGStage2Up			= m_DY12.oNGStage2Up		= bF;
+		m_DX12.iNGStage2Down		= m_DY12.oNGStage2Down		= bT;
 
-		m_DX12.iGoodStage1Up		= m_DY12.oGoodStage1Up		= bT;
-		m_DX12.iGoodStage1Down		= m_DY12.oGoodStage1Down	= bF;
-		m_DX12.iGoodStage2Up		= m_DY12.oGoodStage2Up		= bF;
-		m_DX12.iGoodStage2Down		= m_DY12.oGoodStage2Down	= bT;
+		m_DX11.iGoodStage1Up		= m_DY11.oGoodStage1Up		= bT;
+		m_DX11.iGoodStage1Down		= m_DY11.oGoodStage1Down	= bF;
+		m_DX11.iGoodStage2Up		= m_DY11.oGoodStage2Up		= bF;
+		m_DX11.iGoodStage2Down		= m_DY11.oGoodStage2Down	= bT;
 
 		m_DX13.iMainAir1	 = bT;
 		m_DX13.iMainAir2	 = bT;

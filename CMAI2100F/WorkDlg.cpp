@@ -1546,10 +1546,10 @@ void CWorkDlg::Display_TrayCheck()
 	m_ledTrayCheck[ 8].Set_On(pDX03->iTransferRTrayExist);
 	m_ledTrayCheck[ 9].Set_On(pDX04->iLoadStage1TrayExist);
 	m_ledTrayCheck[10].Set_On(pDX04->iLoadStage2TrayExist);
-	m_ledTrayCheck[11].Set_On(pDX11->iNGStage1TrayExist);
-	m_ledTrayCheck[12].Set_On(pDX11->iNGStage2TrayExist);
-	m_ledTrayCheck[13].Set_On(pDX12->iGoodStage1TrayExist);
-	m_ledTrayCheck[14].Set_On(pDX12->iGoodStage2TrayExist);
+	m_ledTrayCheck[11].Set_On(pDX12->iNGStage1TrayExist);
+	m_ledTrayCheck[12].Set_On(pDX12->iNGStage2TrayExist);
+	m_ledTrayCheck[13].Set_On(pDX11->iGoodStage1TrayExist);
+	m_ledTrayCheck[14].Set_On(pDX11->iGoodStage2TrayExist);
 }
 
 void CWorkDlg::Reset_AlarmLog()

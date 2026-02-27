@@ -48,10 +48,10 @@ const int AX_UNLOAD_PICKER_X2	= 34;
 const int AX_UNLOAD_PICKER_Y2	= 35;
 const int AX_UNLOAD_PICKER_Z2	= 36;
 const int AX_UNLOAD_PICKER_P2	= 37;
-const int AX_GOOD_STAGE_Y1		= 38;
-const int AX_GOOD_STAGE_Y2		= 39;
-const int AX_NG_STAGE_Y1		= 40;
-const int AX_NG_STAGE_Y2		= 41;
+const int AX_NG_STAGE_Y1		= 38;
+const int AX_NG_STAGE_Y2		= 39;
+const int AX_GOOD_STAGE_Y1		= 40;
+const int AX_GOOD_STAGE_Y2		= 41;
 const int AX_SHIP_ALIGN_X		= 42;
 const int AX_TOP1_LIGHT_Z		= 43;
 const int AX_TOP1_ANGLE_Y		= 44;
@@ -555,13 +555,13 @@ typedef union tag_DX_DATA_10 {
 typedef union tag_DX_DATA_11 {
 	DWORD nValue;
 	struct {
-		DWORD iNGStage1Up: 1;				// X1100
-		DWORD iNGStage1Down: 1;				// X1101
-		DWORD iNGStage1MasterOut: 1;		// X1102
-		DWORD iNGStage1MasterIn: 1;			// X1103
-		DWORD iNGStage1SlaveOut: 1;			// X1104
-		DWORD iNGStage1SlaveIn: 1;			// X1105
-		DWORD iNGStage1TrayExist: 1;		// X1106
+		DWORD iGoodStage1Up: 1;				// X1100
+		DWORD iGoodStage1Down: 1;			// X1101
+		DWORD iGoodStage1MasterOut: 1;		// X1102
+		DWORD iGoodStage1MasterIn: 1;		// X1103
+		DWORD iGoodStage1SlaveOut: 1;		// X1104
+		DWORD iGoodStage1SlaveIn: 1;		// X1105
+		DWORD iGoodStage1TrayExist: 1;		// X1106
 		DWORD i1107: 1;						// X1107
 		DWORD i1108: 1;						// X1108
 		DWORD i1109: 1;						// X1109
@@ -571,13 +571,13 @@ typedef union tag_DX_DATA_11 {
 		DWORD i1113: 1;						// X1113
 		DWORD i1114: 1;						// X1114
 		DWORD i1115: 1;						// X1115
-		DWORD iNGStage2Up: 1;				// X1116
-		DWORD iNGStage2Down: 1;				// X1117
-		DWORD iNGStage2MasterOut: 1;		// X1118
-		DWORD iNGStage2MasterIn: 1;			// X1119
-		DWORD iNGStage2SlaveOut: 1;			// X1120
-		DWORD iNGStage2SlaveIn: 1;			// X1121
-		DWORD iNGStage2TrayExist: 1;		// X1122
+		DWORD iGoodStage2Up: 1;				// X1116
+		DWORD iGoodStage2Down: 1;				// X1117
+		DWORD iGoodStage2MasterOut: 1;		// X1118
+		DWORD iGoodStage2MasterIn: 1;			// X1119
+		DWORD iGoodStage2SlaveOut: 1;			// X1120
+		DWORD iGoodStage2SlaveIn: 1;			// X1121
+		DWORD iGoodStage2TrayExist: 1;		// X1122
 		DWORD i1123: 1;						// X1123
 		DWORD i1124: 1;						// X1124
 		DWORD i1125: 1;						// X1125
@@ -593,13 +593,13 @@ typedef union tag_DX_DATA_11 {
 typedef union tag_DX_DATA_12 {
 	DWORD nValue;
 	struct {
-		DWORD iGoodStage1Up: 1;				// X1200
-		DWORD iGoodStage1Down: 1;			// X1201
-		DWORD iGoodStage1MasterOut: 1;		// X1202
-		DWORD iGoodStage1MasterIn: 1;		// X1203
-		DWORD iGoodStage1SlaveOut: 1;		// X1204
-		DWORD iGoodStage1SlaveIn: 1;		// X1205
-		DWORD iGoodStage1TrayExist: 1;		// X1206
+		DWORD iNGStage1Up: 1;				// X1200
+		DWORD iNGStage1Down: 1;			// X1201
+		DWORD iNGStage1MasterOut: 1;		// X1202
+		DWORD iNGStage1MasterIn: 1;		// X1203
+		DWORD iNGStage1SlaveOut: 1;		// X1204
+		DWORD iNGStage1SlaveIn: 1;		// X1205
+		DWORD iNGStage1TrayExist: 1;		// X1206
 		DWORD i1207: 1;						// X1207
 		DWORD i1208: 1;						// X1208
 		DWORD i1209: 1;						// X1209
@@ -609,13 +609,13 @@ typedef union tag_DX_DATA_12 {
 		DWORD i1213: 1;						// X1213
 		DWORD i1214: 1;						// X1214
 		DWORD i1215: 1;						// X1215
-		DWORD iGoodStage2Up: 1;				// X1216
-		DWORD iGoodStage2Down: 1;			// X1217
-		DWORD iGoodStage2MasterOut: 1;		// X1218
-		DWORD iGoodStage2MasterIn: 1;		// X1219
-		DWORD iGoodStage2SlaveOut: 1;		// X1220
-		DWORD iGoodStage2SlaveIn: 1;		// X1221
-		DWORD iGoodStage2TrayExist: 1;		// X1222
+		DWORD iNGStage2Up: 1;				// X1216
+		DWORD iNGStage2Down: 1;			// X1217
+		DWORD iNGStage2MasterOut: 1;		// X1218
+		DWORD iNGStage2MasterIn: 1;		// X1219
+		DWORD iNGStage2SlaveOut: 1;		// X1220
+		DWORD iNGStage2SlaveIn: 1;		// X1221
+		DWORD iNGStage2TrayExist: 1;		// X1222
 		DWORD i1223: 1;						// X1223
 		DWORD i1224: 1;						// X1224
 		DWORD i1225: 1;						// X1225
@@ -1132,12 +1132,12 @@ typedef union tag_DY_DATA_10 {
 typedef union tag_DY_DATA_11 {
 	DWORD nValue;
 	struct {
-		DWORD oNGStage1Up: 1;				// Y1100
-		DWORD oNGStage1Down: 1;				// Y1101
-		DWORD oNGStage1MasterOut: 1;		// Y1102
-		DWORD oNGStage1MasterIn: 1;			// Y1103
-		DWORD oNGStage1SlaveOut: 1;			// Y1104
-		DWORD oNGStage1SlaveIn: 1;			// Y1105
+		DWORD oGoodStage1Up: 1;				// Y1100
+		DWORD oGoodStage1Down: 1;				// Y1101
+		DWORD oGoodStage1MasterOut: 1;		// Y1102
+		DWORD oGoodStage1MasterIn: 1;			// Y1103
+		DWORD oGoodStage1SlaveOut: 1;			// Y1104
+		DWORD oGoodStage1SlaveIn: 1;			// Y1105
 		DWORD o1106: 1;						// Y1106
 		DWORD o1107: 1;						// Y1107
 		DWORD o1108: 1;						// Y1108
@@ -1148,12 +1148,12 @@ typedef union tag_DY_DATA_11 {
 		DWORD o1113: 1;						// Y1113
 		DWORD o1114: 1;						// Y1114
 		DWORD o1115: 1;						// Y1115
-		DWORD oNGStage2Up: 1;				// Y1116
-		DWORD oNGStage2Down: 1;				// Y1117
-		DWORD oNGStage2MasterOut: 1;		// Y1118
-		DWORD oNGStage2MasterIn: 1;			// Y1119
-		DWORD oNGStage2SlaveOut: 1;			// Y1120
-		DWORD oNGStage2SlaveIn: 1;			// Y1121
+		DWORD oGoodStage2Up: 1;				// Y1116
+		DWORD oGoodStage2Down: 1;				// Y1117
+		DWORD oGoodStage2MasterOut: 1;		// Y1118
+		DWORD oGoodStage2MasterIn: 1;			// Y1119
+		DWORD oGoodStage2SlaveOut: 1;			// Y1120
+		DWORD oGoodStage2SlaveIn: 1;			// Y1121
 		DWORD o1122: 1;						// Y1122
 		DWORD o1123: 1;						// Y1123
 		DWORD o1124: 1;						// Y1124
@@ -1170,12 +1170,12 @@ typedef union tag_DY_DATA_11 {
 typedef union tag_DY_DATA_12 {
 	DWORD nValue;
 	struct {
-		DWORD oGoodStage1Up: 1;				// Y1200
-		DWORD oGoodStage1Down: 1;			// Y1201
-		DWORD oGoodStage1MasterOut: 1;		// Y1202
-		DWORD oGoodStage1MasterIn: 1;		// Y1203
-		DWORD oGoodStage1SlaveOut: 1;		// Y1204
-		DWORD oGoodStage1SlaveIn: 1;		// Y1205
+		DWORD oNGStage1Up: 1;				// Y1200
+		DWORD oNGStage1Down: 1;			// Y1201
+		DWORD oNGStage1MasterOut: 1;		// Y1202
+		DWORD oNGStage1MasterIn: 1;		// Y1203
+		DWORD oNGStage1SlaveOut: 1;		// Y1204
+		DWORD oNGStage1SlaveIn: 1;		// Y1205
 		DWORD o1206: 1;						// Y1206
 		DWORD o1207: 1;						// Y1207
 		DWORD o1208: 1;						// Y1208
@@ -1186,19 +1186,19 @@ typedef union tag_DY_DATA_12 {
 		DWORD o1213: 1;						// Y1213
 		DWORD o1214: 1;						// Y1214
 		DWORD o1215: 1;						// Y1215
-		DWORD oGoodStage2Up: 1;				// Y1216
-		DWORD oGoodStage2Down: 1;			// Y1217
-		DWORD oGoodStage2MasterOut: 1;		// Y1218
-		DWORD oGoodStage2MasterIn: 1;		// Y1219
-		DWORD oGoodStage2SlaveOut: 1;		// Y1220
-		DWORD oGoodStage2SlaveIn: 1;		// Y1221
+		DWORD oNGStage2Up: 1;				// Y1216
+		DWORD oNGStage2Down: 1;			// Y1217
+		DWORD oNGStage2MasterOut: 1;		// Y1218
+		DWORD oNGStage2MasterIn: 1;		// Y1219
+		DWORD oNGStage2SlaveOut: 1;		// Y1220
+		DWORD oNGStage2SlaveIn: 1;		// Y1221
 		DWORD o1222: 1;						// Y1222
 		DWORD o1223: 1;						// Y1223
 		DWORD o1224: 1;						// Y1224
 		DWORD o1225: 1;						// Y1225
 		DWORD o1226: 1;						// Y1226
 		DWORD o1227: 1;						// Y1227
-		DWORD oGoodIonizerOn: 1;			// Y1228
+		DWORD oNGIonizerOn: 1;			// Y1228
 		DWORD o1229: 1;						// Y1229
 		DWORD o1230: 1;						// Y1230
 		DWORD o1231: 1;						// Y1231

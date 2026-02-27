@@ -61,10 +61,8 @@ void CLogFile::Save_AlarmLog(CString sLog)
 	strFile.Format("%s\\%04d%02d%02d.txt", strPath, time.wYear, time.wMonth, time.wDay);
 
 	CFile file;
-	if (file.Open(strFile, CFile::modeCreate | CFile::modeNoTruncate | CFile::modeWrite | CFile::shareDenyNone)) 
-	{
-		try
-		{
+	if (file.Open(strFile, CFile::modeCreate | CFile::modeNoTruncate | CFile::modeWrite | CFile::shareDenyNone)) {
+		try {
 			file.SeekToEnd();
 
 			strSave.Format("%02d:%02d:%02d %03d,%s\r\n", time.wHour, time.wMinute, time.wSecond, time.wMilliseconds, sLog);
@@ -72,9 +70,7 @@ void CLogFile::Save_AlarmLog(CString sLog)
 			file.Write(strSave, strSave.GetLength());
 			file.Close();
 
-		}
-		catch (CFileException *pEx)
-		{
+		} catch (CFileException *pEx) {
 			pEx->Delete();
 		}
 	}
@@ -195,7 +191,7 @@ void CLogFile::Save_JobListLog(CString sLog)
 	strFile.Format("%s\\%04d%02d%02d.csv", strPath, time.wYear, time.wMonth, time.wDay);
 	if (time.wHour < 7) {
 		CTime PreDay(time);
-		PreDay -= CTimeSpan(1,0,0,0);	//CTimeSpan(??,??,??,??)
+		PreDay -= CTimeSpan(1,0,0,0);	//CTimeSpan(일,시,분,초)
 		strFile.Format("%s\\%04d%02d%02d.csv", strPath,  PreDay.GetYear(), PreDay.GetMonth(), PreDay.GetDay());
 	}
 
@@ -269,7 +265,7 @@ void CLogFile::Save_ECMOutPut(int nPNo, int nTNo, int nMNo, int nType)
 	strTime2.Format("%02d:%02d:%02d", time.wHour, time.wMinute, time.wSecond);
 	strTime1.Format("%02d:%02d:%02d.%03d", time.wHour, time.wMinute, time.wSecond, time.wMilliseconds);
 
-	sTitle.Format("Time,Station,SensorID,Barcode,Date,Time2,Machine_Code,Time,LotNum,LoadPort,LoadTray,LoadPos,LoadPicker,LoadPickerNo,VisionStage,VisionStageNo,UnloadPicker,UnloadPickerNo,Output,OutTray,OutPos,Judge,JudgeB1,DefectCodeB1,JudgeAG,DefectCodeAG,JudgeT1,DefectCodeT1,JudgeTG,DefectCodeTG,JudgeT2,DefectCodeT2,ADJ Result,Flow Time,BTM Vision Process Time,Top1 Vision Process Time,Top2 Vision Process Time,ULD delay,ROS Operator,ROS Images,ROS Result,ROS Judge Time,ROS Response Time,???? ???? ????? ???,LoadMZID,InputCarrierID,OutputCarrierID,Repair,MN-Code\r\n");
+	sTitle.Format("Time,Station,SensorID,Barcode,Date,Time2,Machine_Code,Time,LotNum,LoadPort,LoadTray,LoadPos,LoadPicker,LoadPickerNo,VisionStage,VisionStageNo,UnloadPicker,UnloadPickerNo,Output,OutTray,OutPos,Judge,JudgeB1,DefectCodeB1,JudgeAG,DefectCodeAG,JudgeT1,DefectCodeT1,JudgeTG,DefectCodeTG,JudgeT2,DefectCodeT2,ADJ Result,Flow Time,BTM Vision Process Time,Top1 Vision Process Time,Top2 Vision Process Time,ULD delay,ROS Operator,ROS Images,ROS Result,ROS Judge Time,ROS Response Time,최종 판정 결과 코드,LoadMZID,InputCarrierID,OutputCarrierID,Repair,MN-Code\r\n");
 	strFile.Format("%s%s_%04d%02d%02d%02d_Output.csv", ECM_LOG, sLotID, time.wYear, time.wMonth, time.wDay, time.wHour);
 
 	CFile file;
@@ -306,7 +302,7 @@ void CLogFile::Save_ECMOutPut(int nPNo, int nTNo, int nMNo, int nType)
 
 		sData2.Format("%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,", sJudge[0], sJudge[1], sCode[1], sJudge[2], sCode[2], sJudge[3], sCode[3], sJudge[4], sCode[4], sJudge[5], sCode[5]);
 
-		//ROS Images,ROS Result,ROS Judge Time,ROS Response Time,???? ???? ????? ???,LoadMZID,InputCarrierID,OutputCarrierID,Repair,MN-Code\r\n");
+		//ROS Images,ROS Result,ROS Judge Time,ROS Response Time,최종 판정 결과 코드,LoadMZID,InputCarrierID,OutputCarrierID,Repair,MN-Code\r\n");
 		sData3.Format(",,,,,,,%d,%s,,,%s,,,,,%s", gLot.nImageCnt[nPNo-1][nTNo-1][nMNo-1], sRosJ, sJudge[0], sCode[0]);
 
 		strSave.Format("%s,%s,,%s,%s,%s,%s,%s,%s,%s%s%s\r\n", strTime, m_sPCID, gLot.sBarCode[nPNo-1][nTNo-1][nMNo-1], strDate, strTime2, m_sMachineCode, strTime1, sLotID, sData1, sData2, sData3);
@@ -392,7 +388,7 @@ void CLogFile::Save_LotResult(CString sLog)
 	CFile file;
 	if (!file.Open(strFile, CFile::modeCreate | CFile::modeNoTruncate | CFile::modeWrite | CFile::shareDenyNone)) return;
 
-	if (gData.nLanguage == 0) strTitle.Format("???,Lot Start,Lot End,Term,???,Lot ID,?????,?????,?????,?????,HREN(H),HREP(P),Spider(S),BA(B),Chip(C),MES(M)\r\n");
+	if (gData.nLanguage == 0) strTitle.Format("날짜,Lot Start,Lot End,Term,호기,Lot ID,투입수,양품수,불량수,불량률,HREN(H),HREP(P),Spider(S),BA(B),Chip(C),MES(M)\r\n");
 	else					  strTitle.Format("Date,Lot Start,Lot End,Term,No,Lot ID,Number of inputs,Number of good,Number of NG,Defect rate,HREN(H),HREP(P),Spider(S),BA(B),Chip(C),MES(M)\r\n");
 
 	try {
@@ -553,7 +549,7 @@ void CLogFile::Save_OutTray(CString strLotID, CString strOut, int nPosX, int nPo
 
 		if (file.GetLength() < 1) file.Write(strTitle, strTitle.GetLength());
 
-		//????? (0:Empty, 1:Good, 2:NG)
+		//검사결과 (0:Empty, 1:Good, 2:NG)
 		int nJudge = gData.InfoUnloadPick[nPickNo-1];
 		strSave.Format("%d,%d,%d,%d,%d,%d,%d\r\n", nPosX, nPosY, nMzNo, nCarNo, nLineNo, nPickNo, nJudge);
 
@@ -742,7 +738,7 @@ void CLogFile::Save_LotLog(int nPortNo)
 	}
 }
 
-void CLogFile::Save_OperatingRatio(CString sLog)	// ?????? ??? ??
+void CLogFile::Save_OperatingRatio(CString sLog)	// 가동률 작업 중
 {
 	g_csOperatingRatioLog.Lock();
 
@@ -756,7 +752,7 @@ void CLogFile::Save_OperatingRatio(CString sLog)	// ?????? ??? ??
 	strFile.Format("%s\\%04d%02d%02d.csv", strPath, time.wYear, time.wMonth, time.wDay);
 	strFile2.Format("%s\\%04d%02d%02d.txt", strPath, time.wYear, time.wMonth, time.wDay);
 
-	strTitle.Format("Time,???,Lot ID,Lot Start,Lot End,Cycle Time,LM(EA),Run Time,Stop Time,Error Time,Error Count,????,UPH,MTB\r\n");
+	strTitle.Format("Time,호기,Lot ID,Lot Start,Lot End,Cycle Time,LM(EA),Run Time,Stop Time,Error Time,Error Count,수율,UPH,MTB\r\n");
 	strSave.Format("[%02d:%02d:%02d %03d]%s\r\n", time.wHour, time.wMinute, time.wSecond, time.wMilliseconds, sLog);
 
 	CFile file;
@@ -790,7 +786,7 @@ void CLogFile::Save_OperatingRatio(CString sLog)	// ?????? ??? ??
 
 void CLogFile::Save_SeqLog(CString sLog)
 {
-	CString strPath = gsCurrentDir + "\\LOG\\Seq";
+	CString strPath = gsCurrentDir + "\\LOG\\SeqTest";
 
 	Create_Folder(strPath);
 
@@ -1087,14 +1083,14 @@ void CLogFile::Save_StdMotionLog(CString sLotID, CString sType, int nZone, int n
 	SYSTEMTIME time;
 	GetLocalTime(&time);
 
-	// ????? : LotID_????????????_??????_Normal_#??????_PC???_????_????.csv => Lot Start?? ????
+	// 파일명 : LotID_생성년월일시_공정명_Normal_#호기번호_PC이름_모델명_순번.csv => Lot Start시 생성
 	gData.sStdMotionFile.Format("%s_%04d%02d%02d%02d_AVI_Normal_#%04d_%s_%s_%04d.csv",
 						strLotId, time.wYear, time.wMonth, time.wDay, time.wHour, gData.nStdEqNo, gsComputerName, gData.sRecipeName, nSeqNo);
 	strFile.Format("%s%s", ECM_ME_LOG, gData.sStdMotionFile);
 
 	strKey.Format("[CH_DV]%s%03d%03d[1]", sType, nZone, nCase);
-	if (sType == "Y" && nValue == 1) strCycle = "";	// ?????? (????? ????)
-	else strCycle.Format("%s%03d%03d", sType, nZone, nCase-1);	// ?????? ???
+	if (sType == "Y" && nValue == 1) strCycle = "";	// 선행동작 (시작시 공란)
+	else strCycle.Format("%s%03d%03d", sType, nZone, nCase-1);	// 선행동작 표시
 
 	int nNo = sMsg.Find(",");
 	if (nNo > 0) sData = sMsg.Left(nNo);
@@ -1159,7 +1155,7 @@ void CLogFile::Save_EfficiencyLog(CString sLotID, CString sStatus, CString strZo
 	SYSTEMTIME time;
 	GetLocalTime(&time);
 
-	//????? : LotID_????????????_??????_Efficiency_#??????_PC???_????_????.csv
+	//파일명 : LotID_생성년월일시_공정명_Efficiency_#호기번호_PC이름_모델명_순번.csv
 	gData.sEfficiencyFile.Format("%s_%04d%02d%02d%02d_AVI_Efficiency_#%04d_%s_%s_%04d.csv",
 						strLotId, time.wYear, time.wMonth, time.wDay, time.wHour, gData.nStdEqNo, gsComputerName, gData.sRecipeName, nSeqNo);
 	strFile.Format("%s%s", ECM_ME_LOG, gData.sEfficiencyFile);
@@ -1185,7 +1181,7 @@ void CLogFile::Save_EfficiencyLog(CString sLotID, CString sStatus, CString strZo
 
 void CLogFile::Get_ZoneMsg(int nFun, int nId, CString &sLotID, int &nPortNo, int &nSeqTotal, CString &strFun, CString &strMsg, CString &sType)
 {
-	nPortNo = nSeqTotal = 0; sType = "X";	//X:????,????? ????, M:???ð???, B:??????ð?, Y:Unit Tack
+	nPortNo = nSeqTotal = 0; sType = "X";	//X:모터,실린더 구동, M:검사시간, B:동작대기시간, Y:Unit Tack
 	switch (nFun) {
 	case 1:
 		strFun = "Elevator_1"; nSeqTotal = 4;
@@ -1847,7 +1843,7 @@ void CLogFile::Get_ZoneMsg(int nFun, int nId, CString &sLotID, int &nPortNo, int
 	}
 }
 
-void CLogFile::Save_Interlock(int nType)	//nType:0[?????], 1[????], 2[????] 3[????]
+void CLogFile::Save_Interlock(int nType)	//nType:0[등록], 1[정시], 2[해제] 3[설정]
 {
 	CString strFile, sTitle, sTitle1, strTime, strSave, strSave1, strSave2, strSave3, strSave4, strSave5, strLotID, strDoor[21], sInterUse;
 
@@ -1857,10 +1853,10 @@ void CLogFile::Save_Interlock(int nType)	//nType:0[?????], 1[????], 2[????] 3[??
 	if (nType == 0) {
 		gIt.nOpenTime = 0;
 		gIt.nOpenStart = 0;
-		gIt.nLogYY = time.wYear;	//??????
-		gIt.nLogMM = time.wMonth;	//??????
-		gIt.nLogDD = time.wDay;		//??????
-		gIt.nLogHH = time.wHour;	//???ð???
+		gIt.nLogYY = time.wYear;	//등록년
+		gIt.nLogMM = time.wMonth;	//등록월
+		gIt.nLogDD = time.wDay;		//등록날
+		gIt.nLogHH = time.wHour;	//등록시간
 	}
 	if (gIt.nLogMM < 1 || gIt.nLogMM > 12) return;
 
@@ -1890,12 +1886,12 @@ void CLogFile::Save_Interlock(int nType)	//nType:0[?????], 1[????], 2[????] 3[??
 	double dTime, dPer;
 	if (nType == 1) {
 		if (gIt.nOpenStart == 1) {
-			nNGTime = (GetTickCount() - gIt.dwOpenStartTime) / 1000;	//?????
+			nNGTime = (GetTickCount() - gIt.dwOpenStartTime) / 1000;	//초단위
 			gIt.nOpenTime = gIt.nOpenTime + nNGTime;
 		}
 		if (gIt.nOpenTime > 0) {
 			if (gIt.nOpenTime > 3600) gIt.nOpenTime = 3600;
-			dTime = gIt.nOpenTime / 60.0;	//?д???
+			dTime = gIt.nOpenTime / 60.0;	//분단위
 			dPer = ((3600.0 - gIt.nOpenTime) / 3600.0) * 100.0;
 			if (dPer > 100.0) dPer = 100.0;
 		} else {

@@ -1371,76 +1371,76 @@ BOOL CSequenceInit::Initial_NGStage()
 		break;
 
 	case 2:
-		if (!m_pDX11->iNGStage1TrayExist) {
-			m_pDY11->oNGStage1MasterIn = FALSE; m_pDY11->oNGStage1MasterOut = TRUE;
-			m_pDY11->oNGStage1SlaveIn = FALSE;  m_pDY11->oNGStage1SlaveOut = TRUE;
+		if (!m_pDX12->iNGStage1TrayExist) {
+			m_pDY12->oNGStage1MasterIn = FALSE; m_pDY12->oNGStage1MasterOut = TRUE;
+			m_pDY12->oNGStage1SlaveIn = FALSE;  m_pDY12->oNGStage1SlaveOut = TRUE;
 		} else {
-			m_pDY11->oNGStage1MasterIn = TRUE; m_pDY11->oNGStage1MasterOut = FALSE;
-			m_pDY11->oNGStage1SlaveIn = TRUE;  m_pDY11->oNGStage1SlaveOut = FALSE;
+			m_pDY12->oNGStage1MasterIn = TRUE; m_pDY12->oNGStage1MasterOut = FALSE;
+			m_pDY12->oNGStage1SlaveIn = TRUE;  m_pDY12->oNGStage1SlaveOut = FALSE;
 		}
 			g_objAJinAXL.Write_Output(11);
 			m_niNGStageCase++; m_tiNGStageLoop.Set_LoopTime(5000);
 		break;
 	case 3:
-		if (!m_pDX11->iNGStage1TrayExist) {
-			if (!m_pDX11->iNGStage1MasterIn && m_pDX11->iNGStage1MasterOut) {
-				if (!m_pDX11->iNGStage1SlaveIn && m_pDX11->iNGStage1SlaveOut) {
+		if (!m_pDX12->iNGStage1TrayExist) {
+			if (!m_pDX12->iNGStage1MasterIn && m_pDX12->iNGStage1MasterOut) {
+				if (!m_pDX12->iNGStage1SlaveIn && m_pDX12->iNGStage1SlaveOut) {
 					m_niNGStageCase++; m_tiNGStageLoop.Set_LoopTime(5000);
 				}
 			}
 		} else {
-			if (m_pDX11->iNGStage1MasterIn && !m_pDX11->iNGStage1MasterOut) {
-				if (m_pDX11->iNGStage1SlaveIn && !m_pDX11->iNGStage1SlaveOut) {
+			if (m_pDX12->iNGStage1MasterIn && !m_pDX12->iNGStage1MasterOut) {
+				if (m_pDX12->iNGStage1SlaveIn && !m_pDX12->iNGStage1SlaveOut) {
 					m_niNGStageCase++; m_tiNGStageLoop.Set_LoopTime(5000);
 				}
 			}
 		}
 		break;
 	case 4:
-		if (!m_pDX11->iNGStage2TrayExist) {
-			m_pDY11->oNGStage2MasterIn = FALSE; m_pDY11->oNGStage2MasterOut = TRUE;
-			m_pDY11->oNGStage2SlaveIn = FALSE;  m_pDY11->oNGStage2SlaveOut = TRUE;
+		if (!m_pDX12->iNGStage2TrayExist) {
+			m_pDY12->oNGStage2MasterIn = FALSE; m_pDY12->oNGStage2MasterOut = TRUE;
+			m_pDY12->oNGStage2SlaveIn = FALSE;  m_pDY12->oNGStage2SlaveOut = TRUE;
 		} else {
-			m_pDY11->oNGStage2MasterIn = TRUE; m_pDY11->oNGStage2MasterOut = FALSE;
-			m_pDY11->oNGStage2SlaveIn = TRUE;  m_pDY11->oNGStage2SlaveOut = FALSE;
+			m_pDY12->oNGStage2MasterIn = TRUE; m_pDY12->oNGStage2MasterOut = FALSE;
+			m_pDY12->oNGStage2SlaveIn = TRUE;  m_pDY12->oNGStage2SlaveOut = FALSE;
 		}
 			g_objAJinAXL.Write_Output(11);
 			m_niNGStageCase++; m_tiNGStageLoop.Set_LoopTime(5000);
 		break;
 	case 5:
-		if (!m_pDX11->iNGStage2TrayExist) {
-			if (!m_pDX11->iNGStage2MasterIn && m_pDX11->iNGStage2MasterOut) {
-				if (!m_pDX11->iNGStage2SlaveIn && m_pDX11->iNGStage2SlaveOut) {
+		if (!m_pDX12->iNGStage2TrayExist) {
+			if (!m_pDX12->iNGStage2MasterIn && m_pDX12->iNGStage2MasterOut) {
+				if (!m_pDX12->iNGStage2SlaveIn && m_pDX12->iNGStage2SlaveOut) {
 					m_niNGStageCase++; m_tiNGStageLoop.Set_LoopTime(5000);
 				}
 			}
 		} else {
-			if (m_pDX11->iNGStage2MasterIn && !m_pDX11->iNGStage2MasterOut) {
-				if (m_pDX11->iNGStage2SlaveIn && !m_pDX11->iNGStage2SlaveOut) {
+			if (m_pDX12->iNGStage2MasterIn && !m_pDX12->iNGStage2MasterOut) {
+				if (m_pDX12->iNGStage2SlaveIn && !m_pDX12->iNGStage2SlaveOut) {
 					m_niNGStageCase++; m_tiNGStageLoop.Set_LoopTime(5000);
 				}
 			}
 		}
 		break;
 	case 6:
-		if ((m_pDX11->iNGStage1Up && !m_pDX11->iNGStage1Down) ||
-			(!m_pDX11->iNGStage1Up && m_pDX11->iNGStage1Down) ) {
+		if ((m_pDX12->iNGStage1Up && !m_pDX12->iNGStage1Down) ||
+			(!m_pDX12->iNGStage1Up && m_pDX12->iNGStage1Down) ) {
 			m_niNGStageCase++; m_tiNGStageLoop.Set_LoopTime(5000);
 		}
 		break;
 	case 7:
-		if ((m_pDX11->iNGStage2Up && !m_pDX11->iNGStage2Down) ||
-			(!m_pDX11->iNGStage2Up && m_pDX11->iNGStage2Down) ) {
+		if ((m_pDX12->iNGStage2Up && !m_pDX12->iNGStage2Down) ||
+			(!m_pDX12->iNGStage2Up && m_pDX12->iNGStage2Down) ) {
 			m_niNGStageCase++; m_tiNGStageLoop.Set_LoopTime(5000);
 		}
 		break;
 	case 8:
-		if (m_pDX11->iNGStage1Up && m_pDX11->iNGStage2Up) {
-			m_pDY11->oNGStage2Up = FALSE; m_pDY11->oNGStage2Down = TRUE;
+		if (m_pDX12->iNGStage1Up && m_pDX12->iNGStage2Up) {
+			m_pDY12->oNGStage2Up = FALSE; m_pDY12->oNGStage2Down = TRUE;
 			g_objAJinAXL.Write_Output(11);
 			m_niNGStageCase++; m_tiNGStageLoop.Set_LoopTime(30000);
-		} else if (m_pDX11->iNGStage1Down && m_pDX11->iNGStage2Down) {
-			m_pDY11->oNGStage1Up = TRUE;  m_pDY11->oNGStage1Down = FALSE;
+		} else if (m_pDX12->iNGStage1Down && m_pDX12->iNGStage2Down) {
+			m_pDY12->oNGStage1Up = TRUE;  m_pDY12->oNGStage1Down = FALSE;
 			g_objAJinAXL.Write_Output(11);
 			m_niNGStageCase++; m_tiNGStageLoop.Set_LoopTime(30000);
 		} else {
@@ -1448,8 +1448,8 @@ BOOL CSequenceInit::Initial_NGStage()
 		}
 		break;
 	case 9:
-		if ((m_pDX11->iNGStage1Up  && !m_pDX11->iNGStage1Down) && 
-			(!m_pDX11->iNGStage2Up && m_pDX11->iNGStage2Down) ) {
+		if ((m_pDX12->iNGStage1Up  && !m_pDX12->iNGStage1Down) && 
+			(!m_pDX12->iNGStage2Up && m_pDX12->iNGStage2Down) ) {
 			m_niNGStageCase = 11; m_tiNGStageLoop.Set_LoopTime(30000);
 		}
 		break;
@@ -1480,14 +1480,14 @@ BOOL CSequenceInit::Initial_NGStage()
 		}
 		break;
 	case 15:
-		m_pDY11->oNGStage1Up = TRUE;  m_pDY11->oNGStage1Down = FALSE;
-		m_pDY11->oNGStage2Up = FALSE; m_pDY11->oNGStage2Down = TRUE;
+		m_pDY12->oNGStage1Up = TRUE;  m_pDY12->oNGStage1Down = FALSE;
+		m_pDY12->oNGStage2Up = FALSE; m_pDY12->oNGStage2Down = TRUE;
 		g_objAJinAXL.Write_Output(11);
 		m_niNGStageCase++; m_tiNGStageLoop.Set_LoopTime(30000);
 		break;
 	case 16:
-		if ((m_pDX11->iNGStage1Up  && !m_pDX11->iNGStage1Down) && 
-			(!m_pDX11->iNGStage2Up && m_pDX11->iNGStage2Down) ) {
+		if ((m_pDX12->iNGStage1Up  && !m_pDX12->iNGStage1Down) && 
+			(!m_pDX12->iNGStage2Up && m_pDX12->iNGStage2Down) ) {
 			g_objCommon.Move_Position(AX_NG_STAGE_Y2, 0);
 			m_niNGStageCase++; m_tiNGStageLoop.Set_LoopTime(5000);
 		}
@@ -1536,76 +1536,76 @@ BOOL CSequenceInit::Initial_GoodStage()
 		break;
 
 	case 2:
-		if (!m_pDX12->iGoodStage1TrayExist) {
-			m_pDY12->oGoodStage1MasterIn = FALSE; m_pDY12->oGoodStage1MasterOut = TRUE;
-			m_pDY12->oGoodStage1SlaveIn = FALSE;  m_pDY12->oGoodStage1SlaveOut = TRUE;
+		if (!m_pDX11->iGoodStage1TrayExist) {
+			m_pDY11->oGoodStage1MasterIn = FALSE; m_pDY11->oGoodStage1MasterOut = TRUE;
+			m_pDY11->oGoodStage1SlaveIn = FALSE;  m_pDY11->oGoodStage1SlaveOut = TRUE;
 		} else {
-			m_pDY12->oGoodStage1MasterIn = TRUE; m_pDY12->oGoodStage1MasterOut = FALSE;
-			m_pDY12->oGoodStage1SlaveIn = TRUE;  m_pDY12->oGoodStage1SlaveOut = FALSE;
+			m_pDY11->oGoodStage1MasterIn = TRUE; m_pDY11->oGoodStage1MasterOut = FALSE;
+			m_pDY11->oGoodStage1SlaveIn = TRUE;  m_pDY11->oGoodStage1SlaveOut = FALSE;
 		}
 			g_objAJinAXL.Write_Output(12);
 			m_niGoodStageCase++; m_tiGoodStageLoop.Set_LoopTime(5000);
 		break;
 	case 3:
-		if (!m_pDX12->iGoodStage1TrayExist) {
-			if (!m_pDX12->iGoodStage1MasterIn && m_pDX12->iGoodStage1MasterOut) {
-				if (!m_pDX12->iGoodStage1SlaveIn && m_pDX12->iGoodStage1SlaveOut) {
+		if (!m_pDX11->iGoodStage1TrayExist) {
+			if (!m_pDX11->iGoodStage1MasterIn && m_pDX11->iGoodStage1MasterOut) {
+				if (!m_pDX11->iGoodStage1SlaveIn && m_pDX11->iGoodStage1SlaveOut) {
 					m_niGoodStageCase++; m_tiGoodStageLoop.Set_LoopTime(5000);
 				}
 			}
 		} else {
-			if (m_pDX12->iGoodStage1MasterIn && !m_pDX12->iGoodStage1MasterOut) {
-				if (m_pDX12->iGoodStage1SlaveIn && !m_pDX12->iGoodStage1SlaveOut) {
+			if (m_pDX11->iGoodStage1MasterIn && !m_pDX11->iGoodStage1MasterOut) {
+				if (m_pDX11->iGoodStage1SlaveIn && !m_pDX11->iGoodStage1SlaveOut) {
 					m_niGoodStageCase++; m_tiGoodStageLoop.Set_LoopTime(5000);
 				}
 			}
 		}
 		break;
 	case 4:
-		if (!m_pDX12->iGoodStage2TrayExist) {
-			m_pDY12->oGoodStage2MasterIn = FALSE; m_pDY12->oGoodStage2MasterOut = TRUE;
-			m_pDY12->oGoodStage2SlaveIn = FALSE;  m_pDY12->oGoodStage2SlaveOut = TRUE;
+		if (!m_pDX11->iGoodStage2TrayExist) {
+			m_pDY11->oGoodStage2MasterIn = FALSE; m_pDY11->oGoodStage2MasterOut = TRUE;
+			m_pDY11->oGoodStage2SlaveIn = FALSE;  m_pDY11->oGoodStage2SlaveOut = TRUE;
 		} else {
-			m_pDY12->oGoodStage2MasterIn = TRUE; m_pDY12->oGoodStage2MasterOut = FALSE;
-			m_pDY12->oGoodStage2SlaveIn = TRUE;  m_pDY12->oGoodStage2SlaveOut = FALSE;
+			m_pDY11->oGoodStage2MasterIn = TRUE; m_pDY11->oGoodStage2MasterOut = FALSE;
+			m_pDY11->oGoodStage2SlaveIn = TRUE;  m_pDY11->oGoodStage2SlaveOut = FALSE;
 		}
 			g_objAJinAXL.Write_Output(12);
 			m_niGoodStageCase++; m_tiGoodStageLoop.Set_LoopTime(5000);
 		break;
 	case 5:
-		if (!m_pDX12->iGoodStage2TrayExist) {
-			if (!m_pDX12->iGoodStage2MasterIn && m_pDX12->iGoodStage2MasterOut) {
-				if (!m_pDX12->iGoodStage2SlaveIn && m_pDX12->iGoodStage2SlaveOut) {
+		if (!m_pDX11->iGoodStage2TrayExist) {
+			if (!m_pDX11->iGoodStage2MasterIn && m_pDX11->iGoodStage2MasterOut) {
+				if (!m_pDX11->iGoodStage2SlaveIn && m_pDX11->iGoodStage2SlaveOut) {
 					m_niGoodStageCase++; m_tiGoodStageLoop.Set_LoopTime(5000);
 				}
 			}
 		} else {
-			if (m_pDX12->iGoodStage2MasterIn && !m_pDX12->iGoodStage2MasterOut) {
-				if (m_pDX12->iGoodStage2SlaveIn && !m_pDX12->iGoodStage2SlaveOut) {
+			if (m_pDX11->iGoodStage2MasterIn && !m_pDX11->iGoodStage2MasterOut) {
+				if (m_pDX11->iGoodStage2SlaveIn && !m_pDX11->iGoodStage2SlaveOut) {
 					m_niGoodStageCase++; m_tiGoodStageLoop.Set_LoopTime(5000);
 				}
 			}
 		}
 		break;
 	case 6:
-		if ((m_pDX12->iGoodStage1Up && !m_pDX12->iGoodStage1Down) ||
-			(!m_pDX12->iGoodStage1Up && m_pDX12->iGoodStage1Down) ) {
+		if ((m_pDX11->iGoodStage1Up && !m_pDX11->iGoodStage1Down) ||
+			(!m_pDX11->iGoodStage1Up && m_pDX11->iGoodStage1Down) ) {
 			m_niGoodStageCase++; m_tiGoodStageLoop.Set_LoopTime(5000);
 		}
 		break;
 	case 7:
-		if ((m_pDX12->iGoodStage2Up && !m_pDX12->iGoodStage2Down) ||
-			(!m_pDX12->iGoodStage2Up && m_pDX12->iGoodStage2Down) ) {
+		if ((m_pDX11->iGoodStage2Up && !m_pDX11->iGoodStage2Down) ||
+			(!m_pDX11->iGoodStage2Up && m_pDX11->iGoodStage2Down) ) {
 			m_niGoodStageCase++; m_tiGoodStageLoop.Set_LoopTime(5000);
 		}
 		break;
 	case 8:
-		if (m_pDX12->iGoodStage1Up && m_pDX12->iGoodStage2Up) {
-			m_pDY12->oGoodStage2Up = FALSE; m_pDY12->oGoodStage2Down = TRUE;
+		if (m_pDX11->iGoodStage1Up && m_pDX11->iGoodStage2Up) {
+			m_pDY11->oGoodStage2Up = FALSE; m_pDY11->oGoodStage2Down = TRUE;
 			g_objAJinAXL.Write_Output(12);
 			m_niGoodStageCase++; m_tiGoodStageLoop.Set_LoopTime(30000);
-		} else if (m_pDX12->iGoodStage1Down && m_pDX12->iGoodStage2Down)  {
-			m_pDY12->oGoodStage1Up = TRUE;  m_pDY12->oGoodStage1Down = FALSE;
+		} else if (m_pDX11->iGoodStage1Down && m_pDX11->iGoodStage2Down)  {
+			m_pDY11->oGoodStage1Up = TRUE;  m_pDY11->oGoodStage1Down = FALSE;
 			g_objAJinAXL.Write_Output(12);
 			m_niGoodStageCase++; m_tiGoodStageLoop.Set_LoopTime(30000);
 		} else {
@@ -1613,8 +1613,8 @@ BOOL CSequenceInit::Initial_GoodStage()
 		}
 		break;
 	case 9:
-		if ((m_pDX12->iGoodStage1Up  && !m_pDX12->iGoodStage1Down) && 
-			(!m_pDX12->iGoodStage2Up && m_pDX12->iGoodStage2Down) ) {
+		if ((m_pDX11->iGoodStage1Up  && !m_pDX11->iGoodStage1Down) && 
+			(!m_pDX11->iGoodStage2Up && m_pDX11->iGoodStage2Down) ) {
 			m_niGoodStageCase = 11; m_tiGoodStageLoop.Set_LoopTime(30000);
 		}
 		break;
@@ -1644,14 +1644,14 @@ BOOL CSequenceInit::Initial_GoodStage()
 		}
 		break;
 	case 15:
-		m_pDY12->oGoodStage1Up = TRUE;  m_pDY12->oGoodStage1Down = FALSE;
-		m_pDY12->oGoodStage2Up = FALSE; m_pDY12->oGoodStage2Down = TRUE;
+		m_pDY11->oGoodStage1Up = TRUE;  m_pDY11->oGoodStage1Down = FALSE;
+		m_pDY11->oGoodStage2Up = FALSE; m_pDY11->oGoodStage2Down = TRUE;
 		g_objAJinAXL.Write_Output(12);
 		m_niGoodStageCase++; m_tiGoodStageLoop.Set_LoopTime(30000);
 		break;
 	case 16:
-		if ((m_pDX12->iGoodStage1Up  && !m_pDX12->iGoodStage1Down) && 
-			(!m_pDX12->iGoodStage2Up && m_pDX12->iGoodStage2Down) ) {
+		if ((m_pDX11->iGoodStage1Up  && !m_pDX11->iGoodStage1Down) && 
+			(!m_pDX11->iGoodStage2Up && m_pDX11->iGoodStage2Down) ) {
 			g_objCommon.Move_Position(AX_GOOD_STAGE_Y2, 0);
 			m_niGoodStageCase++; m_tiGoodStageLoop.Set_LoopTime(5000);
 		}

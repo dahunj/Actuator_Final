@@ -474,13 +474,13 @@ BOOL CDataManager::Read_MoveData()
 	for (int i = 0; i < 9; i++) { strKey.Format("%02d", i); m_MoveData.dUnloadPickerY2[i]	= INI.Get_Double("35_UNLOAD_PICKER_Y2",	strKey, 0.0); }
 	for (int i = 0; i < 9; i++) { strKey.Format("%02d", i); m_MoveData.dUnloadPickerZ2[i]	= INI.Get_Double("36_UNLOAD_PICKER_Z2",	strKey, 0.0); }
 	for (int i = 0; i < 9; i++) { strKey.Format("%02d", i); m_MoveData.dUnloadPickerP2[i]	= INI.Get_Double("37_UNLOAD_PICKER_P2",	strKey, 0.0); }
-	for (int i = 0; i < 6; i++) { strKey.Format("%02d", i); m_MoveData.dGoodStageY1[i]		= INI.Get_Double("38_GOOD_STAGE_Y1",	strKey, 0.0); }
-	for (int i = 0; i < 6; i++) { strKey.Format("%02d", i); m_MoveData.dGoodStageY2[i]		= INI.Get_Double("39_GOOD_STAGE_Y2",	strKey, 0.0); }
-	for (int i = 0; i < 6; i++) { strKey.Format("%02d", i); m_MoveData.dNGStageY1[i]		= INI.Get_Double("40_NG_STAGE_Y1",		strKey, 0.0); }
-	for (int i = 0; i < 6; i++) { strKey.Format("%02d", i); m_MoveData.dNGStageY2[i]		= INI.Get_Double("41_NG_STAGE_Y2",		strKey, 0.0); }
-	for (int i = 0; i < 5; i++) { strKey.Format("%02d", i); m_MoveData.dShiipAling[i]		= INI.Get_Double("42_SHIP_ALIGN_X",		strKey, 0.0); }
-	for (int i = 0; i < 5; i++) { strKey.Format("%02d", i);	m_MoveData.dTop1LightZ[i]		= INI.Get_Double("43_TOP1_LIGHT_Z",		strKey, 0.0); }
-	for (int i = 0; i < 5; i++) { strKey.Format("%02d", i);	m_MoveData.dTop1AngleY[i]		= INI.Get_Double("44_TOP1_ANGLE_Y",		strKey, 0.0); }
+	for (int i = 0; i < 6; i++) { strKey.Format("%02d", i); m_MoveData.dNGStageY1[i]		= INI.Get_Double("38_NG_STAGE_Y1",	strKey, 0.0); }
+	for (int i = 0; i < 6; i++) { strKey.Format("%02d", i); m_MoveData.dNGStageY2[i]		= INI.Get_Double("39_NG_STAGE_Y2",	strKey, 0.0); }
+	for (int i = 0; i < 6; i++) { strKey.Format("%02d", i); m_MoveData.dGoodStageY1[i]		= INI.Get_Double("40_GOOD_STAGE_Y1", strKey, 0.0); }
+	for (int i = 0; i < 6; i++) { strKey.Format("%02d", i); m_MoveData.dGoodStageY2[i]		= INI.Get_Double("41_GOOD_STAGE_Y2", strKey, 0.0); }
+	for (int i = 0; i < 5; i++) { strKey.Format("%02d", i); m_MoveData.dShiipAling[i]		= INI.Get_Double("42_SHIP_ALIGN_X", strKey, 0.0); }
+	for (int i = 0; i < 5; i++) { strKey.Format("%02d", i);	m_MoveData.dTop1LightZ[i]		= INI.Get_Double("43_TOP1_LIGHT_Z",	strKey, 0.0); }
+	for (int i = 0; i < 5; i++) { strKey.Format("%02d", i);	m_MoveData.dTop1AngleY[i]		= INI.Get_Double("44_TOP1_ANGLE_Y",	strKey, 0.0); }
 
 	if (Read_MoveInput()==FALSE) Reset_MoveInput();
 

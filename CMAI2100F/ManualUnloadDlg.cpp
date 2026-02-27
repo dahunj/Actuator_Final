@@ -169,38 +169,38 @@ void CManualUnloadDlg::Display_Status()
 	DX_DATA_12 *pDX12 = g_objAJinAXL.Get_pDX12();
 
 	//Good Stage1/2
-	m_ledGoodStage1IO[0].Set_On(pDX12->iGoodStage1Up);
-	m_ledGoodStage1IO[1].Set_On(pDX12->iGoodStage1Down);
-	m_ledGoodStage1IO[2].Set_On(pDX12->iGoodStage1MasterIn);
-	m_ledGoodStage1IO[3].Set_On(pDX12->iGoodStage1MasterOut);
-	m_ledGoodStage1IO[4].Set_On(pDX12->iGoodStage1SlaveIn);
-	m_ledGoodStage1IO[5].Set_On(pDX12->iGoodStage1SlaveOut);
-	m_ledGoodStage1IO[6].Set_On(pDX12->iGoodStage1TrayExist);
+	m_ledGoodStage1IO[0].Set_On(pDX11->iGoodStage1Up);
+	m_ledGoodStage1IO[1].Set_On(pDX11->iGoodStage1Down);
+	m_ledGoodStage1IO[2].Set_On(pDX11->iGoodStage1MasterIn);
+	m_ledGoodStage1IO[3].Set_On(pDX11->iGoodStage1MasterOut);
+	m_ledGoodStage1IO[4].Set_On(pDX11->iGoodStage1SlaveIn);
+	m_ledGoodStage1IO[5].Set_On(pDX11->iGoodStage1SlaveOut);
+	m_ledGoodStage1IO[6].Set_On(pDX11->iGoodStage1TrayExist);
 
-	m_ledGoodStage2IO[0].Set_On(pDX12->iGoodStage2Up);
-	m_ledGoodStage2IO[1].Set_On(pDX12->iGoodStage2Down);
-	m_ledGoodStage2IO[2].Set_On(pDX12->iGoodStage2MasterIn);
-	m_ledGoodStage2IO[3].Set_On(pDX12->iGoodStage2MasterOut);
-	m_ledGoodStage2IO[4].Set_On(pDX12->iGoodStage2SlaveIn);
-	m_ledGoodStage2IO[5].Set_On(pDX12->iGoodStage2SlaveOut);
-	m_ledGoodStage2IO[6].Set_On(pDX12->iGoodStage2TrayExist);
+	m_ledGoodStage2IO[0].Set_On(pDX11->iGoodStage2Up);
+	m_ledGoodStage2IO[1].Set_On(pDX11->iGoodStage2Down);
+	m_ledGoodStage2IO[2].Set_On(pDX11->iGoodStage2MasterIn);
+	m_ledGoodStage2IO[3].Set_On(pDX11->iGoodStage2MasterOut);
+	m_ledGoodStage2IO[4].Set_On(pDX11->iGoodStage2SlaveIn);
+	m_ledGoodStage2IO[5].Set_On(pDX11->iGoodStage2SlaveOut);
+	m_ledGoodStage2IO[6].Set_On(pDX11->iGoodStage2TrayExist);
 
 	//NG Stage1/2
-	m_ledNGStage1IO[0].Set_On(pDX11->iNGStage1Up);
-	m_ledNGStage1IO[1].Set_On(pDX11->iNGStage1Down);
-	m_ledNGStage1IO[2].Set_On(pDX11->iNGStage1MasterIn);
-	m_ledNGStage1IO[3].Set_On(pDX11->iNGStage1MasterOut);
-	m_ledNGStage1IO[4].Set_On(pDX11->iNGStage1SlaveIn);
-	m_ledNGStage1IO[5].Set_On(pDX11->iNGStage1SlaveOut);
-	m_ledNGStage1IO[6].Set_On(pDX11->iNGStage1TrayExist);
+	m_ledNGStage1IO[0].Set_On(pDX12->iNGStage1Up);
+	m_ledNGStage1IO[1].Set_On(pDX12->iNGStage1Down);
+	m_ledNGStage1IO[2].Set_On(pDX12->iNGStage1MasterIn);
+	m_ledNGStage1IO[3].Set_On(pDX12->iNGStage1MasterOut);
+	m_ledNGStage1IO[4].Set_On(pDX12->iNGStage1SlaveIn);
+	m_ledNGStage1IO[5].Set_On(pDX12->iNGStage1SlaveOut);
+	m_ledNGStage1IO[6].Set_On(pDX12->iNGStage1TrayExist);
 
-	m_ledNGStage2IO[0].Set_On(pDX11->iNGStage2Up);
-	m_ledNGStage2IO[1].Set_On(pDX11->iNGStage2Down);
-	m_ledNGStage2IO[2].Set_On(pDX11->iNGStage2MasterIn);
-	m_ledNGStage2IO[3].Set_On(pDX11->iNGStage2MasterOut);
-	m_ledNGStage2IO[4].Set_On(pDX11->iNGStage2SlaveIn);
-	m_ledNGStage2IO[5].Set_On(pDX11->iNGStage2SlaveOut);
-	m_ledNGStage2IO[6].Set_On(pDX11->iNGStage2TrayExist);
+	m_ledNGStage2IO[0].Set_On(pDX12->iNGStage2Up);
+	m_ledNGStage2IO[1].Set_On(pDX12->iNGStage2Down);
+	m_ledNGStage2IO[2].Set_On(pDX12->iNGStage2MasterIn);
+	m_ledNGStage2IO[3].Set_On(pDX12->iNGStage2MasterOut);
+	m_ledNGStage2IO[4].Set_On(pDX12->iNGStage2SlaveIn);
+	m_ledNGStage2IO[5].Set_On(pDX12->iNGStage2SlaveOut);
+	m_ledNGStage2IO[6].Set_On(pDX12->iNGStage2TrayExist);
 
 	//Unload Picker1
 	m_ledUnloadPicker1IO[0].Set_On(pDX09->iUnloadPicker1Up1);
@@ -675,18 +675,18 @@ void CManualUnloadDlg::OnBtnGoodStage1YClick(UINT nID)
 
 	int nIndex = nID - IDC_BTN_GOOD_STAGE1_Y_0;
 
-	DX_DATA_12 *pDX12 = g_objAJinAXL.Get_pDX12();
+	DX_DATA_11 *pDX11 = g_objAJinAXL.Get_pDX11();
 
 	// Interlock
-	if ((pDX12->iGoodStage1Up && pDX12->iGoodStage2Up) || (pDX12->iGoodStage1Down && pDX12->iGoodStage2Down) ) {
+	if ((pDX11->iGoodStage1Up && pDX11->iGoodStage2Up) || (pDX11->iGoodStage1Down && pDX11->iGoodStage2Down) ) {
 		AfxMessageBox(_T("Good Stage 1/2 같은 높이에 있습니다....."));
 		return;
 	}
-	if (!pDX12->iGoodStage1Up && !pDX12->iGoodStage1Down) {
+	if (!pDX11->iGoodStage1Up && !pDX11->iGoodStage1Down) {
 		AfxMessageBox(_T("Good Stage1 Up/Down 센서 감지 되지 않습니다....."));
 		return;
 	}
-	if (!pDX12->iGoodStage2Up && !pDX12->iGoodStage2Down) {
+	if (!pDX11->iGoodStage2Up && !pDX11->iGoodStage2Down) {
 		AfxMessageBox(_T("Load Stage2 Up/Down 센서 감지 되지 않습니다....."));
 		return;
 	}
@@ -710,7 +710,7 @@ void CManualUnloadDlg::OnBtnGoodStage1IOClick(UINT nID)
 
 	int nIndex = nID - IDC_BTN_GOOD_STAGE1_IO_0;
 
-	DY_DATA_12 *pDY12 = g_objAJinAXL.Get_pDY12();
+	DY_DATA_11 *pDY11 = g_objAJinAXL.Get_pDY11();
 
 	MOVE_DATA *pMoveData = g_objDataManager.Get_pMoveData();
 	EQUIP_DATA *pEquipData = g_objDataManager.Get_pEquipData();
@@ -752,14 +752,14 @@ void CManualUnloadDlg::OnBtnGoodStage1IOClick(UINT nID)
 				return;
 			}
 		}
-		if (nIndex == 0) { pDY12->oGoodStage1Up = TRUE;  pDY12->oGoodStage1Down = FALSE; }
-		if (nIndex == 1) { pDY12->oGoodStage1Up = FALSE; pDY12->oGoodStage1Down = TRUE; }
+		if (nIndex == 0) { pDY11->oGoodStage1Up = TRUE;  pDY11->oGoodStage1Down = FALSE; }
+		if (nIndex == 1) { pDY11->oGoodStage1Up = FALSE; pDY11->oGoodStage1Down = TRUE; }
 
 	} else {
-		if (nIndex == 2) { pDY12->oGoodStage1MasterIn = TRUE;  pDY12->oGoodStage1MasterOut = FALSE; }
-		if (nIndex == 3) { pDY12->oGoodStage1MasterIn = FALSE; pDY12->oGoodStage1MasterOut = TRUE; }
-		if (nIndex == 4) { pDY12->oGoodStage1SlaveIn = TRUE;   pDY12->oGoodStage1SlaveOut = FALSE; }
-		if (nIndex == 5) { pDY12->oGoodStage1SlaveIn = FALSE;  pDY12->oGoodStage1SlaveOut = TRUE; }
+		if (nIndex == 2) { pDY11->oGoodStage1MasterIn = TRUE;  pDY11->oGoodStage1MasterOut = FALSE; }
+		if (nIndex == 3) { pDY11->oGoodStage1MasterIn = FALSE; pDY11->oGoodStage1MasterOut = TRUE; }
+		if (nIndex == 4) { pDY11->oGoodStage1SlaveIn = TRUE;   pDY11->oGoodStage1SlaveOut = FALSE; }
+		if (nIndex == 5) { pDY11->oGoodStage1SlaveIn = FALSE;  pDY11->oGoodStage1SlaveOut = TRUE; }
 	}
 
 	g_objAJinAXL.Write_Output(12);
@@ -775,18 +775,18 @@ void CManualUnloadDlg::OnBtnGoodStage2YClick(UINT nID)
 
 	int nIndex = nID - IDC_BTN_GOOD_STAGE2_Y_0;
 
-	DX_DATA_12 *pDX12 = g_objAJinAXL.Get_pDX12();
+	DX_DATA_11 *pDX11 = g_objAJinAXL.Get_pDX11();
 
 	// Interlock
-	if ((pDX12->iGoodStage1Up && pDX12->iGoodStage2Up) || (pDX12->iGoodStage1Down && pDX12->iGoodStage2Down) ) {
+	if ((pDX11->iGoodStage1Up && pDX11->iGoodStage2Up) || (pDX11->iGoodStage1Down && pDX11->iGoodStage2Down) ) {
 		AfxMessageBox(_T("Good Stage 1/2 같은 높이에 있습니다....."));
 		return;
 	}
-	if (!pDX12->iGoodStage1Up && !pDX12->iGoodStage1Down) {
+	if (!pDX11->iGoodStage1Up && !pDX11->iGoodStage1Down) {
 		AfxMessageBox(_T("Good Stage1 Up/Down 센서 감지 되지 않습니다....."));
 		return;
 	}
-	if (!pDX12->iGoodStage2Up && !pDX12->iGoodStage2Down) {
+	if (!pDX11->iGoodStage2Up && !pDX11->iGoodStage2Down) {
 		AfxMessageBox(_T("Load Stage2 Up/Down 센서 감지 되지 않습니다....."));
 		return;
 	}
@@ -810,7 +810,7 @@ void CManualUnloadDlg::OnBtnGoodStage2IOClick(UINT nID)
 
 	int nIndex = nID - IDC_BTN_GOOD_STAGE2_IO_0;
 
-	DY_DATA_12 *pDY12 = g_objAJinAXL.Get_pDY12();
+	DY_DATA_11 *pDY11 = g_objAJinAXL.Get_pDY11();
 
 	MOVE_DATA *pMoveData = g_objDataManager.Get_pMoveData();
 	EQUIP_DATA *pEquipData = g_objDataManager.Get_pEquipData();
@@ -852,14 +852,14 @@ void CManualUnloadDlg::OnBtnGoodStage2IOClick(UINT nID)
 				return;
 			}
 		}
-		if (nIndex == 0) { pDY12->oGoodStage2Up = TRUE;  pDY12->oGoodStage2Down = FALSE; }
-		if (nIndex == 1) { pDY12->oGoodStage2Up = FALSE; pDY12->oGoodStage2Down = TRUE; }
+		if (nIndex == 0) { pDY11->oGoodStage2Up = TRUE;  pDY11->oGoodStage2Down = FALSE; }
+		if (nIndex == 1) { pDY11->oGoodStage2Up = FALSE; pDY11->oGoodStage2Down = TRUE; }
 
 	} else {
-		if (nIndex == 2) { pDY12->oGoodStage2MasterIn = TRUE;  pDY12->oGoodStage2MasterOut = FALSE; }
-		if (nIndex == 3) { pDY12->oGoodStage2MasterIn = FALSE; pDY12->oGoodStage2MasterOut = TRUE; }
-		if (nIndex == 4) { pDY12->oGoodStage2SlaveIn = TRUE;   pDY12->oGoodStage2SlaveOut = FALSE; }
-		if (nIndex == 5) { pDY12->oGoodStage2SlaveIn = FALSE;  pDY12->oGoodStage2SlaveOut = TRUE; }
+		if (nIndex == 2) { pDY11->oGoodStage2MasterIn = TRUE;  pDY11->oGoodStage2MasterOut = FALSE; }
+		if (nIndex == 3) { pDY11->oGoodStage2MasterIn = FALSE; pDY11->oGoodStage2MasterOut = TRUE; }
+		if (nIndex == 4) { pDY11->oGoodStage2SlaveIn = TRUE;   pDY11->oGoodStage2SlaveOut = FALSE; }
+		if (nIndex == 5) { pDY11->oGoodStage2SlaveIn = FALSE;  pDY11->oGoodStage2SlaveOut = TRUE; }
 	}
 
 	g_objAJinAXL.Write_Output(12);
@@ -875,18 +875,18 @@ void CManualUnloadDlg::OnBtnNGStage1YClick(UINT nID)
 
 	int nIndex = nID - IDC_BTN_NG_STAGE1_Y_0;
 
-	DX_DATA_11 *pDX11 = g_objAJinAXL.Get_pDX11();
+	DX_DATA_12 *pDX12 = g_objAJinAXL.Get_pDX12();
 
 	// Interlock
-	if ((pDX11->iNGStage1Up && pDX11->iNGStage2Up) || (pDX11->iNGStage1Down && pDX11->iNGStage2Down) ) {
+	if ((pDX12->iNGStage1Up && pDX12->iNGStage2Up) || (pDX12->iNGStage1Down && pDX12->iNGStage2Down) ) {
 		AfxMessageBox(_T("NG Stage 1/2 같은 높이에 있습니다....."));
 		return;
 	}
-	if (!pDX11->iNGStage1Up && !pDX11->iNGStage1Down) {
+	if (!pDX12->iNGStage1Up && !pDX12->iNGStage1Down) {
 		AfxMessageBox(_T("NG Stage1 Up/Down 센서 감지 되지 않습니다....."));
 		return;
 	}
-	if (!pDX11->iNGStage2Up && !pDX11->iNGStage2Down) {
+	if (!pDX12->iNGStage2Up && !pDX12->iNGStage2Down) {
 		AfxMessageBox(_T("NG Stage2 Up/Down 센서 감지 되지 않습니다....."));
 		return;
 	}
@@ -910,7 +910,7 @@ void CManualUnloadDlg::OnBtnNGStage1IOClick(UINT nID)
 
 	int nIndex = nID - IDC_BTN_NG_STAGE1_IO_0;
 
-	DY_DATA_11 *pDY11 = g_objAJinAXL.Get_pDY11();
+	DY_DATA_12 *pDY12 = g_objAJinAXL.Get_pDY12();
 
 	MOVE_DATA *pMoveData = g_objDataManager.Get_pMoveData();
 	EQUIP_DATA *pEquipData = g_objDataManager.Get_pEquipData();
@@ -952,14 +952,14 @@ void CManualUnloadDlg::OnBtnNGStage1IOClick(UINT nID)
 				return;
 			}
 		}
-		if (nIndex == 0) { pDY11->oNGStage1Up = TRUE;  pDY11->oNGStage1Down = FALSE; }
-		if (nIndex == 1) { pDY11->oNGStage1Up = FALSE; pDY11->oNGStage1Down = TRUE; }
+		if (nIndex == 0) { pDY12->oNGStage1Up = TRUE;  pDY12->oNGStage1Down = FALSE; }
+		if (nIndex == 1) { pDY12->oNGStage1Up = FALSE; pDY12->oNGStage1Down = TRUE; }
 
 	} else {
-		if (nIndex == 2) { pDY11->oNGStage1MasterIn = TRUE;  pDY11->oNGStage1MasterOut = FALSE; }
-		if (nIndex == 3) { pDY11->oNGStage1MasterIn = FALSE; pDY11->oNGStage1MasterOut = TRUE; }
-		if (nIndex == 4) { pDY11->oNGStage1SlaveIn = TRUE;   pDY11->oNGStage1SlaveOut = FALSE; }
-		if (nIndex == 5) { pDY11->oNGStage1SlaveIn = FALSE;  pDY11->oNGStage1SlaveOut = TRUE; }
+		if (nIndex == 2) { pDY12->oNGStage1MasterIn = TRUE;  pDY12->oNGStage1MasterOut = FALSE; }
+		if (nIndex == 3) { pDY12->oNGStage1MasterIn = FALSE; pDY12->oNGStage1MasterOut = TRUE; }
+		if (nIndex == 4) { pDY12->oNGStage1SlaveIn = TRUE;   pDY12->oNGStage1SlaveOut = FALSE; }
+		if (nIndex == 5) { pDY12->oNGStage1SlaveIn = FALSE;  pDY12->oNGStage1SlaveOut = TRUE; }
 	}
 
 	g_objAJinAXL.Write_Output(11);
@@ -975,18 +975,18 @@ void CManualUnloadDlg::OnBtnNGStage2YClick(UINT nID)
 
 	int nIndex = nID - IDC_BTN_NG_STAGE2_Y_0;
 
-	DX_DATA_11 *pDX11 = g_objAJinAXL.Get_pDX11();
+	DX_DATA_12 *pDX12 = g_objAJinAXL.Get_pDX12();
 
 	// Interlock
-	if ((pDX11->iNGStage1Up && pDX11->iNGStage2Up) || (pDX11->iNGStage1Down && pDX11->iNGStage2Down) ) {
+	if ((pDX12->iNGStage1Up && pDX12->iNGStage2Up) || (pDX12->iNGStage1Down && pDX12->iNGStage2Down) ) {
 		AfxMessageBox(_T("NG Stage 1/2 같은 높이에 있습니다....."));
 		return;
 	}
-	if (!pDX11->iNGStage1Up && !pDX11->iNGStage1Down) {
+	if (!pDX12->iNGStage1Up && !pDX12->iNGStage1Down) {
 		AfxMessageBox(_T("NG Stage1 Up/Down 센서 감지 되지 않습니다....."));
 		return;
 	}
-	if (!pDX11->iNGStage2Up && !pDX11->iNGStage2Down) {
+	if (!pDX12->iNGStage2Up && !pDX12->iNGStage2Down) {
 		AfxMessageBox(_T("NG Stage2 Up/Down 센서 감지 되지 않습니다....."));
 		return;
 	}
@@ -1010,7 +1010,7 @@ void CManualUnloadDlg::OnBtnNGStage2IOClick(UINT nID)
 
 	int nIndex = nID - IDC_BTN_NG_STAGE2_IO_0;
 
-	DY_DATA_11 *pDY11 = g_objAJinAXL.Get_pDY11();
+	DY_DATA_12 *pDY12 = g_objAJinAXL.Get_pDY12();
 
 	MOVE_DATA *pMoveData = g_objDataManager.Get_pMoveData();
 	EQUIP_DATA *pEquipData = g_objDataManager.Get_pEquipData();
@@ -1052,14 +1052,14 @@ void CManualUnloadDlg::OnBtnNGStage2IOClick(UINT nID)
 				return;
 			}
 		}
-		if (nIndex == 0) { pDY11->oNGStage2Up = TRUE;  pDY11->oNGStage2Down = FALSE; }
-		if (nIndex == 1) { pDY11->oNGStage2Up = FALSE; pDY11->oNGStage2Down = TRUE; }
+		if (nIndex == 0) { pDY12->oNGStage2Up = TRUE;  pDY12->oNGStage2Down = FALSE; }
+		if (nIndex == 1) { pDY12->oNGStage2Up = FALSE; pDY12->oNGStage2Down = TRUE; }
 
 	} else {
-		if (nIndex == 2) { pDY11->oNGStage2MasterIn = TRUE;  pDY11->oNGStage2MasterOut = FALSE; }
-		if (nIndex == 3) { pDY11->oNGStage2MasterIn = FALSE; pDY11->oNGStage2MasterOut = TRUE; }
-		if (nIndex == 4) { pDY11->oNGStage2SlaveIn = TRUE;   pDY11->oNGStage2SlaveOut = FALSE; }
-		if (nIndex == 5) { pDY11->oNGStage2SlaveIn = FALSE;  pDY11->oNGStage2SlaveOut = TRUE; }
+		if (nIndex == 2) { pDY12->oNGStage2MasterIn = TRUE;  pDY12->oNGStage2MasterOut = FALSE; }
+		if (nIndex == 3) { pDY12->oNGStage2MasterIn = FALSE; pDY12->oNGStage2MasterOut = TRUE; }
+		if (nIndex == 4) { pDY12->oNGStage2SlaveIn = TRUE;   pDY12->oNGStage2SlaveOut = FALSE; }
+		if (nIndex == 5) { pDY12->oNGStage2SlaveIn = FALSE;  pDY12->oNGStage2SlaveOut = TRUE; }
 	}
 
 	g_objAJinAXL.Write_Output(11);

@@ -105,10 +105,10 @@ typedef struct tag_MOVE_DATA {
 	double  dUnloadPickerY2[9];		// AXIS 35
 	double  dUnloadPickerZ2[9];		// AXIS 36
 	double  dUnloadPickerP2[9];		// AXIS 37
-	double  dGoodStageY1[6];		// AXIS 38
-	double  dGoodStageY2[6];		// AXIS 39
-	double  dNGStageY1[6];			// AXIS 40
-	double  dNGStageY2[6];			// AXIS 41
+	double  dNGStageY1[6];			// AXIS 38 - before  dGoodStageY1
+	double  dNGStageY2[6];			// AXIS 39 - before  dGoodStageY2
+	double  dGoodStageY1[6];		// AXIS 40 - before  dNGStageY1
+	double  dGoodStageY2[6];		// AXIS 41 - before  dNGStageY2
 	double  dShiipAling[5];			// AXIS 42
 	double  dTop1LightZ[5];			// AXIS 43
 	double  dTop1AngleY[5];			// AXIS 44
