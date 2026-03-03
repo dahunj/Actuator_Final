@@ -181,6 +181,7 @@
     <ClInclude Include="MonitorLogDlg.h" />
     <ClInclude Include="MonitorMotionDlg.h" />
     <ClInclude Include="MonitorMotionTabDlg.h" />
+    <ClInclude Include="MoveDataIdx.h" />
     <ClInclude Include="MsgBoxDlg.h" />
     <ClInclude Include="NoWorkDlg.h" />
     <ClInclude Include="NumPadDlg.h" />

@@ -75,6 +75,9 @@
 	#pragma comment(lib, "CSUdpClientR.lib")
 #endif
 
+#include "MoveDataIdx.h"
+
+
 //****************************************************************************
 #define NEW_FINAL		//Final_New(Final2호기부터적용)
 //****************************************************************************
@@ -436,167 +439,8 @@ typedef struct {
 extern  GLOVAL_INTERLOCKDATA	gIt;
 
 
-#define UNLOAD_PICKER1_X_GOOD_STAGE1_1_1 5
-#define UNLOAD_PICKER1_X_GOOD_STAGE2_1_1 6
-#define UNLOAD_PICKER1_X_NG_STAGE1_1_1 7
-#define UNLOAD_PICKER1_X_NG_STAGE2_1_1 8
-
-#define UNLOAD_PICKER1_X_GOOD_STAGE1_4_1 9
-#define UNLOAD_PICKER1_X_GOOD_STAGE1_4_10 10
-#define UNLOAD_PICKER1_X_GOOD_STAGE2_4_1 11
-#define UNLOAD_PICKER1_X_GOOD_STAGE2_4_10 12
-
-#define UNLOAD_PICKER1_X_NG_STAGE1_4_1 13
-#define UNLOAD_PICKER1_X_NG_STAGE1_4_10 14
-#define UNLOAD_PICKER1_X_NG_STAGE2_4_1 15
-#define UNLOAD_PICKER1_X_NG_STAGE2_4_10 16
-
-
-#define UNLOAD_PICKER1_Y_GOOD_STAGE1 5
-#define UNLOAD_PICKER1_Y_GOOD_STAGE2 6
-#define UNLOAD_PICKER1_Y_NG_STAGE1 7
-#define UNLOAD_PICKER1_Y_NG_STAGE2 8
 
 
 
 
-#define UNLOAD_PICKER2_X_GOOD_STAGE1_1_1 5
-#define UNLOAD_PICKER2_X_GOOD_STAGE2_1_1 6
-#define UNLOAD_PICKER2_X_NG_STAGE1_1_1 7
-#define UNLOAD_PICKER2_X_NG_STAGE2_1_1 8
 
-
-#define UNLOAD_PICKER2_X_GOOD_STAGE1_4_1 9
-#define UNLOAD_PICKER2_X_GOOD_STAGE1_4_10 10
-#define UNLOAD_PICKER2_X_GOOD_STAGE2_4_1 11
-#define UNLOAD_PICKER2_X_GOOD_STAGE2_4_10 12
-
-#define UNLOAD_PICKER2_X_NG_STAGE1_4_1 13
-#define UNLOAD_PICKER2_X_NG_STAGE1_4_10 14
-#define UNLOAD_PICKER2_X_NG_STAGE2_4_1 15
-#define UNLOAD_PICKER2_X_NG_STAGE2_4_10 16
-
-#define UNLOAD_PICKER2_Y_GOOD_STAGE1 5
-#define UNLOAD_PICKER2_Y_GOOD_STAGE2 6
-#define UNLOAD_PICKER2_Y_NG_STAGE1 7
-#define UNLOAD_PICKER2_Y_NG_STAGE2 8
-
-#define UNLOAD_PICKER1_X_VISION_STG1 1
-#define UNLOAD_PICKER1_X_VISION_STG2 2
-#define UNLOAD_PICKER1_X_VISION_STG3 3
-#define UNLOAD_PICKER1_X_VISION_STG4 4
-
-#define UNLOAD_PICKER2_X_VISION_STG1 1
-#define UNLOAD_PICKER2_X_VISION_STG2 2
-#define UNLOAD_PICKER2_X_VISION_STG3 3
-#define UNLOAD_PICKER2_X_VISION_STG4 4
-
-
-const int UNLOADPICKER1_X_Ready = 0;
-const int UNLOADPICKER1_X_InspectionStage1 = 1;
-const int UNLOADPICKER1_X_InspectionStage2 = 2;
-const int UNLOADPICKER1_X_InspectionStage3 = 3;
-const int UNLOADPICKER1_X_InspectionStage4 = 4;
-const int UNLOADPICKER1_X_NGStage1_1_1 = 5;
-const int UNLOADPICKER1_X_NGStage2_1_1 = 6;
-const int UNLOADPICKER1_X_GoodStage1_1_1 = 7;
-const int UNLOADPICKER1_X_GoodStage2_1_1 = 8;
-const int UNLOADPICKER1_X_NGStage1_1_4 = 9;
-const int UNLOADPICKER1_X_NGStage1_1_10 = 10;
-const int UNLOADPICKER1_X_NGStage2_1_4 = 11;
-const int UNLOADPICKER1_X_NGStage2_1_10 = 12;
-const int UNLOADPICKER1_X_GoodStage1_1_4 = 13;
-const int UNLOADPICKER1_X_GoodStage1_1_10 = 14;
-const int UNLOADPICKER1_X_GoodStage2_1_4 = 15;
-const int UNLOADPICKER1_X_GoodStage2_1_10 = 16;
-
-const int UNLOADPICKER1_Y_Ready = 0;
-const int UNLOADPICKER1_Y_InspectionStage1 = 1;
-const int UNLOADPICKER1_Y_InspectionStage2 = 2;
-const int UNLOADPICKER1_Y_InspectionStage3 = 3;
-const int UNLOADPICKER1_Y_InspectionStage4 = 4;
-const int UNLOADPICKER1_Y_NgStage1 = 5;
-const int UNLOADPICKER1_Y_NgStage2 = 6;
-const int UNLOADPICKER1_Y_GoodStage1 = 7;
-const int UNLOADPICKER1_Y_GoodStage2 = 8;
-
-const int UNLOADPICKER1_Z_Ready = 0;
-const int UNLOADPICKER1_Z_InspectionStage1 = 1;
-const int UNLOADPICKER1_Z_InspectionStage2 = 2;
-const int UNLOADPICKER1_Z_InspectionStage3 = 3;
-const int UNLOADPICKER1_Z_InspectionStage4 = 4;
-const int UNLOADPICKER1_Z_NgStage1 = 5;
-const int UNLOADPICKER1_Z_NgStage2 = 6;
-const int UNLOADPICKER1_Z_GoodStage1 = 7;
-const int UNLOADPICKER1_Z_GoodStage2 = 8;
-
-const int UNLOADPICKER1_P_InspectionStage = 0;
-const int UNLOADPICKER1_P_NGStage = 1;
-const int UNLOADPICKER1_P_GoodStage = 2;
-
-
-const int UNLOADPICKER2_X_Ready = 0;
-const int UNLOADPICKER2_X_InspectionStage1 = 1;
-const int UNLOADPICKER2_X_InspectionStage2 = 2;
-const int UNLOADPICKER2_X_InspectionStage3 = 3;
-const int UNLOADPICKER2_X_InspectionStage4 = 4;
-const int UNLOADPICKER2_X_NGStage1_1_1 = 5;
-const int UNLOADPICKER2_X_NGStage2_1_1 = 6;
-const int UNLOADPICKER2_X_GoodStage1_1_1 = 7;
-const int UNLOADPICKER2_X_GoodStage2_1_1 = 8;
-const int UNLOADPICKER2_X_NGStage1_1_4 = 9;
-const int UNLOADPICKER2_X_NGStage1_1_10 = 10;
-const int UNLOADPICKER2_X_NGStage2_1_4 = 11;
-const int UNLOADPICKER2_X_NGStage2_1_10 = 12;
-const int UNLOADPICKER2_X_GoodStage1_1_4 = 13;
-const int UNLOADPICKER2_X_GoodStage1_1_10 = 14;
-const int UNLOADPICKER2_X_GoodStage2_1_4 = 15;
-const int UNLOADPICKER2_X_GoodStage2_1_10 = 16;
-
-const int UNLOADPICKER2_Y_Ready = 0;
-const int UNLOADPICKER2_Y_InspectionStage1 = 1;
-const int UNLOADPICKER2_Y_InspectionStage2 = 2;
-const int UNLOADPICKER2_Y_InspectionStage3 = 3;
-const int UNLOADPICKER2_Y_InspectionStage4 = 4;
-const int UNLOADPICKER2_Y_NgStage1 = 5;
-const int UNLOADPICKER2_Y_NgStage2 = 6;
-const int UNLOADPICKER2_Y_GoodStage1 = 7;
-const int UNLOADPICKER2_Y_GoodStage2 = 8;
-
-const int UNLOADPICKER2_Z_Ready = 0;
-const int UNLOADPICKER2_Z_InspectionStage1 = 1;
-const int UNLOADPICKER2_Z_InspectionStage2 = 2;
-const int UNLOADPICKER2_Z_InspectionStage3 = 3;
-const int UNLOADPICKER2_Z_InspectionStage4 = 4;
-const int UNLOADPICKER2_Z_NgStage1 = 5;
-const int UNLOADPICKER2_Z_NgStage2 = 6;
-const int UNLOADPICKER2_Z_GoodStage1 = 7;
-const int UNLOADPICKER2_Z_GoodStage2 = 8;
-
-const int UNLOADPICKER2_P_InspectionStage = 0;
-const int UNLOADPICKER2_P_NGStage = 1;
-const int UNLOADPICKER2_P_GoodStage = 2;
-
-const int INSPECT_STAGE1_X_AlignPos		= 0;
-const int INSPECT_STAGE1_X_Top1Pos		= 1;
-const int INSPECT_STAGE1_X_Top2Pos		= 2;
-const int INSPECT_STAGE1_X_BufferPos	= 4;
-const int INSPECT_STAGE1_X_UnloadPos	= 3;
-
-const int INSPECT_STAGE2_X_AlignPos		= 0;
-const int INSPECT_STAGE2_X_Top1Pos		= 1;
-const int INSPECT_STAGE2_X_Top2Pos		= 2;
-const int INSPECT_STAGE2_X_BufferPos	= 4;
-const int INSPECT_STAGE2_X_UnloadPos	= 3;
-
-const int INSPECT_STAGE3_X_AlignPos		= 0;
-const int INSPECT_STAGE3_X_Top1Pos		= 1;
-const int INSPECT_STAGE3_X_Top2Pos		= 2;
-const int INSPECT_STAGE3_X_BufferPos	= 4;
-const int INSPECT_STAGE3_X_UnloadPos	= 3;
-
-const int INSPECT_STAGE4_X_AlignPos		= 0;
-const int INSPECT_STAGE4_X_Top1Pos		= 1;
-const int INSPECT_STAGE4_X_Top2Pos		= 2;
-const int INSPECT_STAGE4_X_BufferPos	= 4;
-const int INSPECT_STAGE4_X_UnloadPos	= 3;
