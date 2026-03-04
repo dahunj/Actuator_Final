@@ -574,8 +574,8 @@ BOOL CSequenceMain::Check_Transfer2(int &nFrom, int &nToTarget, int &nPortNo)
 	nFrom = nToTarget = nPortNo = 0;
 	if ((m_nGoodStage1Case == 60 && m_pDX11->iGoodStage1TrayExist) ||
 		(m_nGoodStage2Case == 60 && m_pDX11->iGoodStage2TrayExist)) {
-		if (m_nGoodStage1Case == 60) { nFrom = 12; nPortNo = gData.nPortNo_GoodTray[0]; }
-		if (m_nGoodStage2Case == 60) { nFrom = 13; nPortNo = gData.nPortNo_GoodTray[1]; }
+		if (m_nGoodStage1Case == 60) { nFrom = Transfer2_X::GoodStage1+4; nPortNo = gData.nPortNo_GoodTray[0]; }
+		if (m_nGoodStage2Case == 60) { nFrom = Transfer2_X::GoodStage2+4; nPortNo = gData.nPortNo_GoodTray[1]; }
 
 		if (nPortNo >= 1 && nPortNo <= 3 && gData.nElevatGDTray[0] != 2) nToTarget = 8;
 		if (nPortNo >= 4 && nPortNo <= 6 && gData.nElevatGDTray[1] != 2) nToTarget = 9;
@@ -589,9 +589,10 @@ BOOL CSequenceMain::Check_Transfer2(int &nFrom, int &nToTarget, int &nPortNo)
 	//4순위 NG-Stage 12  -> Buffer NG(E5)
 	nFrom = nToTarget = nPortNo = 0;
 	if ((m_nNGStage1Case == 60 && m_pDX12->iNGStage1TrayExist) ||
-		(m_nNGStage2Case == 60 && m_pDX12->iNGStage2TrayExist)) {
-		if (m_nNGStage1Case == 60) { nFrom = 10; nPortNo = gData.nPortNo_NGTray[0]; sLogID = gData.sLotID_NGTray[0]; nSNo = 1; }
-		if (m_nNGStage2Case == 60) { nFrom = 11; nPortNo = gData.nPortNo_NGTray[1]; sLogID = gData.sLotID_NGTray[1]; nSNo = 2; }
+		(m_nNGStage2Case == 60 && m_pDX12->iNGStage2TrayExist)) 
+	{
+		if (m_nNGStage1Case == 60) { nFrom = Transfer2_X::NgStage1+4; nPortNo = gData.nPortNo_NGTray[0]; sLogID = gData.sLotID_NGTray[0]; nSNo = 1; }
+		if (m_nNGStage2Case == 60) { nFrom = Transfer2_X::NgStage2+4; nPortNo = gData.nPortNo_NGTray[1]; sLogID = gData.sLotID_NGTray[1]; nSNo = 2; }
 
 		if (gData.nNGLot_NGBuffer != 1) { nToTarget = 7; return TRUE; }
 	}
@@ -600,14 +601,14 @@ BOOL CSequenceMain::Check_Transfer2(int &nFrom, int &nToTarget, int &nPortNo)
 
 	//5순위 Empty-Good   -> Good-Stage 12
 	nFrom = nToTarget = nPortNo = 0;
-	if (m_nGoodStage1Case == 0 && !m_pDX11->iGoodStage1TrayExist) { nFrom = 6; nToTarget = 12; nPortNo = gData.nPortNo_GoodTray[0]; }
-	if (m_nGoodStage2Case == 0 && !m_pDX11->iGoodStage2TrayExist) { nFrom = 6; nToTarget = 13; nPortNo = gData.nPortNo_GoodTray[1]; }
+	if (m_nGoodStage1Case == 0 && !m_pDX11->iGoodStage1TrayExist) { nFrom = 6; nToTarget = Transfer2_X::GoodStage1+4; nPortNo = gData.nPortNo_GoodTray[0]; }
+	if (m_nGoodStage2Case == 0 && !m_pDX11->iGoodStage2TrayExist) { nFrom = 6; nToTarget = Transfer2_X::GoodStage2+4; nPortNo = gData.nPortNo_GoodTray[1]; }
 	if (nFrom > 0 && nToTarget > 0) return TRUE;
 
 	//6순위 Empty-NG     -> NG-Stage 12
 	nFrom = nToTarget = nPortNo = 0;
-	if (m_nNGStage1Case == 0 && !m_pDX12->iNGStage1TrayExist) {	nFrom = 5;	nToTarget = 10; nPortNo = gData.nPortNo_NGTray[0]; }
-	if (m_nNGStage2Case == 0 && !m_pDX12->iNGStage2TrayExist) {	nFrom = 5;	nToTarget = 11; nPortNo = gData.nPortNo_NGTray[1]; }
+	if (m_nNGStage1Case == 0 && !m_pDX12->iNGStage1TrayExist) {	nFrom = 5;	nToTarget = Transfer2_X::NgStage1+4; nPortNo = gData.nPortNo_NGTray[0]; }
+	if (m_nNGStage2Case == 0 && !m_pDX12->iNGStage2TrayExist) {	nFrom = 5;	nToTarget = Transfer2_X::NgStage2+4; nPortNo = gData.nPortNo_NGTray[1]; }
 	if (nFrom > 0 && nToTarget > 0) return TRUE;
 
 	return FALSE;
@@ -3785,8 +3786,8 @@ BOOL CSequenceMain::Run_Transfer2()
 			if (gData.nTransferX2Pos ==  5) nPosZ =  1;	//Up Empty-NG (5)
 			if (gData.nTransferX2Pos ==  6) nPosZ =  2;	//Up Empty-Good (6)
 			if (gData.nTransferX2Pos ==  7) nPosZ = 10;	//Up Buffer NG (7)
-			if (gData.nTransferX2Pos == 10) nPosZ = 11;	//Up NG-Stage 1 (10)
-			if (gData.nTransferX2Pos == 11) nPosZ = 12;	//Up NG-Stage 2 (11)
+			if (gData.nTransferX2Pos == Transfer2_X::GoodStage1+4) nPosZ = 11;	//Up NG-Stage 1 (10)
+			if (gData.nTransferX2Pos == Transfer2_X::GoodStage2+4) nPosZ = 12;	//Up NG-Stage 2 (11)
 			if (gData.nTransferX2Pos == 12) nPosZ = 13;	//Up Good-Stage 1 (12)
 			if (gData.nTransferX2Pos == 13) nPosZ = 14;	//Up Good-Stage 2 (13)
 

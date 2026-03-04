@@ -9,7 +9,13 @@ struct Transfer2_X
 		EmptyGood_E4	= 2,
 		NgBuffer_E5		= 3,
 		
-		NgStage1		= 6,
+	
+		/*GoodStage1		= 6,
+		GoodStage2		= 7,
+		NgStage1		= 8,
+		NgStage2		= 9,*/
+
+		NgStage1	= 6,
 		NgStage2		= 7,
 		GoodStage1		= 8,
 		GoodStage2		= 9,
@@ -23,6 +29,19 @@ struct Transfer2_X
 		Unload2_E5_E7	= 13, 
 	};
 };
+
+
+struct Transfer2_Z 
+{
+	enum dtName
+	{
+		NgStage1_Up = 11,
+		NgStage2_Up = 12,
+		GoodStage1_Up = 13,
+		GoodStage2_Up = 14, 
+	};
+};
+
 
 
 struct UnloadPicker1_X
