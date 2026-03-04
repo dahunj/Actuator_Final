@@ -1,5 +1,30 @@
 
 //Move data index
+
+struct Transfer2_X 
+{
+	enum dtName
+	{
+		EmptyNG_E3		= 1,
+		EmptyGood_E4	= 2,
+		NgBuffer_E5		= 3,
+		
+		NgStage1		= 6,
+		NgStage2		= 7,
+		GoodStage1		= 8,
+		GoodStage2		= 9,
+		
+		Unload1_GN_E6	= 4,
+		Unload1_E3_E6	= 10,
+		Unload1_E5_E6	= 11,
+
+		Unload2_GN_E7	= 5,
+		Unload2_E3_E7	= 12,
+		Unload2_E5_E7	= 13, 
+	};
+};
+
+
 struct UnloadPicker1_X
 {
 	enum dtName
