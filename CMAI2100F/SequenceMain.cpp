@@ -10604,12 +10604,13 @@ BOOL CSequenceMain::Run_UnloadPicker2()
 		}
 		break;
 	case 41:
-		if (g_objCommon.Check_Position(AX_UNLOAD_PICKER_Z2, 0) && g_objCommon.Check_Position(AX_UNLOAD_PICKER_Y2, 0) ) {
-			g_objCommon.Save_Motion(AX_UNLOAD_PICKER_Z2, 0);
-			g_objCommon.Save_Motion(AX_UNLOAD_PICKER_Y2, 0);
+		if (g_objCommon.Check_Position(AX_UNLOAD_PICKER_Z2, UnloadPicker2_Z::Ready) 
+			&& g_objCommon.Check_Position(AX_UNLOAD_PICKER_Y2, UnloadPicker2_Y::Ready) ) {
+			g_objCommon.Save_Motion(AX_UNLOAD_PICKER_Z2, UnloadPicker2_Z::Ready);
+			g_objCommon.Save_Motion(AX_UNLOAD_PICKER_Y2, UnloadPicker2_Y::Ready);
 			m_tUnloadPicker2Loop.Takt_Save(19, 20); m_tUnloadPicker2Loop.Takt_Start(19, 21); 
-			g_objCommon.Move_Position(AX_UNLOAD_PICKER_X2, 1);
-			g_objCommon.Move_Position(AX_UNLOAD_PICKER_P2, 0);
+			g_objCommon.Move_Position(AX_UNLOAD_PICKER_X2, UnloadPicker2_X::InspectStage1);
+			g_objCommon.Move_Position(AX_UNLOAD_PICKER_P2, UnloadPicker2_P::InspectStage);
 			m_nUnloadPicker2Case = 43; m_tUnloadPicker2Loop.Set_LoopTime(30000);
 		}
 		break;
