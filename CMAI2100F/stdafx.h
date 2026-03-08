@@ -84,9 +84,9 @@
 #define AJIN_BOARD_USE
 
 #ifdef NEW_FINAL
-	#define MAIN_VERSION	"Vf2 3.0.7"
+	#define MAIN_VERSION	"Vf2 3.0.8"
 #else
-	#define MAIN_VERSION	"Vf1 3.0.7"
+	#define MAIN_VERSION	"Vf1 3.0.8"
 #endif
 #define MES_WAITTIME	30000//5000	//10√ 
 #define MAX_CM			640
