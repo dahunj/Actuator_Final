@@ -98,10 +98,10 @@ struct UnloadPicker1_Z
 		InspectStage2  = 2,
 		InspectStage3 = 3,
 		InspectStage4 = 4,
-		NgStage1	= 5,
-		NgStage2	= 6,
-		GoodStage1	= 7,
-		GoodStage2	= 8,
+		GoodStage1	= 5,
+		GoodStage2	= 6,
+		NgStage1	= 7,
+		NgStage2	= 8,
 	};
 };
 
@@ -112,8 +112,8 @@ struct UnloadPicker1_P
 	{
 
 		InspectStage = 0,
-		NgStage	= 1,
-		GoodStage	= 2,
+		GoodStage	= 1,
+		NgStage	= 2,
 	};
 };
 
@@ -173,10 +173,10 @@ struct UnloadPicker2_Z
 		InspectStage2  = 2,
 		InspectStage3 = 3,
 		InspectStage4 = 4,
-		NgStage1	= 5,
-		NgStage2	= 6,
-		GoodStage1	= 7,
-		GoodStage2	= 8,
+		GoodStage1	= 5,
+		GoodStage2	= 6,
+		NgStage1	= 7,
+		NgStage2	= 8,
 	};
 };
 
@@ -187,8 +187,8 @@ struct UnloadPicker2_P
 	{
 
 		InspectStage = 0,
-		NgStage	= 1,
-		GoodStage	= 2,
+		GoodStage	= 1,
+		NgStage	= 2,
 	};
 };
 
