@@ -3786,11 +3786,11 @@ BOOL CSequenceMain::Run_Transfer2()
 			if (gData.nTransferX2Pos ==  5) nPosZ =  1;	//Up Empty-NG (5)
 			if (gData.nTransferX2Pos ==  6) nPosZ =  2;	//Up Empty-Good (6)
 			if (gData.nTransferX2Pos ==  7) nPosZ = 10;	//Up Buffer NG (7)
-			if (gData.nTransferX2Pos == Transfer2_X::GoodStage1+4) nPosZ = 11;	//Up NG-Stage 1 (10)
-			if (gData.nTransferX2Pos == Transfer2_X::GoodStage2+4) nPosZ = 12;	//Up NG-Stage 2 (11)
-			if (gData.nTransferX2Pos == 12) nPosZ = 13;	//Up Good-Stage 1 (12)
-			if (gData.nTransferX2Pos == 13) nPosZ = 14;	//Up Good-Stage 2 (13)
-
+			if (gData.nTransferX2Pos == Transfer2_X::NgStage1+4) nPosZ = Transfer2_Z::NgStage1_Up;	//Up NG-Stage 1 (10)
+			if (gData.nTransferX2Pos == Transfer2_X::NgStage2+4) nPosZ = Transfer2_Z::NgStage2_Up;	//Up NG-Stage 2 (11)
+			if (gData.nTransferX2Pos == Transfer2_X::GoodStage1+4) nPosZ = Transfer2_Z::GoodStage1_Up;	//Up Good-Stage 1 (12)
+			if (gData.nTransferX2Pos == Transfer2_X::GoodStage2+4) nPosZ = Transfer2_Z::GoodStage2_Up;	//Up Good-Stage 2 (13)
+			
 			g_objCommon.Move_Position(AX_TRANSFER_X2, nPosX);
 			m_nTransfer2Case++; m_tTransfer2Loop.Set_LoopTime(30000);
 		}
@@ -9515,7 +9515,7 @@ BOOL CSequenceMain::Run_UnloadPicker1()
 		break;
 
 	case 10:
-		if (m_nUnloadPicker2Case > 33 && m_nUnloadPicker2Case < 70)
+		if (m_nUnloadPicker2Case > 42 && m_nUnloadPicker2Case < 70)
 		{
 			g_objCommon.Move_Position(AX_UNLOAD_PICKER_X1, UnloadPicker1_X::GoodStage1_1_1);
 			g_objCommon.Move_Position(AX_UNLOAD_PICKER_P1, 1);
@@ -9591,7 +9591,7 @@ BOOL CSequenceMain::Run_UnloadPicker1()
 		return TRUE;
 
 	case 18:
-		if (m_nUnloadPicker2Case < 14 || (m_nUnloadPicker2Case > 29 && m_nUnloadPicker2Case < 70)) {
+		if (m_nUnloadPicker2Case < 14 || (m_nUnloadPicker2Case > 42 && m_nUnloadPicker2Case < 70)) {
 			if (m_nNGStage1Case == 30 || m_nNGStage2Case == 30) {
 				m_nUnloadPicker1Case = 14; m_tUnloadPicker1Loop.Set_LoopTime(30000);
 			}
@@ -9870,8 +9870,8 @@ BOOL CSequenceMain::Run_UnloadPicker1()
 //				d1PosX = d1PosX + (m_pEquipData->dTrayPitchX * (n1ModuleNo - n1PosX));
 				d1PosX = d1PosX + (m_pEquipData->dTrayPitchX * (n1ModuleNo - 1));
 				g_objAJinAXL.Move_Absolute(AX_UNLOAD_PICKER_X1, d1PosX);
-				if (n1NSNo == UnloadPicker1_X::GoodStage1_1_1) g_objAJinAXL.Move_Absolute(AX_GOOD_STAGE_Y1, d1PosY);
-				if (n1NSNo == UnloadPicker1_X::GoodStage2_1_1) g_objAJinAXL.Move_Absolute(AX_GOOD_STAGE_Y2, d1PosY);
+				if (n1NSNo == UnloadPicker1_Y::GoodStage1) g_objAJinAXL.Move_Absolute(AX_GOOD_STAGE_Y1, d1PosY);
+				if (n1NSNo == UnloadPicker1_Y::GoodStage2) g_objAJinAXL.Move_Absolute(AX_GOOD_STAGE_Y2, d1PosY);
 				m_nUnloadPicker1Case++; m_tUnloadPicker1Loop.Set_LoopTime(30000);
 
 				m_sLog.Format("A2 Data [Picker:%d Job:%d] PosX(%0.3lf) (%d,%d)", n1No, (n1NSNo-4), d1PosX, n1ModuleNo, n1PosX);
@@ -9892,8 +9892,8 @@ BOOL CSequenceMain::Run_UnloadPicker1()
 		}
 		break;
 	case 34:
-		if ((n1NSNo==UnloadPicker1_X::GoodStage1_1_1 && g_objAJinAXL.Is_MoveDone(AX_GOOD_STAGE_Y1, d1PosY)) ||
-			(n1NSNo==UnloadPicker1_X::GoodStage2_1_1 && g_objAJinAXL.Is_MoveDone(AX_GOOD_STAGE_Y2, d1PosY)) ) 
+		if ((n1NSNo==UnloadPicker1_Y::GoodStage1 && g_objAJinAXL.Is_MoveDone(AX_GOOD_STAGE_Y1, d1PosY)) ||
+			(n1NSNo==UnloadPicker1_Y::GoodStage2 && g_objAJinAXL.Is_MoveDone(AX_GOOD_STAGE_Y2, d1PosY)) ) 
 		{
 			m_sLog.Format("MCC,18,UnloadPicker1(GoodStage1),%d,Move Done to empty pocket position for receiving Good,target : %0.3lf, actual : %0.3lf", m_nUnloadPicker1Case, 
 				d1PosY, g_objAJinAXL.Get_Position(AX_GOOD_STAGE_Y1));
@@ -10189,8 +10189,8 @@ BOOL CSequenceMain::Run_UnloadPicker2()
 		break;
 
 	case 10:
-		if (m_nUnloadPicker1Case > 33 && m_nUnloadPicker1Case < 70) {
-			g_objCommon.Move_Position(AX_UNLOAD_PICKER_X2, 5);
+		if (m_nUnloadPicker1Case > 42 && m_nUnloadPicker1Case < 70) {
+			g_objCommon.Move_Position(AX_UNLOAD_PICKER_X2, UnloadPicker2_X::GoodStage1_1_1);
 			g_objCommon.Move_Position(AX_UNLOAD_PICKER_P2, 1);
 			m_nUnloadPicker2Case++; m_tUnloadPicker2Loop.Set_LoopTime(30000);
 		}
@@ -10256,7 +10256,7 @@ BOOL CSequenceMain::Run_UnloadPicker2()
 		return TRUE;
 
 	case 18:
-		if (m_nUnloadPicker1Case < 14 || (m_nUnloadPicker1Case > 29 && m_nUnloadPicker1Case < 70)) {
+		if (m_nUnloadPicker1Case < 14 || (m_nUnloadPicker1Case > 42 && m_nUnloadPicker1Case < 70)) {
 			if (m_nNGStage1Case == 30 || m_nNGStage2Case == 30) {
 				m_nUnloadPicker2Case = 14; m_tUnloadPicker2Loop.Set_LoopTime(30000);
 			}
@@ -10510,8 +10510,8 @@ BOOL CSequenceMain::Run_UnloadPicker2()
 //				d2PosX = d2PosX + (m_pEquipData->dTrayPitchX * (n2ModuleNo - n2PosX));
 				d2PosX = d2PosX + (m_pEquipData->dTrayPitchX * (n2ModuleNo - 1));
 				g_objAJinAXL.Move_Absolute(AX_UNLOAD_PICKER_X2, d2PosX);
-				if (n2NSNo==7) g_objAJinAXL.Move_Absolute(AX_GOOD_STAGE_Y1, d2PosY);
-				if (n2NSNo==8) g_objAJinAXL.Move_Absolute(AX_GOOD_STAGE_Y2, d2PosY);
+				if (n2NSNo==UnloadPicker2_Y::GoodStage1) g_objAJinAXL.Move_Absolute(AX_GOOD_STAGE_Y1, d2PosY);
+				if (n2NSNo==UnloadPicker2_Y::GoodStage2) g_objAJinAXL.Move_Absolute(AX_GOOD_STAGE_Y2, d2PosY);
 				m_nUnloadPicker2Case++; m_tUnloadPicker2Loop.Set_LoopTime(30000);
 
 				m_sLog.Format("A2 Data [Picker:%d Job:%d] PosX(%0.3lf) (%d,%d)", n2No, (n2NSNo-4), d2PosX, n2ModuleNo, n2PosX);
@@ -10531,8 +10531,8 @@ BOOL CSequenceMain::Run_UnloadPicker2()
 		}
 		break;
 	case 34:
-		if ((n2NSNo==UnloadPicker2_X::GoodStage1_1_1 && g_objAJinAXL.Is_MoveDone(AX_GOOD_STAGE_Y1, d2PosY)) ||
-			(n2NSNo==UnloadPicker2_X::GoodStage2_1_1 && g_objAJinAXL.Is_MoveDone(AX_GOOD_STAGE_Y2, d2PosY)) ) 
+		if ((n2NSNo==UnloadPicker2_Y::GoodStage1 && g_objAJinAXL.Is_MoveDone(AX_GOOD_STAGE_Y1, d2PosY)) ||
+			(n2NSNo==UnloadPicker2_Y::GoodStage2 && g_objAJinAXL.Is_MoveDone(AX_GOOD_STAGE_Y2, d2PosY)) ) 
 		{
 			m_sLog.Format("MCC,19,UnloadPicker2(GoodStage1),%d,Move Done to empty pocket position for receiving Good,target : %0.3lf, actual : %0.3lf", m_nUnloadPicker2Case, 
 				d2PosY, g_objAJinAXL.Get_Position(AX_GOOD_STAGE_Y1));
@@ -10707,7 +10707,7 @@ BOOL CSequenceMain::Run_NGStage1()
 			gNG->nTrayOX[NG_STAGE][0] = 1;
 			m_tNGStage1Loop.Takt_Start(20, 1, TRUE); 
 			m_pDY12->oNGStage1MasterIn = TRUE; m_pDY12->oNGStage1MasterOut = FALSE;
-			g_objAJinAXL.Write_Output(11);
+			g_objAJinAXL.Write_Output(12);
 			m_nNGStage1Case++; m_tNGStage1Loop.Set_LoopTime(5000);
 		}
 		break;
@@ -10716,7 +10716,7 @@ BOOL CSequenceMain::Run_NGStage1()
 		{
 			m_tNGStage1Loop.Takt_Save(20, 1); m_tNGStage1Loop.Takt_Start(20, 2); 
 			m_pDY12->oNGStage1SlaveIn = TRUE; m_pDY12->oNGStage1SlaveOut = FALSE;
-			g_objAJinAXL.Write_Output(11);
+			g_objAJinAXL.Write_Output(12);
 			m_nNGStage1Case++; m_tNGStage1Loop.Set_LoopTime(5000);
 		}
 		break;
@@ -10804,7 +10804,7 @@ BOOL CSequenceMain::Run_NGStage1()
 		if (m_nNGStage2Case < 30 || m_nNGStage2Case >= 50) {
 			m_tNGStage1Loop.Takt_Save(20, 8); m_tNGStage1Loop.Takt_Start(20, 9); 
 			m_pDY12->oNGStage1Up = FALSE; m_pDY12->oNGStage1Down = TRUE;
-			g_objAJinAXL.Write_Output(11);
+			g_objAJinAXL.Write_Output(12);
 			m_nNGStage1Case++; m_tNGStage1Loop.Set_LoopTime(10000);
 
 			int nNGCount = Get_NGCmCount(1);
@@ -10843,7 +10843,7 @@ BOOL CSequenceMain::Run_NGStage1()
 		if (m_nNGStage2Case > 22 && m_nNGStage2Case < 50) {
 			m_tNGStage1Loop.Takt_Save(20, 12); m_tNGStage1Loop.Takt_Start(20, 13); 
 			m_pDY12->oNGStage1Up = TRUE; m_pDY12->oNGStage1Down = FALSE;
-			g_objAJinAXL.Write_Output(11);
+			g_objAJinAXL.Write_Output(12);
 			m_nNGStage1Case++; m_tNGStage1Loop.Set_LoopTime(30000);
 		}
 		return TRUE;
@@ -10851,7 +10851,7 @@ BOOL CSequenceMain::Run_NGStage1()
 		if (m_pDX12->iNGStage1Up && !m_pDX12->iNGStage1Down) {
 			m_tNGStage1Loop.Takt_Save(20, 13); m_tNGStage1Loop.Takt_Start(20, 14); 
 			m_pDY12->oNGStage1SlaveIn = FALSE; m_pDY12->oNGStage1SlaveOut = TRUE;
-			g_objAJinAXL.Write_Output(11);
+			g_objAJinAXL.Write_Output(12);
 			m_nNGStage1Case++; m_tNGStage1Loop.Set_LoopTime(5000);
 		}
 		break;
@@ -10859,7 +10859,7 @@ BOOL CSequenceMain::Run_NGStage1()
 		if (!m_pDX12->iNGStage1SlaveIn && m_pDX12->iNGStage1SlaveOut) {
 			m_tNGStage1Loop.Takt_Save(20, 14); m_tNGStage1Loop.Takt_Start(20, 15); 
 			m_pDY12->oNGStage1MasterIn = FALSE; m_pDY12->oNGStage1MasterOut = TRUE;
-			g_objAJinAXL.Write_Output(11);
+			g_objAJinAXL.Write_Output(12);
 			m_nNGStage1Case++; m_tNGStage1Loop.Set_LoopTime(5000);
 		}
 		break;
@@ -10923,7 +10923,7 @@ BOOL CSequenceMain::Run_NGStage2()
 			gNG->nTrayOX[NG_STAGE][1] = 1;
 			m_tNGStage2Loop.Takt_Start(21, 1, TRUE); 
 			m_pDY12->oNGStage2MasterIn = TRUE; m_pDY12->oNGStage2MasterOut = FALSE;
-			g_objAJinAXL.Write_Output(11);
+			g_objAJinAXL.Write_Output(12);
 			m_nNGStage2Case++; m_tNGStage2Loop.Set_LoopTime(5000);
 		}
 		break;
@@ -10931,7 +10931,7 @@ BOOL CSequenceMain::Run_NGStage2()
 		if (m_pDX12->iNGStage2MasterIn && !m_pDX12->iNGStage2MasterOut) {
 			m_tNGStage2Loop.Takt_Save(21, 1); m_tNGStage2Loop.Takt_Start(21, 2); 
 			m_pDY12->oNGStage2SlaveIn = TRUE; m_pDY12->oNGStage2SlaveOut = FALSE;
-			g_objAJinAXL.Write_Output(11);
+			g_objAJinAXL.Write_Output(12);
 			m_nNGStage2Case++; m_tNGStage2Loop.Set_LoopTime(5000);
 		}
 		break;
@@ -11017,7 +11017,7 @@ BOOL CSequenceMain::Run_NGStage2()
 		if (m_nNGStage1Case < 30 || m_nNGStage1Case >= 50) {
 			m_tNGStage2Loop.Takt_Save(21, 8); m_tNGStage2Loop.Takt_Start(21, 9); 
 			m_pDY12->oNGStage2Up = FALSE; m_pDY12->oNGStage2Down = TRUE;
-			g_objAJinAXL.Write_Output(11);
+			g_objAJinAXL.Write_Output(12);
 			m_nNGStage2Case++; m_tNGStage2Loop.Set_LoopTime(10000);
 
 			int nNGCount = Get_NGCmCount(2);
@@ -11056,7 +11056,7 @@ BOOL CSequenceMain::Run_NGStage2()
 		if (m_nNGStage1Case > 22 && m_nNGStage1Case < 50) {
 			m_tNGStage2Loop.Takt_Save(21, 12); m_tNGStage2Loop.Takt_Start(21, 13); 
 			m_pDY12->oNGStage2Up = TRUE; m_pDY12->oNGStage2Down = FALSE;
-			g_objAJinAXL.Write_Output(11);
+			g_objAJinAXL.Write_Output(12);
 			m_nNGStage2Case++; m_tNGStage2Loop.Set_LoopTime(30000);
 		}
 		return TRUE;
@@ -11064,7 +11064,7 @@ BOOL CSequenceMain::Run_NGStage2()
 		if (m_pDX12->iNGStage2Up && !m_pDX12->iNGStage2Down) {
 			m_tNGStage2Loop.Takt_Save(21, 13); m_tNGStage2Loop.Takt_Start(21, 14); 
 			m_pDY12->oNGStage2SlaveIn = FALSE; m_pDY12->oNGStage2SlaveOut = TRUE;
-			g_objAJinAXL.Write_Output(11);
+			g_objAJinAXL.Write_Output(12);
 			m_nNGStage2Case++; m_tNGStage2Loop.Set_LoopTime(5000);
 		}
 		break;
@@ -11072,7 +11072,7 @@ BOOL CSequenceMain::Run_NGStage2()
 		if (!m_pDX12->iNGStage2SlaveIn && m_pDX12->iNGStage2SlaveOut) {
 			m_tNGStage2Loop.Takt_Save(21, 14); m_tNGStage2Loop.Takt_Start(21, 15); 
 			m_pDY12->oNGStage2MasterIn = FALSE; m_pDY12->oNGStage2MasterOut = TRUE;
-			g_objAJinAXL.Write_Output(11);
+			g_objAJinAXL.Write_Output(12);
 			m_nNGStage2Case++; m_tNGStage2Loop.Set_LoopTime(5000);
 		}
 		break;
@@ -11136,7 +11136,7 @@ BOOL CSequenceMain::Run_GoodStage1()
 			gNG->nTrayOX[GOOD_STAGE][0] = 1;
 			m_tGoodStage1Loop.Takt_Start(22, 1, TRUE);
 			m_pDY11->oGoodStage1MasterIn = TRUE; m_pDY11->oGoodStage1MasterOut = FALSE;
-			g_objAJinAXL.Write_Output(12);
+			g_objAJinAXL.Write_Output(11);
 			m_nGoodStage1Case++; m_tGoodStage1Loop.Set_LoopTime(5000);
 		}
 		break;
@@ -11144,7 +11144,7 @@ BOOL CSequenceMain::Run_GoodStage1()
 		if (m_pDX11->iGoodStage1MasterIn && !m_pDX11->iGoodStage1MasterOut) {
 			m_tGoodStage1Loop.Takt_Save(22, 1); m_tGoodStage1Loop.Takt_Start(22, 2); 
 			m_pDY11->oGoodStage1SlaveIn = TRUE; m_pDY11->oGoodStage1SlaveOut = FALSE;
-			g_objAJinAXL.Write_Output(12);
+			g_objAJinAXL.Write_Output(11);
 			m_nGoodStage1Case++; m_tGoodStage1Loop.Set_LoopTime(5000);
 		}
 		break;
@@ -11229,7 +11229,7 @@ BOOL CSequenceMain::Run_GoodStage1()
 		if (m_nGoodStage2Case < 30 || m_nGoodStage2Case >= 50) {
 			m_tGoodStage1Loop.Takt_Save(22, 8); m_tGoodStage1Loop.Takt_Start(22, 9); 
 			m_pDY11->oGoodStage1Up = FALSE; m_pDY11->oGoodStage1Down = TRUE;
-			g_objAJinAXL.Write_Output(12);
+			g_objAJinAXL.Write_Output(11);
 			m_nGoodStage1Case++; m_tGoodStage1Loop.Set_LoopTime(10000);
 		}
 		return TRUE;
@@ -11264,7 +11264,7 @@ BOOL CSequenceMain::Run_GoodStage1()
 		if (m_nGoodStage2Case > 22 && m_nGoodStage2Case < 50) {
 			m_tGoodStage1Loop.Takt_Save(22, 12); m_tGoodStage1Loop.Takt_Start(22, 13); 
 			m_pDY11->oGoodStage1Up = TRUE; m_pDY11->oGoodStage1Down = FALSE;
-			g_objAJinAXL.Write_Output(12);
+			g_objAJinAXL.Write_Output(11);
 			m_nGoodStage1Case++; m_tGoodStage1Loop.Set_LoopTime(30000);
 		}
 		return TRUE;
@@ -11272,7 +11272,7 @@ BOOL CSequenceMain::Run_GoodStage1()
 		if (m_pDX11->iGoodStage1Up && !m_pDX11->iGoodStage1Down) {
 			m_tGoodStage1Loop.Takt_Save(22, 13); m_tGoodStage1Loop.Takt_Start(22, 14); 
 			m_pDY11->oGoodStage1SlaveIn = FALSE; m_pDY11->oGoodStage1SlaveOut = TRUE;
-			g_objAJinAXL.Write_Output(12);
+			g_objAJinAXL.Write_Output(11);
 			m_nGoodStage1Case++; m_tGoodStage1Loop.Set_LoopTime(5000);
 		}
 		break;
@@ -11280,7 +11280,7 @@ BOOL CSequenceMain::Run_GoodStage1()
 		if (!m_pDX11->iGoodStage1SlaveIn && m_pDX11->iGoodStage1SlaveOut) {
 			m_tGoodStage1Loop.Takt_Save(22, 14); m_tGoodStage1Loop.Takt_Start(22, 15); 
 			m_pDY11->oGoodStage1MasterIn = FALSE; m_pDY11->oGoodStage1MasterOut = TRUE;
-			g_objAJinAXL.Write_Output(12);
+			g_objAJinAXL.Write_Output(11);
 			m_nGoodStage1Case++; m_tGoodStage1Loop.Set_LoopTime(5000);
 		}
 		break;
@@ -11344,7 +11344,7 @@ BOOL CSequenceMain::Run_GoodStage2()
 			gNG->nTrayOX[GOOD_STAGE][1] = 1;
 			m_tGoodStage2Loop.Takt_Start(23, 1, TRUE);
 			m_pDY11->oGoodStage2MasterIn = TRUE; m_pDY11->oGoodStage2MasterOut = FALSE;
-			g_objAJinAXL.Write_Output(12);
+			g_objAJinAXL.Write_Output(11);
 			m_nGoodStage2Case++; m_tGoodStage2Loop.Set_LoopTime(5000);
 		}
 		break;
@@ -11352,7 +11352,7 @@ BOOL CSequenceMain::Run_GoodStage2()
 		if (m_pDX11->iGoodStage2MasterIn && !m_pDX11->iGoodStage2MasterOut) {
 			m_tGoodStage2Loop.Takt_Save(23, 1); m_tGoodStage2Loop.Takt_Start(23, 2); 
 			m_pDY11->oGoodStage2SlaveIn = TRUE; m_pDY11->oGoodStage2SlaveOut = FALSE;
-			g_objAJinAXL.Write_Output(12);
+			g_objAJinAXL.Write_Output(11);
 			m_nGoodStage2Case++; m_tGoodStage2Loop.Set_LoopTime(5000);
 		}
 		break;
@@ -11437,7 +11437,7 @@ BOOL CSequenceMain::Run_GoodStage2()
 		if (m_nGoodStage1Case < 30 || m_nGoodStage1Case >= 50) {
 			m_tGoodStage2Loop.Takt_Save(23, 8); m_tGoodStage2Loop.Takt_Start(23, 9); 
 			m_pDY11->oGoodStage2Up = FALSE; m_pDY11->oGoodStage2Down = TRUE;
-			g_objAJinAXL.Write_Output(12);
+			g_objAJinAXL.Write_Output(11);
 			m_nGoodStage2Case++; m_tGoodStage2Loop.Set_LoopTime(10000);
 		}
 		return TRUE;
@@ -11472,7 +11472,7 @@ BOOL CSequenceMain::Run_GoodStage2()
 		if (m_nGoodStage1Case > 22 && m_nGoodStage1Case < 50) {
 			m_tGoodStage2Loop.Takt_Save(23, 12); m_tGoodStage2Loop.Takt_Start(23, 13); 
 			m_pDY11->oGoodStage2Up = TRUE; m_pDY11->oGoodStage2Down = FALSE;
-			g_objAJinAXL.Write_Output(12);
+			g_objAJinAXL.Write_Output(11);
 			m_nGoodStage2Case++; m_tGoodStage2Loop.Set_LoopTime(30000);
 		}
 		return TRUE;
@@ -11480,7 +11480,7 @@ BOOL CSequenceMain::Run_GoodStage2()
 		if (m_pDX11->iGoodStage2Up && !m_pDX11->iGoodStage2Down) {
 			m_tGoodStage2Loop.Takt_Save(23, 13); m_tGoodStage2Loop.Takt_Start(23, 14); 
 			m_pDY11->oGoodStage2SlaveIn = FALSE; m_pDY11->oGoodStage2SlaveOut = TRUE;
-			g_objAJinAXL.Write_Output(12);
+			g_objAJinAXL.Write_Output(11);
 			m_nGoodStage2Case++; m_tGoodStage2Loop.Set_LoopTime(5000);
 		}
 		break;
@@ -11488,7 +11488,7 @@ BOOL CSequenceMain::Run_GoodStage2()
 		if (!m_pDX11->iGoodStage2SlaveIn && m_pDX11->iGoodStage2SlaveOut) {
 			m_tGoodStage2Loop.Takt_Save(23, 14); m_tGoodStage2Loop.Takt_Start(23, 15); 
 			m_pDY11->oGoodStage2MasterIn = FALSE; m_pDY11->oGoodStage2MasterOut = TRUE;
-			g_objAJinAXL.Write_Output(12);
+			g_objAJinAXL.Write_Output(11);
 			m_nGoodStage2Case++; m_tGoodStage2Loop.Set_LoopTime(5000);
 		}
 		break;
