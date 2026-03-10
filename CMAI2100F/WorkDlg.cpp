@@ -2828,7 +2828,7 @@ UINT CWorkDlg::Thread_MES(LPVOID lpVoid)
 		case 1:
 			if(gData.bRMSDone && gMes.nLotConfirm[LOAD_STAGE] >= 2)
 			{
-				gMes.sHostLotIDTemp = gLot.sLotID[gData.nSelectNo-1];
+				//gMes.sHostLotIDTemp = gLot.sLotID[gData.nSelectNo-1];
 				g_objMesAgent.Set_PPSelectReport(gMes.sHostLotIDTemp, gMes.sHostRecipeTemp);//gMes.sHostRecipe[nPort1No-1]);
 				gMes.nRMSStep++; 			
 			}
