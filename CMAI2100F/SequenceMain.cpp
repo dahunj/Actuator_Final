@@ -9885,8 +9885,7 @@ BOOL CSequenceMain::Run_UnloadPicker1()
 			m_sLog.Format("MCC,18,UnloadPicker1,%d,Move Done to On Good Stg to put Good,target : %0.3lf, actual : %0.3lf", m_nUnloadPicker1Case, 
 				d1PosX, g_objAJinAXL.Get_Position(AX_UNLOAD_PICKER_X1));
 			g_objLogFile.Save_SeqLog(m_sLog);
-
-
+			
 			g_objCommon.Save_Motion(AX_UNLOAD_PICKER_X1, -1, d1PosX);
 			m_nUnloadPicker1Case++; m_tUnloadPicker1Loop.Set_LoopTime(30000);
 		}
