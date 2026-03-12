@@ -764,6 +764,7 @@ void CMesAgent::Set_CmEnd(int nType, int nPortNo, int nTrayNo, int nCmNo, int nO
 
 	CString strResult, strNgCode;
 	if (nType == 1) {
+		sLotID = gMes.sHostNGLotID;
 		strResult = "NG";
 		if	(strNGCd == "BARCODE_NOREAD" || strCmId.GetLength() < 15) 
 		{
