@@ -774,11 +774,10 @@ void CMesAgent::Set_CmEnd(int nType, int nPortNo, int nTrayNo, int nCmNo, int nO
 		{
 			strNgCode = "NO_MES_INFO";
 		}
-		else if	(strNGCd == "ROS Timeout") strNgCode = "ROS Timeout";
-		else if	(strNGCd == "Skip_ROS_R")  strNgCode = "Skip ROS R";
-		else if	(strNGCd == "Skip_ROS_N")  strNgCode = "Skip ROS N";
-		else if	(strNGCd == "BARCODE_NOREAD" || strNgCode == "BARCODE_NOREAD") { strCmId = "NOREAD"; strNgCode = "BARCODE_NOREAD"; }
-		else if  (strNGCd == "MARGINAL_OK") { strNgCode == "MARGINAL_OK"; sMarginal = "OK"; gMes.nMarCount++; }
+		else if  (strNGCd == "MARGINAL_OK") 
+		{ 
+			strNgCode == "MARGINAL_OK"; sMarginal = "OK"; gMes.nMarCount++; 
+		}
 		else 
 		{
 			//strNgCode == "MARGINAL_OK"; sMarginal = "OK"; gMes.nMarCount++;
